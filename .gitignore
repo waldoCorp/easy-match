@@ -1,0 +1,7 @@
+.* 	# Ignore temporary dot files
+$* 	# Other type of temp file
+*.save 	# Ignore automatically created backups
+
+psql/	# Ignore database directory
+
+.gitignore # Ignore this file
