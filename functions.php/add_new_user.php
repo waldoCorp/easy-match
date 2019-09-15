@@ -20,7 +20,6 @@
  * returns TRUE if insert was successful
 
 **/
-//session_start();
 
 function add_new_user($table,$email,$pass) {
 	// Include database connection
@@ -33,7 +32,9 @@ function add_new_user($table,$email,$pass) {
 	$hashed_pass  = password_hash($pass, PASSWORD_DEFAULT);
 	$hashed_email = password_hash($email, PASSWORD_DEFAULT);
 
-	$current_date = mktime();
+	//$current_date = mktime();
+	$current_date = date('Y-m-d h:i:s')
+
 
 	try {
 		$sql = "INSERT INTO $table (uuid, email, create_date, last_login, password) VALUES (:uuid, :email, :create_date, :last_login, :password)";
