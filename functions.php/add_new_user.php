@@ -37,7 +37,8 @@ function add_new_user($table,$email,$pass) {
 
 
 	try {
-		$sql = "INSERT INTO $table (uuid, email, create_date, last_login, password) VALUES (:uuid, :email, :create_date, :last_login, :password)";
+		$sql = "INSERT INTO $table (uuid, email, create_date, last_login, password) VALUES (:uuid, :email, :create_date, :last_login, :password)
+			ON CONFLICT DO NOTHING";
 		$stmt = $db->prepare($sql);
 		$stmt->bindValue(':uuid', $hashed_email);
 		$stmt->bindValue(':email', $email);
