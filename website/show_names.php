@@ -81,6 +81,7 @@ $('.select_btn').click(function() {
   if( nameList.length < 5) {
     // Get more names!
     //nameList.push(getNames()) // Add new names to end of array
+    //nameList.concat(getNames()) // If we return an array, use this
   }
 });
 
