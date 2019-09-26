@@ -13,7 +13,7 @@
 <?php
 // Region to set up PHP stuff
 
-//$selections = get_name_selections
+//$selections = get_name_selections($email or $uid);
 $selections = array(
 		1 => array(
 			'name' => 'Name 1',
@@ -25,9 +25,6 @@ $selections = array(
 			)
 		);
 
-// Loop counter:
-$i = 0;
-
 ?>
 
 <body>
@@ -38,7 +35,7 @@ $i = 0;
 <div class="container">
   <h2>Change what you think about a name</h2>
 
-<?php foreach($selections as $selection) { $i++?>
+<?php foreach($selections as $selection) { ?>
   <div class="row">
     <div class="col-sm" name="name">
       <?php echo(htmlspecialchars($selection['name'])); ?>
@@ -57,11 +54,29 @@ $i = 0;
 <!-- Custom JavaScript goes here -->
 <script>
 $('.swap_btn').click(function() {
-  // AJAX request to swap name choice in DB.
+  // Find Current status:
+  var cur_field = $(this).closest("div.row").find("[name='selected']");
+  var cur_text = cur_field.text().trim();
 
-  console.log('Clicked!');
+  // AJAX request to swap name choice in DB.
+  //updateNameStatus(cur_text);
+
+  // Show the swap on the page:
+  if( cur_text == 'No' ) {
+    cur_field.text('Yes');
+  } else {
+    cur_field.text('No');
+  }
+
+
+  //find('.row').closest("name=['selected']")
 
 });
+
+function updateNameStatus(text) {
+  // AJAX Request here
+}
+
 </script>
 
 </body>
