@@ -32,7 +32,8 @@ $names = json_encode($names);
   <div class="row">
     <!-- No button -->
     <div class="col-sm">
-      <button type="button" class="select_btn" id="noName">&#10060</button>
+      <!--<button type="button" class="select_btn" id="noName">&#10060</button>-->
+      <button type="button" class="select_btn btn btn-danger btn-large" id="noName">No</button>
     </div>
 
     <!-- Name -->
@@ -42,7 +43,8 @@ $names = json_encode($names);
 
     <!-- Yes button -->
     <div class="col-sm">
-      <button type="button" class="select_btn" id="yesName">&#9989</button>
+      <!--<button type="button" class="select_btn" id="yesName">&#9989</button>-->
+      <button type="button" class="select_btn btn btn-success btn-large" id="yesName">Yes</button>
     </div>
 
 </div>
@@ -56,7 +58,6 @@ $( document ).ready(function() {
   // Set name to first available name:
   $('#nameText').text(nameList[0]);
   nameList.shift(); // Remove element we just used
-  console.log(nameList);
 });
 
 
@@ -107,7 +108,7 @@ function getNames() {
       return result
     }
   });*/
-
+}
 </script>
 
 </body>
