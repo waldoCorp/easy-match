@@ -17,17 +17,17 @@
 
 <div class="container">
   <h2>Welcome to Baby Names Match!</h2>
-  <form action="./endpoints/user_endpoint.php">
+  <form action="./endpoints/user_endpoint.php" method="post">
     <fieldset>
       <legend>Sign in (or <a href="new_account.php">create account</a>)</legend>
       <p>
         <label for="email">Email</label>
-        <input id="login_email" type="email" placeholder="Enter Email Address">
+        <input name="email" id="login_email" type="email" placeholder="Enter Email Address">
       </p>
 
       <p>
         <label for="password">Password</label>
-        <input id="password" type="password">
+        <input name="pass" id="password" type="password">
       </p>
 
       <p>
@@ -63,6 +63,7 @@ $('#add_friend').click(function() {
   // Send email if no email sent already / they aren't a user yet
   // If they have received an email recently, no email (notice?)
   // If they are already in the system, tell the user that too
+  // Also, disable the button until the user changes the email address
 
   // Testing code:
   // console.log() is super useful, it logs things to the developer
