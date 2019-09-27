@@ -33,7 +33,7 @@ $names = json_encode($names);
     <!-- No button -->
     <div class="col-sm">
       <!--<button type="button" class="select_btn" id="noName">&#10060</button>-->
-      <button type="button" class="select_btn btn btn-danger btn-large" id="noName">No</button>
+      <button type="button" class="select_btn btn btn-danger btn-lg" id="noName">No</button>
     </div>
 
     <!-- Name -->
@@ -44,7 +44,7 @@ $names = json_encode($names);
     <!-- Yes button -->
     <div class="col-sm">
       <!--<button type="button" class="select_btn" id="yesName">&#9989</button>-->
-      <button type="button" class="select_btn btn btn-success btn-large" id="yesName">Yes</button>
+      <button type="button" class="select_btn btn btn-success btn-lg" id="yesName">Yes</button>
     </div>
 
 </div>
