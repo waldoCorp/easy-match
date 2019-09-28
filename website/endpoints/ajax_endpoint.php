@@ -12,6 +12,8 @@ if (is_ajax()) {
 	if (isset($_POST["action"]) && !empty($_POST["action"])) {
 		$action = $_POST["action"];
 		switch($action) {
+			case "nameRecord": name_record(); break;
+			case "getNames": get_names(); break;
 			case "email_check": unique_email(); break;
 			case "send_password_token": send_password_token(); break;
 		}
@@ -29,6 +31,27 @@ function test_function() {
 
 	$return["json"] = json_encode($return);
 	echo json_encode($return);
+}
+
+function name_record() {
+	//require_once '/srv/nameServer/functions.php/name_rank.php'; //CHANGE FUNCTION NAME
+	$return = $_POST;
+	$is_good = $return['goodName'];
+	$name = $return['name'];
+	$email = $return['email'];
+	//name_rank($email, $name, $is_good);
+
+}
+
+function get_names() {
+	//require_once '/srv/nameServer/functions.php/generate_names.php'; //CHANGE FUNCTION NAME
+	$data = $_POST;
+	$email = $data['email'];
+	//$cur_names = $data['list']; // Maybe?
+	//$new_names = generate_names($email,$cur_names);
+	$new_names = array('David','Erin','Frank');
+	echo json_encode($new_names);
+
 }
 
 function unique_email() {
