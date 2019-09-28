@@ -19,6 +19,9 @@ $names = array('Alice','Bob','Charlie');
 // Prepare for passing to JS
 $names = json_encode($names);
 
+// Email -- should be pulled depending on who is logged in:
+$email = 'test@test.com';
+
 ?>
 
 <body>
@@ -52,7 +55,7 @@ $names = json_encode($names);
 
 <!-- Custom JavaScript goes here -->
 <script>
-var nameList = <?php echo($names) ?>;
+var nameList = <?php echo($names) ?>; // Note: Globals are bad -- maybe a better way?
 
 $( document ).ready(function() {
   // Set name to first available name:
@@ -81,33 +84,39 @@ $('.select_btn').click(function() {
 
   if( nameList.length < 5) {
     // Get more names!
+    var newNames = getNames();
+    console.log(newNames);
     //nameList.push(getNames()) // Add new names to end of array
-    //nameList.concat(getNames()) // If we return an array, use this
+    nameList.concat(getNames()) // If we return an array, use this
+    console.log(nameList);
   }
 });
 
 // Function to record if we liked or disliked the name
 function nameRecord(status,oldName) {
-  var data = {action:'nameRecord', goodName:status,name:oldName};
+  var data = {"action":'nameRecord', "goodName":status,"name":oldName,"email":"<?php echo htmlspecialchars($email) ?>"};
   // AJAX Request here
-/*$.ajax({
+  $.ajax({
     type: "POST",
+    dataType: "json",
     url: "./endpoints/ajax_endpoint.php",
     data: data
-  });*/
+  });
 }
 
 function getNames() {
-  var data = {action:'getNames'};
+  var data = {"action":'getNames',"email":"<?php echo htmlspecialchars($email) ?>"};
   // AJAX Request here
-/*$.ajax({
+  // Maybe pass current list of names too? So we don't get duplicates?
+  $.ajax({
     type: "POST",
     url: "./endpoints/ajax_endpoint.php",
+    dataType: "json",
     data: data,
-    success: function() {
-      return result
+    success: function(data) {
+      $.merge(nameList, data); // There might be a better way to do this...
     }
-  });*/
+  });
 }
 </script>
 
