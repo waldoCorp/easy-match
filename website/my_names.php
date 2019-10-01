@@ -59,13 +59,14 @@ $('.swap_btn').click(function() {
   var cur_text = cur_field.text().trim();
 
   // AJAX request to swap name choice in DB.
-  //updateNameStatus(cur_text);
 
   // Show the swap on the page:
   if( cur_text == 'No' ) {
     cur_field.text('Yes');
+    updateNameStatus('yes',cur_text);
   } else {
     cur_field.text('No');
+    updateNameStatus('no',cur_text);
   }
 
 
@@ -73,8 +74,17 @@ $('.swap_btn').click(function() {
 
 });
 
-function updateNameStatus(text) {
+function updateNameStatus(status,name) {
   // AJAX Request here
+  var data = {"action":'nameRecord', "goodName":status,"name":name};
+  // AJAX Request here
+  $.ajax({
+    type: "POST",
+    dataType: "json",
+    url: "./endpoints/ajax_endpoint.php",
+    data: data
+  });
+
 }
 
 </script>
