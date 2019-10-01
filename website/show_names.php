@@ -11,17 +11,21 @@
 </head>
 
 <?php
-// Region to set up PHP stuff
 
-//$names = get_name_list();
-$names = array('Alice','Bob','Charlie');
+// UUID -- should be pulled depending on who is logged in:
+//$uuid = $_SESSION['uuid'];
+$uuid = 'test1';
+
+
+// Region to set up PHP stuff
+require_once '/srv/nameServer/functions.php/get_names.php';
+
+$names = get_names($uuid,25);
+//$names = array('Alice','Bob','Charlie');
 
 // Prepare for passing to JS
 $names = json_encode($names);
 
-// Email -- should be pulled depending on who is logged in:
-//$email = $_SESSION['email'];
-$email = 'test@test.com';
 
 ?>
 
