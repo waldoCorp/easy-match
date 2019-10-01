@@ -30,7 +30,7 @@ function get_names($uuid,$n) {
 	  FROM (
 		-- Get partner selections
     		SELECT name, true AS priority
-    		FROM $selection_table s
+    		FROM $selections_table s
     		LEFT JOIN $partners_table p ON s.uuid = p.partner_uuid
     		WHERE p.uuid = :uuid AND s.selected = true
 	  ) AS ps
@@ -44,7 +44,7 @@ function get_names($uuid,$n) {
 	  LEFT JOIN (
 	  -- remove anything already seen
 		SELECT name
-		FROM $selection_table
+		FROM $selections_table
     		WHERE uuid = :uuid
 	  ) AS ss ON ps.name = ss.name
 

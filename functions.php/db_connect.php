@@ -38,7 +38,7 @@ function db_connect() {
  * For the record, Lief thinks this is unnecessary
  */
 $names_table = 'names';
-$selection_table = 'selections';
+$selections_table = 'selections';
 $partners_table = 'partners';
 $password_recovery_table = 'password_recovery';
 $users_table = 'users';
