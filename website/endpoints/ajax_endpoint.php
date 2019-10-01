@@ -34,13 +34,15 @@ function test_function() {
 }
 
 function name_record() {
-	//require_once '/srv/nameServer/functions.php/name_rank.php'; //CHANGE FUNCTION NAME
-        //require_once '/srv/nameServer/functions.php/add_selections.php';
+        require_once '/srv/nameServer/functions.php/record_selection.php';
 	$return = $_POST;
-	$is_good = $return['goodName'];
+	$is_good = ($return['goodName'] === 'yes') ? true : false;
 	$name = $return['name'];
-	//$email = $_SESSION['email'];
-	//name_rank($email, $name, $is_good);
+
+	// FOR TESTING"
+	$uuid = 'test1';
+	//$uuid = $_SESSION['uuid'];
+	record_selection($uuid, $name, $is_good);
 
 }
 
