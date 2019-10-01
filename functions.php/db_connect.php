@@ -31,3 +31,14 @@ function db_connect() {
         // Return connection if successful
         return $conn;
 }
+
+
+/* 
+ * parametrize table names in case Ben goes crazy and wants to change up the database
+ * For the record, Lief thinks this is unnecessary
+ */
+$names_table = 'names';
+$selection_table = 'selections';
+$partners_table = 'partners';
+$password_recovery_table = 'password_recovery';
+$users_table = 'users';

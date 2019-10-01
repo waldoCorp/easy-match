@@ -28,24 +28,28 @@ function get_names($uuid,$n) {
 	SELECT COALESCE(ps.name, rs.name, ss.name) as name
 
 	  FROM (
+		-- Get partner selections
     		SELECT name, true AS priority
     		FROM $selection_table s
     		LEFT JOIN $partners_table p ON s.uuid = p.partner_uuid
-    		WHERE p.uuid = 'test1' AND s.selected = true
+    		WHERE p.uuid = :uuid AND s.selected = true
 	  ) AS ps
 
 	  FULL JOIN (
+	  -- get all the names from the db
     		SELECT name
     		FROM $names_table n
 	  ) AS rs ON ps.name = rs.name
 
 	  LEFT JOIN (
+	  -- remove anything already seen
 		SELECT name
 		FROM $selection_table
     		WHERE uuid = :uuid
 	  ) AS ss ON ps.name = ss.name
 
 	WHERE ss.name IS NULL
+	-- randomizes the returned list, but keeps partner names on top --
 	ORDER BY priority, random()
 	LIMIT :n;";
 
