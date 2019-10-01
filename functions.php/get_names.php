@@ -24,28 +24,24 @@ function get_names($uuid,$n) {
         require_once '/srv/nameServer/functions.php/db_connect.php';
         $db = db_connect();
 
-	$names_table = 'names';
-	$selection_table = 'selections';
-	$partners_table = 'partners';
-
 	$sql = "
 	SELECT COALESCE(ps.name, rs.name, ss.name) as name
 
 	  FROM (
     		SELECT name, true AS priority
-    		FROM selections s
-    		LEFT JOIN partners p ON s.uuid = p.partner_uuid
+    		FROM $selection_table s
+    		LEFT JOIN $partners_table p ON s.uuid = p.partner_uuid
     		WHERE p.uuid = 'test1' AND s.selected = true
 	  ) AS ps
 
 	  FULL JOIN (
     		SELECT name
-    		FROM names n
+    		FROM $names_table n
 	  ) AS rs ON ps.name = rs.name
 
 	  LEFT JOIN (
 		SELECT name
-		FROM selections
+		FROM $selection_table
     		WHERE uuid = :uuid
 	  ) AS ss ON ps.name = ss.name
 
