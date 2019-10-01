@@ -13,7 +13,7 @@ if (is_ajax()) {
 		$action = $_POST["action"];
 		switch($action) {
 			case "nameRecord": name_record(); break;
-			case "getNames": get_names(); break;
+			case "getNames": new_names(); break;
 			case "email_check": unique_email(); break;
 			case "send_password_token": send_password_token(); break;
 		}
@@ -38,18 +38,19 @@ function name_record() {
 	$return = $_POST;
 	$is_good = $return['goodName'];
 	$name = $return['name'];
-	$email = $return['email'];
+	//$email = $_SESSION['email'];
 	//name_rank($email, $name, $is_good);
 
 }
 
-function get_names() {
-	//require_once '/srv/nameServer/functions.php/generate_names.php'; //CHANGE FUNCTION NAME
+function new_names() {
+	require_once '/srv/nameServer/functions.php/get_names.php';
 	$data = $_POST;
-	$email = $data['email'];
-	//$cur_names = $data['list']; // Maybe?
-	//$new_names = generate_names($email,$cur_names);
-	$new_names = array('David','Erin','Frank');
+	//$uuid = $_SESSION['uuid'];
+	$uuid = 'test1';
+	$n = 15; // Number of names to return
+	$new_names = get_names($uuid,$n);
+	//$new_names = array('David','Erin','Frank');
 	echo json_encode($new_names);
 
 }

@@ -20,6 +20,7 @@ $names = array('Alice','Bob','Charlie');
 $names = json_encode($names);
 
 // Email -- should be pulled depending on who is logged in:
+//$email = $_SESSION['email'];
 $email = 'test@test.com';
 
 ?>
@@ -84,17 +85,22 @@ $('.select_btn').click(function() {
 
   if( nameList.length < 5) {
     // Get more names!
-    var newNames = getNames();
-    console.log(newNames);
-    //nameList.push(getNames()) // Add new names to end of array
-    nameList.concat(getNames()) // If we return an array, use this
+    getNames();
+    // deduplicate name list
+    function uniq(a) {
+        var seen = {};
+        return a.filter(function(item) {
+            return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
+    nameList = uniq(nameList);
+}
     console.log(nameList);
   }
 });
 
 // Function to record if we liked or disliked the name
 function nameRecord(status,oldName) {
-  var data = {"action":'nameRecord', "goodName":status,"name":oldName,"email":"<?php echo htmlspecialchars($email) ?>"};
+  var data = {"action":'nameRecord', "goodName":status,"name":oldName};
   // AJAX Request here
   $.ajax({
     type: "POST",
