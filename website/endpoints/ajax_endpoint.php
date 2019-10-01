@@ -35,6 +35,7 @@ function test_function() {
 
 function name_record() {
 	//require_once '/srv/nameServer/functions.php/name_rank.php'; //CHANGE FUNCTION NAME
+        //require_once '/srv/nameServer/functions.php/add_selections.php';
 	$return = $_POST;
 	$is_good = $return['goodName'];
 	$name = $return['name'];
