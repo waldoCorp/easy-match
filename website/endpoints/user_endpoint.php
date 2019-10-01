@@ -10,7 +10,7 @@ $user_table = 'users';
 
 
 if( !$_SESSION['email'] ) {
-	$_SESSION['easy_login'] = false; // We are not logged in yet
+	$_SESSION['login'] = false; // We are not logged in yet
 	$email = $_POST['email'];
 }
 
@@ -58,7 +58,7 @@ if ( $_POST["type"] == 0) {
 		//header('Location: /path/to/creation/success.php');
 
 		// Set Session variables so we don't need to keep hitting DB:
-		$_SESSION['easy_login'] = true; // We are now logged in
+		$_SESSION['login'] = true; // We are now logged in
 		$_SESSION['email'] = $email; // Set stuff here
 
 		header('Location: ./00_welcome.php');
