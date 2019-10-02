@@ -36,10 +36,10 @@ function test_function() {
 function name_record() {
         require_once '/srv/nameServer/functions.php/record_selection.php';
 	$return = $_POST;
-	$is_good = ($return['goodName'] === 'yes') ? true : false;
+	$is_good = ($return['goodName'] == 'yes') ? true : false;
 	$name = $return['name'];
 
-	// FOR TESTING"
+	// FOR TESTING
 	$uuid = 'test1';
 	//$uuid = $_SESSION['uuid'];
 	record_selection($uuid, $name, $is_good);
@@ -50,10 +50,12 @@ function new_names() {
 	require_once '/srv/nameServer/functions.php/get_names.php';
 	$data = $_POST;
 	//$uuid = $_SESSION['uuid'];
+	// TESTING
 	$uuid = 'test1';
 	$n = 15; // Number of names to return
+
 	$new_names = get_names($uuid,$n);
-	//$new_names = array('David','Erin','Frank');
+
 	echo json_encode($new_names);
 
 }
