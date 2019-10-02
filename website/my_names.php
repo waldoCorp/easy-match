@@ -12,18 +12,15 @@
 
 <?php
 // Region to set up PHP stuff
+require_once '/srv/nameServer/functions.php/get_selections.php';
 
-//$selections = get_name_selections($email or $uid);
-$selections = array(
-		1 => array(
-			'name' => 'Name 1',
-			'selected' => 'Yes'
-			),
-		2 => array(
-			'name' => 'Name 2',
-			'selected' => 'No'
-			)
-		);
+
+//$uuid = $_SESSION['uuid'];
+$uuid = 'test1';
+
+
+$selections = get_selections($uuid);
+//var_dump($selections);
 
 ?>
 
@@ -41,7 +38,7 @@ $selections = array(
       <?php echo(htmlspecialchars($selection['name'])); ?>
     </div>
     <div class="col-sm" name="selected">
-      <?php echo($selection['selected']); ?>
+      <?php echo ($selection['selected'] ? 'Yes' : 'No') ; ?>
     </div>
     <div class="col-sm">
       <button type="button" class="swap_btn">Swap</button>
@@ -58,15 +55,19 @@ $('.swap_btn').click(function() {
   var cur_field = $(this).closest("div.row").find("[name='selected']");
   var cur_text = cur_field.text().trim();
 
+  // And the name that was swapped:
+  var name_field = $(this).closest("div.row").find("[name='name']");
+  var name_text = name_field.text().trim();
+
   // AJAX request to swap name choice in DB.
 
   // Show the swap on the page:
   if( cur_text == 'No' ) {
     cur_field.text('Yes');
-    updateNameStatus('yes',cur_text);
+    updateNameStatus('yes',name_text);
   } else {
     cur_field.text('No');
-    updateNameStatus('no',cur_text);
+    updateNameStatus('no',name_text);
   }
 
 
@@ -77,6 +78,7 @@ $('.swap_btn').click(function() {
 function updateNameStatus(status,name) {
   // AJAX Request here
   var data = {"action":'nameRecord', "goodName":status,"name":name};
+
   // AJAX Request here
   $.ajax({
     type: "POST",
