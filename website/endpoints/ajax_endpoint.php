@@ -39,9 +39,7 @@ function name_record() {
 	$is_good = ($return['goodName'] == 'yes') ? true : false;
 	$name = $return['name'];
 
-	// FOR TESTING
-	$uuid = 'test1';
-	//$uuid = $_SESSION['uuid'];
+	$uuid = $_SESSION['uuid'];
 	record_selection($uuid, $name, $is_good);
 
 }
@@ -49,9 +47,8 @@ function name_record() {
 function new_names() {
 	require_once '/srv/nameServer/functions.php/get_names.php';
 	$data = $_POST;
-	//$uuid = $_SESSION['uuid'];
-	// TESTING
-	$uuid = 'test1';
+	$uuid = $_SESSION['uuid'];
+
 	$n = 15; // Number of names to return
 
 	$new_names = get_names($uuid,$n);
