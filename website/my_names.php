@@ -1,3 +1,7 @@
+<?php
+require './login_script.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,8 +19,8 @@
 require_once '/srv/nameServer/functions.php/get_selections.php';
 
 
-//$uuid = $_SESSION['uuid'];
-$uuid = 'test1';
+$uuid = $_SESSION['uuid'];
+//$uuid = 'test1';
 
 
 $selections = get_selections($uuid);

@@ -1,3 +1,7 @@
+<?php
+require './login_script.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +17,8 @@
 <?php
 
 // UUID -- should be pulled depending on who is logged in:
-//$uuid = $_SESSION['uuid'];
-$uuid = 'test1';
+$uuid = $_SESSION['uuid'];
+//$uuid = 'test1';
 
 
 // Region to set up PHP stuff
