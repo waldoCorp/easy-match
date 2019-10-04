@@ -18,6 +18,7 @@
 <div class="container">
   <h2>Welcome to Baby Names Match!</h2>
   <form action="./endpoints/user_endpoint.php" method="post">
+    <input type="hidden" name="type" value="1"></input>
     <fieldset>
       <legend>Sign in (or <a href="new_account.php">create account</a>)</legend>
       <p>
@@ -27,7 +28,7 @@
 
       <p>
         <label for="password">Password</label>
-        <input name="pass" id="password" type="password">
+        <input name="passwd" id="password" type="password">
       </p>
 
       <p>
