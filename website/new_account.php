@@ -18,21 +18,22 @@
 <div class="container">
   <h2>Please enter your Email and Password</h2>
   <form action="./endpoints/user_endpoint.php" method="post">
+    <input type="hidden" name="type" value="0"></input>
     <fieldset>
       <legend>Information Please</legend>
       <p>
         <label for="email">Email</label>
-        <input id="login_email" type="email" placeholder="Enter Email Address">
+        <input id="login_email" type="email" name="email" placeholder="Enter Email Address">
       </p>
 
       <p>
         <label for="password">Password</label>
-        <input id="password1" name="pass1" type="password">
+        <input id="password1" name="passwd1" type="password">
       </p>
 
       <p>
         <label for="password">Re-type Password</label>
-        <input id="password2" name="pass2" type="password">
+        <input id="password2" name="passwd2" type="password">
       </p>
 
       <p>
