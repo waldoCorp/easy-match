@@ -10,16 +10,17 @@
  *
  *
  * @author Ben Cerjan
- * @param string $table : Table to insert user in to
  * @param string $email : user's email address
  * @param string $passwd : clear-text password (this function hashes it)
  *
  * returns TRUE if password is correct
  *
 **/
-//session_start();
 
-function password_check($table,$email,$pass) {
+function password_check($email,$pass) {
+        // Require table variables:
+        require '/srv/nameServer/functions.php/table_variables.php';
+
 	// Include database connection
 	require_once '/srv/nameServer/functions.php/db_connect.php';
 
@@ -30,7 +31,7 @@ function password_check($table,$email,$pass) {
 	$hash = "";
 	// Get password hash for this user:
 	try {
-		$sql = "SELECT password FROM $table WHERE email = :email";
+		$sql = "SELECT password FROM $users_table WHERE email = :email";
 		$stmt = $db->prepare($sql);
 		$stmt->bindValue(':email', $email);
 		$success = $stmt->execute();

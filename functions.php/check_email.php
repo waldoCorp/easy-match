@@ -7,12 +7,11 @@
  *
  *
  * <code>
- * $ans = check_email($table,$email);
+ * $ans = check_email($email);
  * <code>
  *
  *
  * Returns a boolean (T for already exists)
- * @param string $table : the database table to search in
  * @param $email : the email address to check
  *
  * return boolean
@@ -21,11 +20,14 @@
  *
 */
 
-function check_email($table,$email) {
+function check_email($email) {
+        // Require table variables:
+        require '/srv/nameServer/functions.php/table_variables.php';
+
 	require_once '/srv/nameServer/functions.php/db_connect.php';
 	$db = db_connect();
 
-	$sql = "SELECT email FROM $table WHERE email = :email";
+	$sql = "SELECT email FROM $users_table WHERE email = :email";
 	$stmt = $db->prepare($sql);
 	$stmt->bindValue(':email',$email);
 	$stmt->execute();

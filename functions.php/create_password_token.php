@@ -12,12 +12,11 @@
  *
  *
  * <code>
- * $url = create_password_token($recovery_table,$email);
+ * $url = create_password_token($email);
  * <code>
  *
  *
  *
- * @param string $recovery_table : the database table to place the recovery tokens
  * @param $email : the email address being reset
  *
  * return string : url to send in an email for password reset
@@ -26,7 +25,7 @@
  *
 */
 
-function create_password_token($recovery_table,$email) {
+function create_password_token($email) {
 	$selector = bin2hex(openssl_random_pseudo_bytes(8));
 	$token = bin2hex(openssl_random_pseudo_bytes(32));
 
@@ -40,10 +39,14 @@ function create_password_token($recovery_table,$email) {
 	$expires = new DateTime('NOW');
 	$expires->add(new DateInterval('P1D')); // 1 Day duration
 
+
+        // Require table variables:
+        require '/srv/nameServer/functions.php/table_variables.php';
+
 	require_once '/srv/nameServer/functions.php/db_connect.php';
 	$db = db_connect();
 
-	$sql = "INSERT INTO $recovery_table (email, selector, token, expires) VALUES (:email, :selector, :token, :expires)
+	$sql = "INSERT INTO $password_recovery_table (email, selector, token, expires) VALUES (:email, :selector, :token, :expires)
 		ON CONFLICT (email) DO UPDATE SET
 			selector=EXCLUDED.selector,
 			token=EXCLUDED.token,
