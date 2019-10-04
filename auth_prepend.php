@@ -25,3 +25,5 @@ if ($_SESSION['canary'] < time() - 300) {
 	session_regenerate_id(true);
 	$_SESSION['canary'] = time();
 }
+
+// Could get $uuid here...
