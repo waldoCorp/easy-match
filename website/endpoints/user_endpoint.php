@@ -4,12 +4,10 @@
 require_once '/srv/nameServer/functions.php/check_email.php';
 require_once '/srv/nameServer/functions.php/add_new_user.php';
 require_once '/srv/nameServer/functions.php/password_check.php';
-
-//$user_table = $master_user_table;
-$user_table = 'users';
+require_once '/srv/nameServer/functions.php/get_uuid.php';
 
 
-if( !$_SESSION['email'] ) {
+if( !$_SESSION['uuid'] ) {
 	$_SESSION['login'] = false; // We are not logged in yet
 	$email = $_POST['email'];
 }
@@ -31,7 +29,7 @@ if ( $_POST["type"] == 0) {
 
 
 	// Make sure username doesn't exist yet:
-	if (check_email($user_table,$email)) {
+	if (check_email($email)) {
 		// Maybe don't say this as it makes it easier to spear-phish
 		exit("Username is not unique\n");
 	}
@@ -43,7 +41,7 @@ if ( $_POST["type"] == 0) {
 
 
 	// Now that we know we're good to add the user, do so:
-	$s = add_new_user($user_table,$email,$passwd1,$firstName,$lastName);
+	$s = add_new_user($email,$passwd1,$firstName,$lastName);
 
 	// If success, redirect to the appropriate page:
 	if ($s) {
@@ -53,15 +51,16 @@ if ( $_POST["type"] == 0) {
 	}
 
 } elseif ( $_POST["type"] == 1 ) { // Existing user
-	$s = password_check($user_table,$email,$_POST["passwd"]);
+	$s = password_check($email,$_POST["passwd"]);
 	if ($s) {
 		//header('Location: /path/to/creation/success.php');
 
 		// Set Session variables so we don't need to keep hitting DB:
 		$_SESSION['login'] = true; // We are now logged in
 		$_SESSION['email'] = $email; // Set stuff here
+		$_SESSION['uuid'] = get_uuid($email);
 
-		header('Location: ./00_welcome.php');
+		header('Location: ../show_names.php');
 
 
 	} else {
@@ -74,7 +73,6 @@ if ( $_POST["type"] == 0) {
 
 	session_regenerate_id(true); // Create new ID to be safe
 	$_SESSION = array(); // Unset all session variables
-	$_SESSION['test_login'] = true; // Since this is the testing server, this is still true
 	header('Location: ./index.php');
 
 } else {
