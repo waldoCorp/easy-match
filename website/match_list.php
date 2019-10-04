@@ -1,3 +1,8 @@
+<?php
+require './login_script.php';
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
