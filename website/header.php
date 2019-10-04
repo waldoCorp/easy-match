@@ -1,4 +1,6 @@
 <!-- Link Bar -->
+<?php
+if($_SESSION['login']) { ?>
 <div class="container">
   <div class="row">
     <div class="col-sm">
@@ -14,7 +16,13 @@
     </div>
 
     <div class="col-sm">
+      <a href="./logout.php">Logout</a>
+    </div>
+
+<?php } else { ?>
+    <div class="col-sm">
       <a href="./index.php">My Account/Signup</a>
     </div>
+<?php } ?>
   </div>
 </div>
