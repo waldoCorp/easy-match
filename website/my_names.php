@@ -37,7 +37,7 @@ $selections = get_selections($uuid);
   <h2>Change what you think about a name</h2>
 
 <?php foreach($selections as $selection) { ?>
-  <div class="row">
+  <div class="row py-2 border-bottom">
     <div class="col-sm" name="name">
       <?php echo(htmlspecialchars($selection['name'])); ?>
     </div>

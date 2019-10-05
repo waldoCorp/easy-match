@@ -40,7 +40,7 @@ $names = json_encode($names);
 
 <div class="container">
   <h2>Upvote/Downvote Names</h2>
-
+  <br>
   <div class="row">
     <!-- No button -->
     <div class="col-sm">
@@ -49,7 +49,7 @@ $names = json_encode($names);
     </div>
 
     <!-- Name -->
-    <div class="col-sm" id="nameText">
+    <div class="col-sm display-3 text-center" id="nameText">
 
     </div>
 
