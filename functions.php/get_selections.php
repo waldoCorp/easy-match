@@ -23,7 +23,8 @@ function get_selections($uuid) {
     $db = db_connect();
 
     $sql = "SELECT name, selected FROM $selections_table
-	    WHERE uuid = :uuid;";
+	    WHERE uuid = :uuid
+	    ORDER BY name;";
 
 
     $stmt = $db->prepare($sql);
