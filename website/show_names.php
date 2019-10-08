@@ -10,8 +10,16 @@ require './login_script.php';
 
 <?php include("./resources.php"); ?>
 
+<style>
+<!-- Extra CSS to make buttons BIG -->
+.big-btns {
+  height:200px;
+  width:200px;
+}
+</style>
 
 <title>Pick Names!</title>
+
 </head>
 
 <?php
@@ -37,26 +45,26 @@ $names = json_encode($names);
 
 <?php include("header.php"); ?>
 
-
+<br>
 <div class="container">
-  <h2>Upvote/Downvote Names</h2>
+  <h2 class="align-center">Upvote/Downvote Names</h2>
   <br>
-  <div class="row">
+  <div class="row d-flex">
     <!-- No button -->
-    <div class="col-sm">
+    <div class="col-2 align-items-center d-flex">
       <!--<button type="button" class="select_btn" id="noName">&#10060</button>-->
-      <button type="button" class="select_btn btn btn-danger btn-lg" id="noName">No</button>
+      <button type="button" class="select_btn btn btn-danger btn-lg w-100 h-100" id="noName">No</button>
     </div>
 
     <!-- Name -->
-    <div class="col-sm display-3 text-center" id="nameText">
+    <div class="col-5 display-3 text-center align-center" id="nameText">
 
     </div>
 
     <!-- Yes button -->
-    <div class="col-sm">
+    <div class="col-2 align-items-center d-flex">
       <!--<button type="button" class="select_btn" id="yesName">&#9989</button>-->
-      <button type="button" class="select_btn btn btn-success btn-lg" id="yesName">Yes</button>
+      <button type="button" class="select_btn btn btn-success btn-lg w-100 h-100" id="yesName">Yes</button>
     </div>
 
 </div>
