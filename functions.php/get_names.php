@@ -42,6 +42,7 @@ function get_names($uuid,$n) {
 	  -- get all the names from the db
     		SELECT name
     		FROM $names_table n
+		WHERE rank_m_2010 <= 500 OR rank_f_2010 <= 500
 	  ) AS rs ON ps.name = rs.name
 
 	  LEFT JOIN (
