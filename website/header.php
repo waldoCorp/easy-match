@@ -16,6 +16,10 @@ if($_SESSION['login']) { ?>
     </div>
 
     <div class="col-sm">
+      <a href="./partner_actions.php">Manage Partners</a>
+    </div>
+
+    <div class="col-sm">
       <a href="./logout.php">Logout</a>
     </div>
 
