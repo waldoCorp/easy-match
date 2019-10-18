@@ -59,6 +59,7 @@ if ( $_POST["type"] == 0) {
 		$_SESSION['login'] = true; // We are now logged in
 		$_SESSION['email'] = $email; // Set stuff here
 		$_SESSION['uuid'] = get_uuid($email);
+		// GET PARTNER(S) HERE AND SET IF ONLY ONE
 
 		header('Location: ../show_names.php');
 
