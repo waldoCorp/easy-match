@@ -14,6 +14,9 @@ if (is_ajax()) {
 		switch($action) {
 			case "nameRecord": name_record(); break;
 			case "getNames": new_names(); break;
+			case "inviteFriend": invite_friend(); break;
+			case "partnerSelect": partner_select(); break;
+			case "partnerResponse": partner_response(); break;
 			case "email_check": unique_email(); break;
 			case "send_password_token": send_password_token(); break;
 		}
@@ -41,6 +44,40 @@ function name_record() {
 
 	$uuid = $_SESSION['uuid'];
 	record_selection($uuid, $name, $is_good);
+
+}
+
+function invite_friend() {
+        //require_once '/srv/nameServer/functions.php/invite_partner.php';
+	$new_email = $_POST['new_email'];
+	$orig_uuid = $_SESSION['uuid']; // Maybe use orig_email instead?
+
+	//if (filter_var($return["email"], FILTER_VALIDATE_EMAIL)) {
+		//invite_partner($new_email,$orig_uuid);
+	//}
+}
+
+function partner_select() {
+	$return = $_POST;
+
+	// Make sure it's an email address:
+	//if (filter_var($return["email"], FILTER_VALIDATE_EMAIL)) {
+		$_SESSION['partner_email'] = $return['partner_email'];
+	//}
+}
+
+function partner_response() {
+        //require_once '/srv/nameServer/functions.php/record_partner_choice.php';
+	$return = $_POST;
+	$uuid = $_SESSION['uuid'];
+	$partner_email = $return['partner_email'];
+	$status = $return['status'];
+	if( $status == 'accept' ) {
+		$keep_partner = true;
+	} else {
+		$keep_partner = false;
+	}
+	//record_partner_choice($uuid,$partner_email,$keep_partner);
 
 }
 
