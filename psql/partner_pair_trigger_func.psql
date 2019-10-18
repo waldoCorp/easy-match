@@ -1,0 +1,15 @@
+/**
+ * Function to automatically insert the permutation of all entries
+ * inserted in the partners table.
+ *
+**/
+
+CREATE OR REPLACE FUNCTION partner_pair_insert() RETURNS trigger as $partner_pair_insert$
+	BEGIN
+		INSERT INTO partners(uuid,partner_uuid,pair_date)
+		VALUES (new.partner_uuid, new.uuid, new.pair_date);
+
+		RETURN new;
+	END;
+$partner_pair_insert$
+LANGUAGE plpgsql;
