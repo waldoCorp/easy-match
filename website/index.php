@@ -38,42 +38,7 @@
     </fieldset>
   </form>
 
-
-  <form>
-    <fieldset>
-      <legend>Add a friend to compare matches!</legend>
-      <p>
-        <label for="email">Email</label>
-        <input id="friend_email" type="email" placeholder="Enter Email Address of a Partner">
-      </p>
-
-      <p>
-        <button type="button" id="add_friend" value="Submit">Add Friend!</button>
-      </p>
-
-    </fieldset>
-  </form>
-
 </div>
-
-
-<!-- Custom JavaScript goes here -->
-<script>
-$('#add_friend').click(function() {
-  // AJAX request to send an invite email.
-  // Send email if no email sent already / they aren't a user yet
-  // If they have received an email recently, no email (notice?)
-  // If they are already in the system, tell the user that too
-  // Also, disable the button until the user changes the email address
-
-  // Testing code:
-  // console.log() is super useful, it logs things to the developer
-  // console so you can see what's going on with the site. You can log variables
-  // console.log(var1) or strings (like I'm doing here)
-  console.log('Clicked!');
-
-});
-</script>
 
 </body>
 
