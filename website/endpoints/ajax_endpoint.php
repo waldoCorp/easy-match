@@ -58,12 +58,14 @@ function invite_friend() {
 }
 
 function partner_select() {
+        require_once '/srv/nameServer/functions.php/get_uuid.php';
 	$return = $_POST;
 
 	// Make sure it's an email address:
 	//if (filter_var($return["email"], FILTER_VALIDATE_EMAIL)) {
 		$_SESSION['partner_email'] = $return['partner_email'];
 	//}
+	echo json_encode('Ready');
 }
 
 function partner_response() {
