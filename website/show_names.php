@@ -26,7 +26,7 @@ require './login_script.php';
 
 // UUID -- should be pulled depending on who is logged in:
 $uuid = $_SESSION['uuid'];
-//$uuid = 'test1';
+//$uuid = 'test2';
 
 
 // Region to set up PHP stuff
