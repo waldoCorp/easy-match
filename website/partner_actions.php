@@ -17,15 +17,14 @@ require './login_script.php';
 <?php
 // Region to set up PHP stuff
 //require_once '/srv/nameServer/functions.php/get_partners.php';
-//require_once '/srv/nameServer/functions.php/get_partner_invitations.php';
+require_once '/srv/nameServer/functions.php/get_invitations.php';
 
 
 $uuid = $_SESSION['uuid'];
 
 //$partners = get_partners($uuid);
 $partners = array('Bob','Alice','Sue');
-//$invitations = get_partner_invitations($uuid);
-$invitations = array('Charlie','David','Erin');
+$invitations = get_invitations($uuid);
 
 ?>
 
@@ -72,16 +71,16 @@ $invitations = array('Charlie','David','Erin');
 <div class="container">
 
   <h2>Invitations from Other Users</h2>
-<?php foreach($invitations as $invitation) { ?>
+<?php foreach($invitations as $uuid=>$invitation) { ?>
   <div class="row py-2 border-bottom">
     <div class="col-sm align-items-center d-flex" name="name">
       <?php echo(htmlspecialchars($invitation)); ?>
     </div>
     <div class="col-sm align-items-center d-flex">
-      <button type="button" class="select_btn btn reject_btn btn-danger">Reject</button>
+      <button type="button" class="select_btn btn reject_btn btn-danger" value="<?php echo(htmlspecialchars($uuid)); ?>">Reject</button>
     </div>
     <div class="col-sm align-items-center d-flex">
-      <button type="button" class="select_btn btn accept_btn btn-success">Accept</button>
+      <button type="button" class="select_btn btn accept_btn btn-success" value="<?php echo(htmlspecialchars($uuid)); ?>">Accept</button>
     </div>
   </div>
 <?php } ?>
@@ -103,16 +102,17 @@ $('#partner_select').change(function() {
 
 
 $('.select_btn').click(function() {
-  // Find the partner's email:
+  // Find the partner's uuid:
+  var uuid = $(this).val();
   var name_field = $(this).closest("div.row").find("[name='name']");
   var partner_text = name_field.text().trim();
 
   // Find if accept/reject status:
   if( $(this).hasClass('accept_btn') ) {
     // Accepted invitation:
-    invitationResponse(partner_text,'accept');
+    invitationResponse(uuid,'accept');
   } else {
-    invitationResponse(partner_text,'reject');
+    invitationResponse(uuid,'reject');
   }
 
   // Remove line either way:
@@ -150,9 +150,9 @@ function partnerSelect(email) {
 }
 
 
-function invitationResponse(email,status) {
+function invitationResponse(uuid,status) {
   // AJAX Request here
-  var data = {"action":'partnerResponse', "partner_email":email,"status":status};
+  var data = {"action":'partnerResponse', "partner_uuid":uuid,"status":status};
 
   // AJAX Request here
   $.ajax({
@@ -162,7 +162,6 @@ function invitationResponse(email,status) {
     data: data
   });
 
-  console.log('Clicked!');
 }
 
 </script>
