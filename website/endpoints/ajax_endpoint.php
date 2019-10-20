@@ -69,17 +69,17 @@ function partner_select() {
 }
 
 function partner_response() {
-        //require_once '/srv/nameServer/functions.php/record_partner_choice.php';
+        require_once '/srv/nameServer/functions.php/record_partner_choice.php';
 	$return = $_POST;
 	$uuid = $_SESSION['uuid'];
-	$partner_email = $return['partner_email'];
+	$partner_uuid = $return['partner_uuid'];
 	$status = $return['status'];
 	if( $status == 'accept' ) {
 		$keep_partner = true;
 	} else {
 		$keep_partner = false;
 	}
-	//record_partner_choice($uuid,$partner_email,$keep_partner);
+	record_partner_choice($uuid,$partner_uuid,$keep_partner);
 
 }
 
