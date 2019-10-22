@@ -19,14 +19,12 @@ require './login_script.php';
 // Region to set up PHP stuff
 require_once '/srv/nameServer/functions.php/get_matching_names_list.php';
 require_once '/srv/nameServer/functions.php/get_uuid.php';
-//require_once '/srv/nameServer/functions.php/get_partners.php';
+require_once '/srv/nameServer/functions.php/get_partners.php';
 
 $uuid = $_SESSION['uuid'];
 
 // Find existing partners:
-//$partners = get_partners($uuid);
-$partners = array('test@test1','test@test2','test@test3');
-
+$partners = get_partners($uuid);
 
 $partner_email = $_SESSION['partner_email'];
 $partner_uuid = get_uuid($partner_email);
