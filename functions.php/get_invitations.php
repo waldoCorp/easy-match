@@ -41,20 +41,12 @@ function get_invitations($uuid) {
     // Copy to new array to replace with emails:
     $emails = $p_uuids;
 
+    require_once '/srv/nameServer/functions.php/get_email.php';
+
     array_walk($emails, 'get_emails_array');
 
     // Combine to make array($uuid => $email) pairs
     $output = array_combine($p_uuids,$emails);
 
     return $output;
-}
-
-
-
-// Helper function to allow for array_walk to work to get all emails:
-function get_emails_array(&$uuid) {
-    // Convert to emails:
-    require_once '/srv/nameServer/functions.php/get_email.php';
-
-    $uuid = get_email($uuid);
 }
