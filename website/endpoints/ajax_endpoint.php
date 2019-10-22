@@ -48,12 +48,12 @@ function name_record() {
 }
 
 function invite_friend() {
-        //require_once '/srv/nameServer/functions.php/invite_partner.php';
+        require_once '/srv/nameServer/functions.php/invite_partner.php';
 	$new_email = $_POST['new_email'];
 	$orig_uuid = $_SESSION['uuid']; // Maybe use orig_email instead?
 
 	//if (filter_var($return["email"], FILTER_VALIDATE_EMAIL)) {
-		//invite_partner($new_email,$orig_uuid);
+		invite_partner($new_email,$orig_uuid);
 	//}
 }
 
