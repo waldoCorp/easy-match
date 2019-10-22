@@ -34,17 +34,44 @@ function invite_partner($email, $orig_uuid) {
     require_once '/srv/nameServer/functions.php/get_uuid.php';
     $partner_uuid = get_uuid($email);
 
+    // Stop weirdness -- if $orig_uuid = $partner_uuid someone put in their own email
+    if( $orig_uuid == $partner_uuid ) {
+      exit();
+    }
+
     // Send an email here???
 
-    // Now, we can insert this pairing into the partners table:
-    $sql = "INSERT INTO $partners_table (uuid, partner_uuid, pair_date)
-            VALUES (:uuid, :partner_uuid, current_timestamp)
-            ON CONFLICT DO NOTHING;";
+    // First check if we're "responding" by inviting someone who invited us:
+    $sql = "SELECT * from $partners_table WHERE uuid = :partner_uuid AND
+            partner_uuid = :uuid";
 
 
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(':uuid',$uuid);
+    $stmt->bindValue(':uuid',$orig_uuid);
     $stmt->bindValue(':partner_uuid',$partner_uuid);
     $stmt->execute();
+
+    $rows = $stmt->fetchAll();
+    $new_invite = empty($rows); // If not empty, this is not a new invite
+
+    if( $new_invite ) {
+      // This is a fresh pairing:
+      // Now, we can insert this pairing into the partners table:
+      // Only insert the "proposer's" version of the record:
+      $sql = "INSERT INTO $partners_table
+              (uuid, partner_uuid, proposer, pair_propose_date)
+              VALUES (:uuid, :partner_uuid, true, current_timestamp)
+              ON CONFLICT DO NOTHING;";
+
+
+      $stmt = $db->prepare($sql);
+      $stmt->bindValue(':uuid',$orig_uuid);
+      $stmt->bindValue(':partner_uuid',$partner_uuid);
+      $stmt->execute();
+    } else {
+      // This person is unknowningly 'responding' to an invitation:
+      require_once '/srv/nameServer/functions.php/record_partner_choice.php';
+      record_partner_choice($orig_uuid, $partner_uuid, true);
+    }
 }
 
