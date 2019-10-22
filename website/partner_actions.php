@@ -16,14 +16,14 @@ require './login_script.php';
 
 <?php
 // Region to set up PHP stuff
-//require_once '/srv/nameServer/functions.php/get_partners.php';
+require_once '/srv/nameServer/functions.php/get_partners.php';
 require_once '/srv/nameServer/functions.php/get_invitations.php';
 
 
 $uuid = $_SESSION['uuid'];
 
-//$partners = get_partners($uuid);
-$partners = array('Bob','Alice','Sue');
+$partners = get_partners($uuid);
+//$partners = array('Bob','Alice','Sue');
 $invitations = get_invitations($uuid);
 
 ?>
@@ -91,8 +91,11 @@ $invitations = get_invitations($uuid);
 <!-- Custom JavaScript goes here -->
 <script>
 $('#add_friend').click(function() {
-  var new_email = $(this).val();
+  var new_email = $('#friend_email').val();
   inviteFriend(new_email);
+  // Reset to stop spamming the button
+  $('#friend_email').val('');
+
 });
 
 $('#partner_select').change(function() {
