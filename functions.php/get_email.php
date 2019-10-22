@@ -44,3 +44,14 @@ function get_email($uuid) {
 
 	return $email;
 }
+
+
+// Helper function to allow for array_walk to work to get all emails:
+function get_emails_array(&$uuid) {
+    // Convert to emails:
+    require_once '/srv/nameServer/functions.php/get_email.php';
+
+    $uuid = get_email($uuid);
+}
+
+
