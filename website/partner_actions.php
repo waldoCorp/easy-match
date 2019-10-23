@@ -17,13 +17,14 @@ require './login_script.php';
 <?php
 // Region to set up PHP stuff
 require_once '/srv/nameServer/functions.php/get_partners.php';
+require_once '/srv/nameServer/functions.php/get_rejected_partners.php';
 require_once '/srv/nameServer/functions.php/get_invitations.php';
 
 
 $uuid = $_SESSION['uuid'];
 
 $partners = get_partners($uuid);
-//$partners = array('Bob','Alice','Sue');
+$rejected_partners = get_rejected_partners($uuid);
 $invitations = get_invitations($uuid);
 
 ?>
@@ -68,6 +69,8 @@ $invitations = get_invitations($uuid);
 </div>
 
 <br>
+
+<?php if( !empty($invitations) ) { ?>
 <div class="container">
 
   <h2>Invitations from Other Users</h2>
@@ -87,6 +90,33 @@ $invitations = get_invitations($uuid);
 
 </div>
 
+<?php } ?>
+<br>
+
+
+<?php if( !empty($rejected_partners) ) { ?>
+<div class="container">
+  <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#rejectedInvites" aria-expanded="false" aria-controls="rejectedInvites">
+  Show rejected offers
+  </button>
+
+  <div class="collapse" id="rejectedInvites">
+    <br>
+    <h4>Rejected Invitations</h4>
+<?php foreach($rejected_partners as $uuid=>$r_part) { ?>
+    <div class="row py-2 border-bottom">
+      <div class="col-sm align-items-center d-flex" name="name">
+        <?php echo(htmlspecialchars($r_part)); ?>
+      </div>
+      <div class="col-sm align-items-center d-flex">
+        <button type="button" class="select_btn btn accept_btn btn-success" value="<?php echo(htmlspecialchars($uuid)); ?>">Accept</button>
+      </div>
+    </div>
+<?php } ?>
+
+  </div>
+</div>
+<?php } ?>
 
 <!-- Custom JavaScript goes here -->
 <script>
