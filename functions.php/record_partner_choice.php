@@ -29,18 +29,23 @@ function record_partner_choice($uuid,$partner_uuid,$confirm) {
 
     if( $confirm ) {
       // Accepted invitation:
-      // Create initial record:
+      // Create initial record, updating to confirm if someone changes mind:
       $sql = "INSERT INTO $partners_table
              (uuid, partner_uuid, proposer, pair_confirm_date, confirmed, pair_propose_date)
-             VALUES (:uuid, :partner_uuid, false, current_timestamp, true, current_timestamp)
-             ON CONFLICT DO NOTHING;";
+             SELECT CAST(:uuid AS VARCHAR), CAST(:partner_uuid AS VARCHAR), false, current_timestamp, true,
+               pair_propose_date FROM $partners_table WHERE uuid = :partner_uuid and partner_uuid = :uuid
+             ON CONFLICT ON CONSTRAINT partners_uuid_partner_uuid_proposer_key
+             DO UPDATE SET
+             (confirmed, pair_confirm_date) =
+             (EXCLUDED.confirmed, EXCLUDED.pair_confirm_date);";
+
 
       $stmt = $db->prepare($sql);
-      $stmt->bindValue(':uuid',$uuid);
-      $stmt->bindValue(':partner_uuid',$partner_uuid);
+      $stmt->bindValue(':uuid',$uuid, PDO::PARAM_STR);
+      $stmt->bindValue(':partner_uuid',$partner_uuid, PDO::PARAM_STR);
       $stmt->execute();
 
-      // Update first record with pair-date and confirmation:
+      // Update original record with pair-date and confirmation:
       $sql = "UPDATE $partners_table SET (pair_confirm_date, confirmed) =
               (current_timestamp, true) WHERE uuid = :partner_uuid
               AND partner_uuid = :uuid;";
@@ -50,26 +55,25 @@ function record_partner_choice($uuid,$partner_uuid,$confirm) {
       $stmt->bindValue(':partner_uuid',$partner_uuid);
       $stmt->execute();
 
-      // Update second record to have original proposal time:
-      $sql = "UPDATE $partners_table SET pair_propose_date =
-                (SELECT pair_propose_date from $partners_table
-                 WHERE uuid = :partner_uuid AND partner_uuid = :uuid)
-              WHERE uuid = :uuid AND partner_uuid = :partner_uuid;";
-
-      $stmt = $db->prepare($sql);
-      $stmt->bindValue(':uuid',$uuid);
-      $stmt->bindValue(':partner_uuid',$partner_uuid);
-      $stmt->execute();
-
     } else {
 
       // Rejected invitation:
-      $sql = "DELETE FROM $partners_table
-              WHERE uuid = :partner_uuid AND partner_uuid = :uuid";
+
+      // Leave records in case they change their mind:
+      $sql = "INSERT INTO $partners_table
+             (uuid, partner_uuid, proposer, pair_confirm_date, confirmed, pair_propose_date)
+             SELECT CAST(:uuid AS VARCHAR), CAST(:partner_uuid AS VARCHAR), false, current_timestamp, false,
+               pair_propose_date FROM $partners_table WHERE uuid = :partner_uuid and partner_uuid = :uuid
+             ON CONFLICT ON CONSTRAINT partners_uuid_partner_uuid_proposer_key
+             DO UPDATE SET
+             (confirmed, pair_confirm_date) =
+             (EXCLUDED.confirmed, EXCLUDED.pair_confirm_date);";
+
 
       $stmt = $db->prepare($sql);
-      $stmt->bindValue(':uuid',$uuid);
-      $stmt->bindValue(':partner_uuid',$partner_uuid);
+      $stmt->bindValue(':uuid',$uuid, PDO::PARAM_STR);
+      $stmt->bindValue(':partner_uuid',$partner_uuid, PDO::PARAM_STR);
       $stmt->execute();
+
     }
 }
