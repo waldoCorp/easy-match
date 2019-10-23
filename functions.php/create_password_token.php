@@ -29,6 +29,9 @@ function create_password_token($email) {
 	$selector = bin2hex(openssl_random_pseudo_bytes(8));
 	$token = bin2hex(openssl_random_pseudo_bytes(32));
 
+	// email to lower case
+	$email = strtolower($email);
+
 	// NEEDS TO BE FIXED:
 	$urlToEmail = 'https://test.easydivider.com/logged_in/00_login_password_setup.php?'.
 			http_build_query([

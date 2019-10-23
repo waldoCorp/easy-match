@@ -27,6 +27,8 @@ function check_email($email) {
 	require_once '/srv/nameServer/functions.php/db_connect.php';
 	$db = db_connect();
 
+	$email = strtolower($email);
+
 	$sql = "SELECT email FROM $users_table WHERE email = :email";
 	$stmt = $db->prepare($sql);
 	$stmt->bindValue(':email',$email);

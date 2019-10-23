@@ -23,6 +23,8 @@ function get_uuid($email) {
 	// Include database connection
 	require_once '/srv/nameServer/functions.php/db_connect.php';
 
+	$email = strtolower($email);
+
 	// Connect to db
 	$db = db_connect();
 

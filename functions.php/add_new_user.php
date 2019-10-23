@@ -30,6 +30,9 @@ function add_new_user($email,$pass) {
 	// Connect to db
 	$db = db_connect();
 
+	// make email lower case
+        $email = strtolower($email);
+
 	// hash inputs
 	$hashed_pass  = password_hash($pass, PASSWORD_DEFAULT);
 	$hashed_email = password_hash($email, PASSWORD_DEFAULT);

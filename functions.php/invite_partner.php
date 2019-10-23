@@ -22,6 +22,8 @@ function invite_partner($email, $orig_uuid) {
     require_once '/srv/nameServer/functions.php/db_connect.php';
     $db = db_connect();
 
+    // email to lower case
+    $email = strtolower($email);
 
     // First, we need to add the new user to the database
     require_once '/srv/nameServer/functions.php/add_new_user.php';
