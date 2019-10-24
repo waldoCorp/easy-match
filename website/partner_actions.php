@@ -192,7 +192,10 @@ function invitationResponse(uuid,status) {
     type: "POST",
     dataType: "json",
     url: "./endpoints/ajax_endpoint.php",
-    data: data
+    data: data,
+    success: function(data) {
+    location.reload()
+    }
   });
 
 }
