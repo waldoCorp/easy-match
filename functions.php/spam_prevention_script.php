@@ -1,7 +1,7 @@
 <?php
 /*
  * Script to include spam prevention stuff on ajax pages / wherever needed
- *
+ * TEST COMMENT
 */
 /*
 if( !isset($_SESSION['spam_count']) ) {
