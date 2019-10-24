@@ -9,7 +9,7 @@ require_once '/srv/nameServer/functions.php/get_uuid.php';
 
 if( !$_SESSION['uuid'] ) {
 	$_SESSION['login'] = false; // We are not logged in yet
-	$email = $_POST['email'];
+	$email = strtolower($_POST['email']);
 }
 
 
