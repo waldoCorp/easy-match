@@ -19,114 +19,49 @@
 **/
 
 
-use Aws\Ses\SesClient;
-use Aws\Ses\Exception\SesException;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-
-// Path to autoloader for AWS SDK
-define('REQUIRED_FILE', "/srv/nameServer/vendor/autoload.php");
-
-// Region:
-define('REGION','us-west-2');
-
-// Charset
-define('CHARSET','UTF-8');
-
-// Specify Sender
-define('SENDER', 'setup@easydivider.com');
-
-// 'Use' statements need to be outside the function call
-require REQUIRED_FILE;
-
-
-
+// Path to autoloader
+require '/srv/nameServer/vendor/autoload.php';
 
 function send_email($htmlBody,$textBody,$subject,$recipient) {
-	// Pull our email client keys:
-	$keyfile = "/srv/nameServer/email-sdk-keys.txt";
-	$lines = file($keyfile);
+  $mail = new PHPMailer(true);
 
-	foreach ( $lines as $line ) {
-		$var = explode(',', $line, 2);
-		$arr[$var[0]] = trim($var[1]);
-	}
+  // Load credentials:
+  require '/srv/nameServer/email_config.php';
 
-	$access_key = $arr['accesskeyid'];
-	$secret_key = $arr['secretkey'];
+  try {
+    // Server Settings:
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+    $mail->isSMTP();                                            // Send using SMTP
+    $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+    $mail->Username   = $GUSER;                     // SMTP username
+    $mail->Password   = $GPWD;                               // SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+    $mail->Port       = 587;                                    // TCP port to connect to
 
-	$ret_array = array('success' => false,
-			'message' => 'No Email Sent'
-			);
+    //Recipients
+    $mail->setFrom('setup@waldocorp.com', 'WaldoCorp Setup <noreply>');
+    $mail->addAddress($recipient);     // Add a recipient
+    /*
+    $mail->addAddress('ellen@example.com');               // Name is optional
+    $mail->addReplyTo('info@example.com', 'Information');
+    $mail->addCC('cc@example.com');
+    $mail->addBCC('bcc@example.com');
+    */
 
-	// Recipient
-	// Check if valid?
-	//define('RECIPIENT', $recipient);
+    // Content
+    $mail->isHTML(true);                                  // Set email format to HTML
+    $mail->Subject = $subject;
+    $mail->Body    = $htmlBody;
+    $mail->AltBody = $textBody;
 
-	// Configuration settings:
-	//define('CONFIGSET','XXXXX');
-
-
-	// Set subject:
-	//define('SUBJECT',$subject);
-
-	// Body:
-	//define('HTMLBODY',$htmlBody);
-
-	//define('TEXTBODY',$textBody);
-
-
-
-	$client = SesClient::factory(array(
-		'version' => 'latest',
-		'region' => REGION,
-		'credentials' => array(
-			'key' => $access_key,
-			'secret' => $secret_key
-		)
-	));
-
-
-	try {
-		$result = $client->sendEmail([
-			'Destination' => [
-				'ToAddresses' => [
-					$recipient,
-				],
-			],
-			'Message' => [
-				'Body' => [
-					'Html' => [
-						'Charset' => CHARSET,
-						'Data' => $htmlBody,
-					],
-					'Text' => [
-						'Charset' => CHARSET,
-						'Data' => $textBody,
-					],
-				],
-				'Subject' => [
-					'Charset' => CHARSET,
-					'Data' => $subject,
-				],
-			],
-			'Source' => SENDER,
-
-			//'ConfigurationSetName' => CONFIGSET // NEED TO ADD COMMA ABOVE
-		]);
-
-		$messageId = $result->get('MessageId');
-		$ret_array['success'] = true;
-		$ret_array['message'] = $messageId;
-		echo("Email sent! Message ID: $messageId" . "\n");
-	} catch (SesException $error) {
-		echo("The email was not sent. Error message: " . $error->getAwsErrorMessage() . "\n");
-		$ret_array['message'] = $error->getAwsErrorMessage();
-		$ret_array['errorCode'] = $error->getAwsErrorCode();
-		$ret_array['type'] = $error->getAwsErrorType();
-		$ret_array['response'] = $error->getResponse();
-		$ret_array['statusCode'] = $error->getStatusCode();
-		$ret_array['isConnectionError'] = $error->isConnectionError();
-	}
-
-	return $ret_array;
+   $mail->send();
+   echo 'Message Sent!';
+  } catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}\n";
+  }
 }
