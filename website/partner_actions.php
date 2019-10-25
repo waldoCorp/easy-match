@@ -27,6 +27,10 @@ $partners = get_partners($uuid);
 $rejected_partners = get_rejected_partners($uuid);
 $invitations = get_invitations($uuid);
 
+var_dump($partners);
+var_dump($rejected_partners);
+var_dump($invitations);
+
 ?>
 
 <body>
@@ -93,6 +97,30 @@ $invitations = get_invitations($uuid);
 <?php } ?>
 <br>
 
+
+<?php if( !empty($partners) ) { ?>
+<div class="container">
+  <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#rejectPartners" aria-expanded="false" aria-controls="rejectedInvites">
+  Remove partner matches
+  </button>
+
+  <div class="collapse" id="rejectPartners">
+    <br>
+    <h4>Un-pair with a person</h4>
+<?php foreach($partners as $uuid=>$part) { ?>
+    <div class="row py-2 border-bottom">
+      <div class="col-sm align-items-center d-flex" name="name">
+        <?php echo(htmlspecialchars($part)); ?>
+      </div>
+      <div class="col-sm align-items-center d-flex">
+        <button type="button" class="select_btn btn reject_btn btn-danger" value="<?php echo(htmlspecialchars($uuid)); ?>">Reject</button>
+      </div>
+    </div>
+<?php } ?>
+
+  </div>
+</div>
+<?php } ?>
 
 <?php if( !empty($rejected_partners) ) { ?>
 <div class="container">
