@@ -27,14 +27,15 @@ use PHPMailer\PHPMailer\Exception;
 require '/srv/nameServer/vendor/autoload.php';
 
 function send_email($htmlBody,$textBody,$subject,$recipient) {
-  $mail = new PHPMailer(true);
+  //$mail = new PHPMailer(true); // Use this one to enable debug output
+  $mail = new PHPMailer();
 
   // Load credentials:
   require '/srv/nameServer/email_config.php';
 
   try {
     // Server Settings:
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+    //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
     $mail->isSMTP();                                            // Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
@@ -60,7 +61,7 @@ function send_email($htmlBody,$textBody,$subject,$recipient) {
     $mail->AltBody = $textBody;
 
    $mail->send();
-   echo 'Message Sent!';
+   echo 'Message Sent!\n';
   } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}\n";
   }
