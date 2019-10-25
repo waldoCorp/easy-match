@@ -25,8 +25,22 @@ function get_invitations($uuid) {
     $db = db_connect();
 
     // Find requests to this user:
-    $sql = "SELECT uuid FROM $partners_table WHERE partner_uuid = :uuid
-            AND confirmed = false";
+    $sql = "WITH excluded_uuids AS (
+              -- Find UUID's we've responded to already
+              SELECT partner_uuid FROM $partners_table WHERE
+              uuid = :uuid AND confirmed = false
+            ), p_uuids AS (
+              -- Find potential candidates that could be an invitation
+              SELECT uuid FROM $partners_table WHERE
+              partner_uuid = :uuid AND confirmed = false
+            )
+
+            -- Select those UUIDs that we haven't responded to yet
+            SELECT uuid FROM p_uuids p
+            WHERE NOT EXISTS (
+              SELECT FROM excluded_uuids
+              WHERE uuid = p.uuid
+            );";
 
 
     $stmt = $db->prepare($sql);
@@ -34,19 +48,24 @@ function get_invitations($uuid) {
     $stmt->execute();
 
     $p_uuids = $stmt->fetchAll();
-    // Convert to flat array:
-    $p_uuids = call_user_func_array('array_merge',$p_uuids);
-    array_shift($p_uuids);
 
-    // Copy to new array to replace with emails:
-    $emails = $p_uuids;
+    if( !empty($p_uuids) ) {
+      // Convert to flat array:
+      $p_uuids = call_user_func_array('array_merge',$p_uuids);
+      array_shift($p_uuids);
 
-    require_once '/srv/nameServer/functions.php/get_email.php';
+      // Copy to new array to replace with emails:
+      $emails = $p_uuids;
 
-    array_walk($emails, 'get_emails_array');
+      require_once '/srv/nameServer/functions.php/get_email.php';
 
-    // Combine to make array($uuid => $email) pairs
-    $output = array_combine($p_uuids,$emails);
+      array_walk($emails, 'get_emails_array');
+
+      // Combine to make array($uuid => $email) pairs
+      $output = array_combine($p_uuids,$emails);
+    } else {
+      $output = $p_uuids;
+    }
 
     return $output;
 }
