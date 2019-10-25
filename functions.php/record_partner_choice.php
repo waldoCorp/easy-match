@@ -75,5 +75,16 @@ function record_partner_choice($uuid,$partner_uuid,$confirm) {
       $stmt->bindValue(':partner_uuid',$partner_uuid, PDO::PARAM_STR);
       $stmt->execute();
 
+      // In case we're de-friending someone:
+      $sql = "UPDATE $partners_table SET (pair_confirm_date, confirmed) =
+              (NULL, false) WHERE uuid = :partner_uuid
+              AND partner_uuid = :uuid;";
+
+      $stmt = $db->prepare($sql);
+      $stmt->bindValue(':uuid',$uuid);
+      $stmt->bindValue(':partner_uuid',$partner_uuid);
+      $stmt->execute();
+
+
     }
 }
