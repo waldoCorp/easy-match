@@ -12,12 +12,12 @@
  *
  *
  * <code>
- * $url = create_password_token($email);
+ * $url = create_password_token($uuid);
  * <code>
  *
  *
  *
- * @param $email : the email address being reset
+ * @param $uuid : the uuid of the user getting a new password
  *
  * return string : url to send in an email for password reset
  *
@@ -25,15 +25,12 @@
  *
 */
 
-function create_password_token($email) {
+function create_password_token($uuid) {
 	$selector = bin2hex(openssl_random_pseudo_bytes(8));
 	$token = bin2hex(openssl_random_pseudo_bytes(32));
 
-	// email to lower case
-	$email = strtolower($email);
-
 	// NEEDS TO BE FIXED:
-	$urlToEmail = 'https://test.easydivider.com/logged_in/00_login_password_setup.php?'.
+	$urlToEmail = 'https://waldocorp.com/password_set.php?'.
 			http_build_query([
 				'selector' => $selector,
 				'validator' => $token
@@ -49,19 +46,19 @@ function create_password_token($email) {
 	require_once '/srv/nameServer/functions.php/db_connect.php';
 	$db = db_connect();
 
-	$sql = "INSERT INTO $password_recovery_table (email, selector, token, expires) VALUES (:email, :selector, :token, :expires)
-		ON CONFLICT (email) DO UPDATE SET
+	$sql = "INSERT INTO $password_recovery_table (uuid, selector, token, expires) VALUES (:uuid, :selector, :token, :expires)
+		ON CONFLICT (uuid) DO UPDATE SET
 			selector=EXCLUDED.selector,
 			token=EXCLUDED.token,
 			expires=EXCLUDED.expires;";
 	$stmt = $db->prepare($sql);
-	$stmt->bindValue(':email',$email);
+	$stmt->bindValue(':uuid',$uuid);
 	$stmt->bindValue(':selector',$selector);
 	$stmt->bindValue(':token', hash('sha256', $token));
 	$stmt->bindValue(':expires',$expires->format('Y-m-d\TH:i:s'));
 	$stmt->execute();
 
-	$sql = "DELETE FROM $recovery_table WHERE expires < now() - interval '1 days'";
+	$sql = "DELETE FROM $password_recovery_table WHERE expires < now() - interval '1 days'";
 	$stmt = $db->prepare($sql);
 	$stmt->execute();
 
