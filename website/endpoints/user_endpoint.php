@@ -11,6 +11,7 @@ require_once '/srv/nameServer/functions.php/password_check.php';
 require_once '/srv/nameServer/functions.php/get_uuid.php';
 require_once '/srv/nameServer/functions.php/send_password_link.php';
 require_once '/srv/nameServer/functions.php/update_password.php';
+require_once '/srv/nameServer/functions.php/update_last_login.php';
 
 
 if( empty($_SESSION['uuid']) ) {
@@ -51,6 +52,9 @@ if ( $_POST["type"] == 0) {
 		$_SESSION['email'] = $email; // Set stuff here
 		$_SESSION['uuid'] = get_uuid($email);
 		// GET PARTNER(S) HERE AND SET IF ONLY ONE
+
+		// Update last_login time:
+		update_last_login($_SESSION['uuid']);
 
 		header('Location: ../show_names.php');
 
