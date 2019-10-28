@@ -14,7 +14,7 @@
  *
  * @author Ben Cerjan
  * @param string $email : user's email address
- * @param string $passwd : hashed password
+ * @param string $passwd : clear-text password
  *
  * returns TRUE if insert was successful
 
