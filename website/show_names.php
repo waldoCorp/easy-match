@@ -50,6 +50,49 @@ $names = json_encode($names);
   <h2 class="align-center">Upvote/Downvote Names</h2>
   <br>
   <div class="row d-flex">
+    <!-- gender filter -->
+    <div class="container">
+      <h2> Gender? </h2>
+      <select id="gender_select">
+        <option value="">No Preference</option>
+        <option value="">Boys</option>
+        <option value="">Girls</option>
+        <option value="">Gender Neutral 20-80</option>
+        <option value="">Gender Neutral 40-60</option>
+      </select>
+    </div>
+    <!-- First letter filter --> 
+    <div class="container">
+      <h2> Starting Letter? </h2>
+      <select id="start_select">
+        <option value="">No Preference</option>
+	<option value="">A</option>
+	<option value="">Z</option>
+	//figure out a loop for A:Z
+      </select>
+    </div>
+    <!-- Last Letter filter -->
+    <div class="container">
+      <h2> Ending Letter? </h2>
+      <select id="stop_select">
+        <option value="">No Preference</option>
+	<option value="">A</option>
+	<option value="">Z</option>
+	//figure out a loop for A:Z
+      </select>
+    </div>
+    <!-- Popularity filter -->
+    <div class="container">
+      <h2> Popular or Unusual? </h2>
+      <select id="popularity_select">
+        <option value="">No Preference</option>
+	<option value="">Popular Names Now</option>
+	<option value="">Unusal Names Now</option>
+      </select>
+    </div>
+</div>
+<br>
+<div class="row d-flex">
     <!-- No button -->
     <div class="col-2 align-items-center d-flex">
       <!--<button type="button" class="select_btn" id="noName">&#10060</button>-->
