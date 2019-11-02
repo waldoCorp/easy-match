@@ -38,6 +38,8 @@ $names = get_names($uuid,25);
 // Prepare for passing to JS
 $names = json_encode($names);
 
+// Get list of letters:
+$letters = range('A','Z');
 
 ?>
 
@@ -46,53 +48,11 @@ $names = json_encode($names);
 <?php include("header.php"); ?>
 
 <br>
+
 <div class="container">
-  <h2 class="align-center">Upvote/Downvote Names</h2>
-  <br>
+  <h2 class="align-center">Approve/Disapprove Names</h2>
+
   <div class="row d-flex">
-    <!-- gender filter -->
-    <div class="container">
-      <h2> Gender? </h2>
-      <select id="gender_select">
-        <option value="">No Preference</option>
-        <option value="">Boys</option>
-        <option value="">Girls</option>
-        <option value="">Gender Neutral 20-80</option>
-        <option value="">Gender Neutral 40-60</option>
-      </select>
-    </div>
-    <!-- First letter filter --> 
-    <div class="container">
-      <h2> Starting Letter? </h2>
-      <select id="start_select">
-        <option value="">No Preference</option>
-	<option value="">A</option>
-	<option value="">Z</option>
-	//figure out a loop for A:Z
-      </select>
-    </div>
-    <!-- Last Letter filter -->
-    <div class="container">
-      <h2> Ending Letter? </h2>
-      <select id="stop_select">
-        <option value="">No Preference</option>
-	<option value="">A</option>
-	<option value="">Z</option>
-	//figure out a loop for A:Z
-      </select>
-    </div>
-    <!-- Popularity filter -->
-    <div class="container">
-      <h2> Popular or Unusual? </h2>
-      <select id="popularity_select">
-        <option value="">No Preference</option>
-	<option value="">Popular Names Now</option>
-	<option value="">Unusal Names Now</option>
-      </select>
-    </div>
-</div>
-<br>
-<div class="row d-flex">
     <!-- No button -->
     <div class="col-2 align-items-center d-flex">
       <!--<button type="button" class="select_btn" id="noName">&#10060</button>-->
@@ -110,6 +70,71 @@ $names = json_encode($names);
       <button type="button" class="select_btn btn btn-success btn-lg w-100 h-100" id="yesName">Yes</button>
     </div>
 
+</div>
+
+<br>
+<br>
+
+<div class="container">
+  <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#filterDiv" aria-expanded="false" aria-controls="filterDiv">
+    Show Filters
+  </button>
+  <div class="collapse" id="filterDiv">
+    <div class="row d-flex">
+
+      <!-- gender filter -->
+      <div class="col-sm">
+        <h2> Gender? </h2>
+        <select id="gender_select">
+          <option value="">No Preference</option>
+          <option value="">Boys</option>
+          <option value="">Girls</option>
+          <option value="">Gender Neutral 20-80</option>
+          <option value="">Gender Neutral 40-60</option>
+        </select>
+      </div>
+
+    <!-- First letter filter -->
+    <div class="col-sm">
+      <h2> Starting Letter? </h2>
+      <select id="start_select">
+        <option value="">No Preference</option>
+        <?php foreach( $letters as $letter ) {
+	// if this letter matches their previous selection, select it:
+	  if( $letter == $_SESSION['first_letter_filt'] ) { ?>
+	    <option value="<?php echo $letter ?>" selected="selected"><?php echo $letter ?></option>
+	  <?php } else { ?>
+	    <option value="<?php echo $letter ?>"><?php echo $letter ?></option>
+	  <?php }
+	} ?>
+      </select>
+    </div>
+
+    <!-- Last Letter filter -->
+    <div class="col-sm">
+      <h2> Ending Letter? </h2>
+      <select id="stop_select">
+        <?php foreach( $letters as $letter ) {
+	// if this letter matches their previous selection, select it:
+	  if( $letter == $_SESSION['last_letter_filt'] ) { ?>
+	    <option value="<?php echo $letter ?>" selected="selected"><?php echo $letter ?></option>
+	  <?php } else { ?>
+	    <option value="<?php echo $letter ?>"><?php echo $letter ?></option>
+	  <?php }
+	} ?>
+      </select>
+    </div>
+
+    <!-- Popularity filter -->
+    <div class="col-sm">
+      <h2> Popular or Unusual? </h2>
+      <select id="popularity_select">
+        <option value="">No Preference</option>
+	<option value="pop">Popular Names Now</option>
+	<option value="unpop">Unusal Names Now</option>
+      </select>
+    </div>
+  </div>
 </div>
 
 
@@ -166,6 +191,10 @@ function nameRecord(status,oldName) {
     dataType: "json",
     url: "./endpoints/ajax_endpoint.php",
     data: data
+
+    error: function(xhr, ajaxOptions, thrownError) {
+       // Do something here if error
+    }
   });
 }
 
