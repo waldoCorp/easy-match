@@ -97,7 +97,7 @@ $invitations = get_invitations($uuid);
 <?php if( !empty($partners) ) { ?>
 <div class="container">
   <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#rejectPartners" aria-expanded="false" aria-controls="rejectedInvites">
-  Remove partner matches
+  Remove paired partner
   </button>
 
   <div class="collapse" id="rejectPartners">
