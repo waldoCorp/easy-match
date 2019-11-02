@@ -1,8 +1,7 @@
 <!-- Link Bar -->
-<?php
-if($_SESSION['login']) { ?>
 <div class="container">
   <div class="row">
+  <?php if($_SESSION['login']) { ?>
     <div class="col-sm">
       <a href="./show_names.php">Show Me Names!</a>
     </div>
@@ -20,13 +19,21 @@ if($_SESSION['login']) { ?>
     </div>
 
     <div class="col-sm">
+      <a href="./about.php">About Baby Names Match</a>
+    </div>
+
+    <div class="col-sm">
       <a href="./logout.php">Logout</a>
     </div>
 
-<?php } else { ?>
+  <?php } else { ?>
     <div class="col-sm">
       <a href="./index.php">My Account/Signup</a>
     </div>
-<?php } ?>
+
+    <div class="col-sm">
+      <a href="./about.php">About Baby Names Match</a>
+    </div>
+  <?php } ?>
   </div>
 </div>
