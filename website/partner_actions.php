@@ -27,10 +27,6 @@ $partners = get_partners($uuid);
 $rejected_partners = get_rejected_partners($uuid);
 $invitations = get_invitations($uuid);
 
-var_dump($partners);
-var_dump($rejected_partners);
-var_dump($invitations);
-
 ?>
 
 <body>
