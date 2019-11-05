@@ -193,9 +193,9 @@ function nameRecord(status,oldName) {
     url: "./endpoints/ajax_endpoint.php",
     data: data
 
-    error: function(xhr, ajaxOptions, thrownError) {
+   // error: function(xhr, ajaxOptions, thrownError) {
        // Do something here if error
-    }
+   // }
   });
 }
 
