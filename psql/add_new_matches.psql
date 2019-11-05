@@ -15,7 +15,6 @@ CREATE TRIGGER add_new_matches_trigger
         AFTER INSERT OR UPDATE ON selections
         FOR EACH ROW
         EXECUTE PROCEDURE add_new_matches();
-add_new_matches_trigger.psql (END)
 
 
 CREATE OR REPLACE FUNCTION add_new_matches()
