@@ -1,0 +1,22 @@
+/**
+ * Function to check if new name selection is a match to any partners selection,
+ * if so, inserts records into new_matches table
+ *
+**/
+
+CREATE OR REPLACE FUNCTION add_new_matches(input_name VARCHAR, input_uuid VARCHAR)
+	RETURN VOID AS
+$func$
+BEGIN 
+	FOR partner IN get_partner_uuids(input_uuid)
+	LOOP 
+		IF EXISTS(SELECT 1 
+			  FROM SELECTIONS 
+			  WHERE uuid = partner AND name = input_name AND selected) THEN
+			INSERT INTO new_matches(uuid, partner_uuid, name)
+			VALUES(input_uuid, partner, input_name)
+		END IF;
+	END LOOP;
+END;
+$add_new_matches$
+LANGUAGE plpgsql;

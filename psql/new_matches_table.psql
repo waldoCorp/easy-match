@@ -1,0 +1,7 @@
+CREATE TABLE new_matches (
+	uuid varchar(255) NOT NULL PRIMARY KEY REFERENCES users (uuid) ON DELETE CASCADE, 
+	partner_uuid varchar(255) NOT NULL FOREIGN KEY REFERENCE users (uuid) ON DELETE CASCADE, 
+	name VARCHAR(255)
+);
+
+
