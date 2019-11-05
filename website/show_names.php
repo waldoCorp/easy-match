@@ -114,6 +114,7 @@ $letters = range('A','Z');
     <div class="col-sm">
       <h2> Ending Letter? </h2>
       <select id="stop_select">
+	<option value="">No Preference</option>
         <?php foreach( $letters as $letter ) {
 	// if this letter matches their previous selection, select it:
 	  if( $letter == $_SESSION['last_letter_filt'] ) { ?>
