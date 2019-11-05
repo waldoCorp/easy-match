@@ -1,9 +1,0 @@
-/**
- * Trigger whenever a name is selected to check if its a match and if so update the new_matches table
- *
-**/
-CREATE TRIGGER add_new_matches_trigger
-	AFTER INSERT OR UPDATE ON selections
-	FOR EACH ROW
-	EXECUTE PROCEDURE add_new_matches();
-

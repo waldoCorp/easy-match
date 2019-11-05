@@ -1,0 +1,38 @@
+/**
+ * Table, trigger, and function to track when new name matches between 
+ * partners occur. 
+ *
+**/
+
+CREATE TABLE new_matches (
+        uuid varchar(255) NOT NULL PRIMARY KEY REFERENCES users (uuid) ON DELETE CASCADE, 
+        partner_uuid varchar(255) NOT NULL REFERENCES users (uuid) ON DELETE CASCADE, 
+        name VARCHAR(255)
+);
+
+
+CREATE TRIGGER add_new_matches_trigger
+        AFTER INSERT OR UPDATE ON selections
+        FOR EACH ROW
+        EXECUTE PROCEDURE add_new_matches();
+add_new_matches_trigger.psql (END)
+
+
+CREATE OR REPLACE FUNCTION add_new_matches()
+        RETURNS TRIGGER AS $add_new_matches$
+
+DECLARE partner RECORD;
+BEGIN
+        FOR partner IN SELECT partner_uuid 
+			FROM partners 
+			WHERE uuid = NEW.uuid AND confirmed
+        LOOP
+                IF EXISTS(SELECT 1
+                          FROM selections
+                          WHERE uuid = quote_ident(partner) AND name = input_name AND selected) THEN
+                        INSERT INTO new_matches(uuid, partner_uuid, name)
+                        VALUES(NEW.uuid, quote_ident(partner), NEW.name);
+                END IF;
+        END LOOP;
+END;
+$add_new_matches$ LANGUAGE plpgsql;
