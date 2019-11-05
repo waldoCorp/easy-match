@@ -72,6 +72,21 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: name_preferences; Type: TABLE; Schema: public; Owner: namebot
+--
+
+CREATE TABLE public.name_preferences (
+    uuid character varying(255) NOT NULL,
+    gender character varying(255),
+    first_letter character varying(255),
+    last_letter character varying(255),
+    popularity character varying(255)
+);
+
+
+ALTER TABLE public.name_preferences OWNER TO namebot;
+
+--
 -- Name: names; Type: TABLE; Schema: public; Owner: namebot
 --
 
@@ -151,6 +166,14 @@ CREATE TABLE public.users (
 ALTER TABLE public.users OWNER TO namebot;
 
 --
+-- Name: name_preferences name_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.name_preferences
+    ADD CONSTRAINT name_preferences_pkey PRIMARY KEY (uuid);
+
+
+--
 -- Name: names names_pkey; Type: CONSTRAINT; Schema: public; Owner: namebot
 --
 
@@ -196,6 +219,14 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (uuid);
+
+
+--
+-- Name: name_preferences name_preferences_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.name_preferences
+    ADD CONSTRAINT name_preferences_uuid_fkey FOREIGN KEY (uuid) REFERENCES public.users(uuid) ON DELETE CASCADE;
 
 
 --
