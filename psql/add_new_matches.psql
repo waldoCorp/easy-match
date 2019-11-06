@@ -4,10 +4,12 @@
  *
 **/
 
+/*
 CREATE TABLE new_matches (
-        uuid varchar(255) NOT NULL PRIMARY KEY REFERENCES users (uuid) ON DELETE CASCADE, 
+        uuid varchar(255) NOT NULL REFERENCES users (uuid) ON DELETE CASCADE, 
         partner_uuid varchar(255) NOT NULL REFERENCES users (uuid) ON DELETE CASCADE, 
-        name VARCHAR(255)
+        name VARCHAR(255) NOT NULL REFERENCES names (name),
+        UNIQUE (uuid, partner_uuid, name)
 );
 
 
@@ -16,22 +18,29 @@ CREATE TRIGGER add_new_matches_trigger
         FOR EACH ROW
         EXECUTE PROCEDURE add_new_matches();
 
+*/
 
 CREATE OR REPLACE FUNCTION add_new_matches()
         RETURNS TRIGGER AS $add_new_matches$
 
-DECLARE partner RECORD;
+
+DECLARE partner varchar(255);
 BEGIN
-        FOR partner IN SELECT partner_uuid 
-			FROM partners 
+        FOR partner IN SELECT partner_uuid
+			FROM partners
 			WHERE uuid = NEW.uuid AND confirmed
         LOOP
-                IF EXISTS(SELECT 1
-                          FROM selections
-                          WHERE uuid = quote_ident(partner) AND name = input_name AND selected) THEN
+                IF EXISTS
+                     (SELECT 1 FROM selections WHERE uuid = partner
+                      AND name = NEW.name AND selected)
+                   THEN
                         INSERT INTO new_matches(uuid, partner_uuid, name)
-                        VALUES(NEW.uuid, quote_ident(partner), NEW.name);
+                        VALUES(NEW.uuid, partner, NEW.name)
+                        ON CONFLICT DO NOTHING;
                 END IF;
+
         END LOOP;
+
+        RETURN NEW;
 END;
 $add_new_matches$ LANGUAGE plpgsql;
