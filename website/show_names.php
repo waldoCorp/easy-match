@@ -191,11 +191,11 @@ function nameRecord(status,oldName) {
     type: "POST",
     dataType: "json",
     url: "./endpoints/ajax_endpoint.php",
-    data: data
+    data: data,
 
-   // error: function(xhr, ajaxOptions, thrownError) {
+   error: function(xhr, ajaxOptions, thrownError) {
        // Do something here if error
-   // }
+   }
   });
 }
 
