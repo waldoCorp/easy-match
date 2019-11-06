@@ -60,7 +60,7 @@ $letters = range('A','Z');
     </div>
 
     <!-- Name -->
-    <div class="col-5 display-3 text-center align-center" id="nameText">
+    <div class="col-6 display-3 text-center align-center" id="nameText">
 
     </div>
 
