@@ -5,13 +5,13 @@ ini_set("display_errors",1);
 
 // Endpoint for user creation, login, logout, and name update
 
-require_once '/srv/nameServer/functions.php/check_email.php';
-require_once '/srv/nameServer/functions.php/add_new_user.php';
-require_once '/srv/nameServer/functions.php/password_check.php';
-require_once '/srv/nameServer/functions.php/get_uuid.php';
-require_once '/srv/nameServer/functions.php/send_password_link.php';
-require_once '/srv/nameServer/functions.php/update_password.php';
-require_once '/srv/nameServer/functions.php/update_last_login.php';
+require_once $function_path . 'check_email.php';
+require_once $function_path . 'password_check.php';
+require_once $function_path . 'add_new_user.php';
+require_once $function_path . 'get_uuid.php';
+require_once $function_path . 'send_password_link.php';
+require_once $function_path . 'update_password.php';
+require_once $function_path . 'update_last_login.php';
 
 
 if( empty($_SESSION['uuid']) ) {

@@ -10,7 +10,7 @@
 <title>Password Reset Timeout or Expired</title>
 </head>
 
-<?php include('/srv/nameServer/functions.php/spam_prevention_script.php'); ?>
+<?php include($function_path . 'spam_prevention_script.php'); ?>
 
 <body>
 

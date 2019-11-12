@@ -28,9 +28,8 @@ require './login_script.php';
 $uuid = $_SESSION['uuid'];
 //$uuid = 'test2';
 
-
 // Region to set up PHP stuff
-require_once '/srv/nameServer/functions.php/get_names.php';
+require_once $function_path . 'get_names.php';
 
 $names = get_names($uuid,25);
 //$names = array('Alice','Bob','Charlie');

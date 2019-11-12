@@ -37,7 +37,8 @@ function test_function() {
 }
 
 function name_record() {
-        require_once '/srv/nameServer/functions.php/record_selection.php';
+	global $function_path;
+        require_once $function_path . 'record_selection.php';
 	$return = $_POST;
 	$is_good = ($return['goodName'] == 'yes') ? true : false;
 	$name = $return['name'];
@@ -48,7 +49,8 @@ function name_record() {
 }
 
 function invite_friend() {
-        require_once '/srv/nameServer/functions.php/invite_partner.php';
+	global $function_path;
+        require_once $function_path . 'invite_partner.php';
 	$new_email = $_POST['new_email'];
 	$orig_uuid = $_SESSION['uuid']; // Maybe use orig_email instead?
 
@@ -58,7 +60,8 @@ function invite_friend() {
 }
 
 function partner_select() {
-        require_once '/srv/nameServer/functions.php/get_uuid.php';
+	global $function_path;
+        require_once $function_path . 'get_uuid.php';
 	$return = $_POST;
 
 	// Make sure it's an email address:
@@ -69,7 +72,8 @@ function partner_select() {
 }
 
 function partner_response() {
-        require_once '/srv/nameServer/functions.php/record_partner_choice.php';
+	global $function_path;
+        require_once $function_path . 'record_partner_choice.php';
 	$return = $_POST;
 	$uuid = $_SESSION['uuid'];
 	$partner_uuid = $return['partner_uuid'];
@@ -84,7 +88,8 @@ function partner_response() {
 }
 
 function new_names() {
-	require_once '/srv/nameServer/functions.php/get_names.php';
+	global $function_path;
+	require_once $function_path . 'get_names.php';
 	$data = $_POST;
 	$uuid = $_SESSION['uuid'];
 
@@ -97,7 +102,8 @@ function new_names() {
 }
 
 function unique_email() {
-	require_once '/srv/nameServer/functions.php/check_email.php';
+	global $function_path;
+	require_once $function_path . 'check_email.php';
 	$return = $_POST;
 	$user_table = 'users';
 	// Note that true means we are not unique
@@ -118,6 +124,7 @@ function unique_email() {
 }
 
 function send_password_token() {
+	global $function_path;
 
 	$email = $_POST["email"];
 	$recovery_table = 'account_recovery';
@@ -126,15 +133,15 @@ function send_password_token() {
 	// Check for valid email:
 	if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		// Check if an existing user:
-		require_once '/srv/nameServer/functions.php/check_email.php';
+		require_once $function_path . 'check_email.php';
 		$exists = check_email($user_table,$email);
 
-		require_once '/srv/nameServer/functions.php/send_email.php';
+		require_once $function_path . 'send_email.php';
 		if ($exists) {
 			// for testing:
 			$_SESSION['token_sent'] = true;
 
-			require_once '/srv/nameServer/functions.php/create_password_token.php';
+			require_once $function_path . 'create_password_token.php';
 
 			$urlToEmail = create_password_token($recovery_table,$email);
 			// Send Email:
