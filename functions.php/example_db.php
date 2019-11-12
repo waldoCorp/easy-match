@@ -24,7 +24,7 @@
 
 function get_all_urls($table) {
         // Connect to database
-        require_once '/srv/nameServer/functions.php/db_connect.php';
+        require_once __DIR__ . '/db_connect.php';
         $db = db_connect();
 
         // Pull bucket info as well:

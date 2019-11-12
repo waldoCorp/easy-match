@@ -24,8 +24,8 @@
 
 function verify_password_token($selector,$validator) {
 	// Table variables and connection to DB:
-	require '/srv/nameServer/functions.php/table_variables.php';
-	require_once '/srv/nameServer/functions.php/db_connect.php';
+	require __DIR__ . '/table_variables.php';
+	require_once __DIR__ . '/db_connect.php';
 	$db = db_connect();
 
 	$sql = "SELECT * FROM $password_recovery_table WHERE selector = :selector AND

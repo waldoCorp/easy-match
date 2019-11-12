@@ -18,10 +18,10 @@
 
 function update_password($uuid,$pass) {
 	// Require table variables:
-	require '/srv/nameServer/functions.php/table_variables.php';
+	require __DIR__ . '/table_variables.php';
 
 	// Include database connection
-	require_once '/srv/nameServer/functions.php/db_connect.php';
+	require_once __DIR__ . '/db_connect.php';
 
 	// Connect to db
 	$db = db_connect();

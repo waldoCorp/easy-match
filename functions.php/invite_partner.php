@@ -16,24 +16,24 @@
 
 function invite_partner($email, $orig_uuid) {
     // Require table variables:
-    require '/srv/nameServer/functions.php/table_variables.php';
+    require __DIR__ . '/table_variables.php';
 
     // connect to database
-    require_once '/srv/nameServer/functions.php/db_connect.php';
+    require_once __DIR__ . '/db_connect.php';
     $db = db_connect();
 
     // email to lower case
     $email = strtolower($email);
 
     // First, we need to add the new user to the database
-    require_once '/srv/nameServer/functions.php/add_new_user.php';
+    require_once __DIR__ . '/add_new_user.php';
 
     // Giving them a fake password (if they do not already have one)
     $pass = bin2hex(random_bytes(5));
     add_new_user($email, $pass); // This will silently fail if the user already exists
 
     // Now, get the UUID of the new user:
-    require_once '/srv/nameServer/functions.php/get_uuid.php';
+    require_once __DIR__ . '/get_uuid.php';
     $partner_uuid = get_uuid($email);
 
     // Stop weirdness -- if $orig_uuid = $partner_uuid someone put in their own email
@@ -72,7 +72,7 @@ function invite_partner($email, $orig_uuid) {
       $stmt->execute();
     } else {
       // This person is unknowningly 'responding' to an invitation:
-      require_once '/srv/nameServer/functions.php/record_partner_choice.php';
+      require_once __DIR__ . '/record_partner_choice.php';
       record_partner_choice($orig_uuid, $partner_uuid, true);
     }
 }

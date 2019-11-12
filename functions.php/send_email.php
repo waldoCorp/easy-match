@@ -24,14 +24,14 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 // Path to autoloader
-require '/srv/nameServer/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 function send_email($htmlBody,$textBody,$subject,$recipient) {
   //$mail = new PHPMailer(true); // Use this one to enable debug output
   $mail = new PHPMailer();
 
   // Load credentials:
-  require '/srv/nameServer/email_config.php';
+  require __DIR__ . '/../email_config.php';
 
   try {
     // Server Settings:
