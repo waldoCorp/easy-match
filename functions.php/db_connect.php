@@ -16,7 +16,7 @@
 
 function db_connect() {
         // Include Config Files
-        include '/srv/nameServer/db_config.php';
+        include __DIR__ . '/../db_config.php';
 
         // Connect to Database
         try {
