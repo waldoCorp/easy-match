@@ -43,9 +43,6 @@ function get_matching_names_list($uuid,$partner_uuid) {
 	 	WHERE uuid = :uuid AND
 		partner_uuid = :partner_uuid
 		) AS new on new.name = matchs.name;
-
-	DELETE FROM $new_matches_table
-	WHERE uuid = :uuid AND partner_uuid = :partner_uuid;
 	";
 
 	$stmt = $db->prepare($sql);
@@ -55,6 +52,15 @@ function get_matching_names_list($uuid,$partner_uuid) {
 
         // Get names from specified table
 	$names = $stmt->fetchAll();
+
+	// Remove records from new matchs as they have now been displayed
+	$sql2 = "
+	DELETE FROM $new_matches_table
+	WHERE uuid = :uuid AND partner_uuid = :partner_uuid;
+	";
+
+	$stmt2 = $db->prepare($sql2);
+//	$stmt2->execute();
 
 	// If there is any overlap, prepare for output:
 	if( !empty($names) ) {

@@ -38,8 +38,9 @@ $names = get_matching_names_list($uuid,$partner_uuid);
 
 //$names = array('Alice','Bob','Charlie');
 
-shuffle($names); // Randomizing seems like as good a call as any here
+// shuffle($names); // Randomizing seems like as good a call as any here
 // Maybe should sort alphabetically instead, but I'm not sure...
+sort($names);
 
 ?>
 
