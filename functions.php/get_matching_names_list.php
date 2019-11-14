@@ -1,6 +1,8 @@
 <?php
 /**
  * Function to get the list of names that match between two users
+ * Checks new_matches table, and prepends * to those names, then 
+ * removes records from new_matches.
  *
  * Example usage:
  * <code>
@@ -27,13 +29,23 @@ function get_matching_names_list($uuid,$partner_uuid) {
         $db = db_connect();
 
 	$sql = "
-	SELECT name FROM $selections_table
-	WHERE uuid = :uuid AND selected = true
+	SELECT CONCAT(star, matchs.name) AS name FROM
+		(SELECT name FROM $selections_table
+        	WHERE uuid = :uuid AND selected = true
 
-	INTERSECT
+		INTERSECT
 
-	SELECT name FROM $selections_table
-	WHERE uuid = :partner_uuid AND selected = true;
+		SELECT name FROM $selections_table
+       		WHERE uuid = :partner_uuid AND selected = true
+		) AS matchs
+	LEFT JOIN
+		(SELECT name, '*' AS star FROM $new_matches_table
+	 	WHERE uuid = :uuid AND
+		partner_uuid = :partner_uuid
+		) AS new on new.name = matchs.name;
+
+	DELETE FROM $new_matches_table
+	WHERE uuid = :uuid AND partner_uuid = :partner_uuid;
 	";
 
 	$stmt = $db->prepare($sql);
