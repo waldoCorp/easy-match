@@ -49,6 +49,9 @@ $letters = range('A','Z');
 <br>
 
 <div class="container">
+
+  <h2 class="align-center" id = "oldNameText"  > </h2> <!-- maybe bad practice, but no assigned value for first name shown and doesn't appear on page -->
+
   <h2 class="align-center">Approve/Disapprove Names</h2>
 
   <div class="row d-flex">
@@ -146,7 +149,7 @@ var nameList = <?php echo($names) ?>; // Note: Globals are bad -- maybe a better
 $( document ).ready(function() {
   // Set name to first available name:
   $('#nameText').text(nameList[0]);
-  nameList.shift(); // Remove element we just used
+  // nameList.shift(); //  dont remove until we are getting the next name, makes setting the oldNameText easier
 });
 
 
@@ -164,9 +167,13 @@ $('.select_btn').click(function() {
     nameRecord('yes',name);
   }
 
+  // Show prior name - this should be conditional on it being a match
+  $('#oldNameText').text(nameList[0]);
+
   // Finally, update with a new name:
+  nameList.shift();
   $('#nameText').text(nameList[0]);
-  nameList.shift(); // Remove element we just used
+  // nameList.shift(); // Remove element we just used
 
   if( nameList.length < 5) {
     // Get more names!
