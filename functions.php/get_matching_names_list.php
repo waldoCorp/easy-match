@@ -1,7 +1,7 @@
 <?php
 /**
  * Function to get the list of names that match between two users
- * Checks new_matches table, and prepends * to those names, then 
+ * Checks new_matches table, and prepends * to those names, then
  * removes records from new_matches.
  *
  * Example usage:
@@ -54,13 +54,15 @@ function get_matching_names_list($uuid,$partner_uuid) {
 	$names = $stmt->fetchAll();
 
 	// Remove records from new matchs as they have now been displayed
-	$sql2 = "
+	$sql = "
 	DELETE FROM $new_matches_table
 	WHERE uuid = :uuid AND partner_uuid = :partner_uuid;
 	";
 
-	$stmt2 = $db->prepare($sql2);
-//	$stmt2->execute();
+	$stmt = $db->prepare($sql);
+        $stmt->bindValue(':uuid',$uuid);
+        $stmt->bindValue(':partner_uuid',$partner_uuid);
+        $stmt->execute();
 
 	// If there is any overlap, prepare for output:
 	if( !empty($names) ) {
