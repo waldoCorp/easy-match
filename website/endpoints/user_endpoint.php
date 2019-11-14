@@ -23,7 +23,7 @@ if( empty($_SESSION['uuid']) ) {
 }
 
 
-include '/srv/nameServer/functions.php/spam_prevention_script.php';
+include $function_path . 'spam_prevention_script.php';
 
 
 // Request for password-setting link:
