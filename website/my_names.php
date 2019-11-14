@@ -16,7 +16,7 @@ require './login_script.php';
 
 <?php
 // Region to set up PHP stuff
-require_once '/srv/nameServer/functions.php/get_selections.php';
+require_once $function_path . 'get_selections.php';
 
 
 $uuid = $_SESSION['uuid'];
