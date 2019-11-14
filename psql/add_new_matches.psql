@@ -37,6 +37,9 @@ BEGIN
                         INSERT INTO new_matches(uuid, partner_uuid, name)
                         VALUES(NEW.uuid, partner, NEW.name)
                         ON CONFLICT DO NOTHING;
+			INSERT INTO new_matches(uuid, partner_uuid, name)
+			VALUES(partner, NEW.uuid, NEW.name)
+			ON CONFLICT DO NOTHING;
                 END IF;
 
         END LOOP;
