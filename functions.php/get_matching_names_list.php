@@ -20,10 +20,10 @@
 
 function get_matching_names_list($uuid,$partner_uuid) {
         // Require table variables:
-        require '/srv/nameServer/functions.php/table_variables.php';
+        require __DIR__ . '/table_variables.php';
 
         // Connect to database
-        require_once '/srv/nameServer/functions.php/db_connect.php';
+        require_once __DIR__ . '/db_connect.php';
         $db = db_connect();
 
 	$sql = "

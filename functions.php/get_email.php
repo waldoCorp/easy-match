@@ -18,10 +18,10 @@
 
 function get_email($uuid) {
         // Require table variables:
-        require '/srv/nameServer/functions.php/table_variables.php';
+        require __DIR__ . '/table_variables.php';
 
 	// Include database connection
-	require_once '/srv/nameServer/functions.php/db_connect.php';
+	require_once __DIR__ . '/db_connect.php';
 
 	// Connect to db
 	$db = db_connect();
@@ -49,7 +49,7 @@ function get_email($uuid) {
 // Helper function to allow for array_walk to work to get all emails:
 function get_emails_array(&$uuid) {
     // Convert to emails:
-    require_once '/srv/nameServer/functions.php/get_email.php';
+    require_once __DIR__ . '/get_email.php';
 
     $uuid = get_email($uuid);
 }

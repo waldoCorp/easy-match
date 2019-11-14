@@ -26,4 +26,8 @@ if ($_SESSION['canary'] < time() - 300) {
 	$_SESSION['canary'] = time();
 }
 
+// Set up paths for scripts:
+$doc_root = $_SERVER["DOCUMENT_ROOT"];
+$function_path = $doc_root . "/../functions.php/";
+
 // Could get $uuid here...

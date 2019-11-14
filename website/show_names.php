@@ -28,9 +28,8 @@ require './login_script.php';
 $uuid = $_SESSION['uuid'];
 //$uuid = 'test2';
 
-
 // Region to set up PHP stuff
-require_once '/srv/nameServer/functions.php/get_names.php';
+require_once $function_path . 'get_names.php';
 
 $names = get_names($uuid,25);
 //$names = array('Alice','Bob','Charlie');
@@ -60,7 +59,7 @@ $letters = range('A','Z');
     </div>
 
     <!-- Name -->
-    <div class="col-5 display-3 text-center align-center" id="nameText">
+    <div class="col-6 display-3 text-center align-center" id="nameText">
 
     </div>
 
@@ -75,6 +74,7 @@ $letters = range('A','Z');
 <br>
 <br>
 
+<div style="display:none"> <-- THIS IS BAD PRACTICE but I want to hide the filter buttons until they are working -->
 <div class="container">
   <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#filterDiv" aria-expanded="false" aria-controls="filterDiv">
     Show Filters
@@ -114,6 +114,7 @@ $letters = range('A','Z');
     <div class="col-sm">
       <h2> Ending Letter? </h2>
       <select id="stop_select">
+	<option value="">No Preference</option>
         <?php foreach( $letters as $letter ) {
 	// if this letter matches their previous selection, select it:
 	  if( $letter == $_SESSION['last_letter_filt'] ) { ?>
@@ -136,7 +137,7 @@ $letters = range('A','Z');
     </div>
   </div>
 </div>
-
+</div>
 
 <!-- Custom JavaScript goes here -->
 <script>
@@ -192,9 +193,9 @@ function nameRecord(status,oldName) {
     url: "./endpoints/ajax_endpoint.php",
     data: data,
 
-    error: function(xhr, ajaxOptions, thrownError) {
+   error: function(xhr, ajaxOptions, thrownError) {
        // Do something here if error
-    }
+   }
   });
 }
 

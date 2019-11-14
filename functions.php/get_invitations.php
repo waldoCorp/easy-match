@@ -18,10 +18,10 @@
 
 function get_invitations($uuid) {
     // Require table variables:
-    require '/srv/nameServer/functions.php/table_variables.php';
+    require __DIR__ . '/table_variables.php';
 
     // connect to database
-    require_once '/srv/nameServer/functions.php/db_connect.php';
+    require_once __DIR__ . '/db_connect.php';
     $db = db_connect();
 
     // Find requests to this user:
@@ -57,7 +57,7 @@ function get_invitations($uuid) {
       // Copy to new array to replace with emails:
       $emails = $p_uuids;
 
-      require_once '/srv/nameServer/functions.php/get_email.php';
+      require_once __DIR__ . '/get_email.php';
 
       array_walk($emails, 'get_emails_array');
 

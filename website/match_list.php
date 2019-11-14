@@ -17,9 +17,9 @@ require './login_script.php';
 
 <?php
 // Region to set up PHP stuff
-require_once '/srv/nameServer/functions.php/get_matching_names_list.php';
-require_once '/srv/nameServer/functions.php/get_uuid.php';
-require_once '/srv/nameServer/functions.php/get_partners.php';
+require_once $function_path . 'get_matching_names_list.php';
+require_once $function_path . 'get_uuid.php';
+require_once $function_path . 'get_partners.php';
 
 $uuid = $_SESSION['uuid'];
 

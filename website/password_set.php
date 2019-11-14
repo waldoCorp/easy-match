@@ -12,7 +12,7 @@
 
 <body>
 <?php
-require_once '/srv/nameServer/functions.php/verify_password_token.php';
+require_once $function_path .  'verify_password_token.php';
 $_SESSION['pass_reset'] = false;
 
 if( !empty($_SERVER['QUERY_STRING']) ) {
