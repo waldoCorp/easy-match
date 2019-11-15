@@ -168,8 +168,14 @@ $('.select_btn').click(function() {
 
     // Show prior name if we hit a match!
     if( nameList[0]['match'] ){
+	// If previous animation is still running, kill it
+	$('#oldNameText').finish();
+
      // $('#oldNameText').text(nameList[0]['name']);
-	 $('#oldNameText').text(nameList[0]['name'] + ' is a match!');
+	$('#oldNameText').text(nameList[0]['name'] + ' is a match!');
+	$('#oldNameText').animate({'opacity': 0}, 1500, function() {
+	  $(this).html('&nbsp;');
+	}).animate({'opacity': 1}, 1);
     }
 
   }
