@@ -168,7 +168,9 @@ $('.select_btn').click(function() {
 
     // Show prior name if we hit a match!
     if( nameList[0]['match'] ){
-      $('#oldNameText').text(nameList[0]['name']);
+     // $('#oldNameText').text(nameList[0]['name']);
+	 $('#oldNameText').text(nameList[0]['name']).text('is a match!');
+
     }
 
   }
