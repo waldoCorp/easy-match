@@ -23,7 +23,6 @@ require './login_script.php';
 </head>
 
 <?php
-
 // UUID -- should be pulled depending on who is logged in:
 $uuid = $_SESSION['uuid'];
 //$uuid = 'test2';
@@ -205,10 +204,10 @@ function nameRecord(status,oldName) {
     url: "./endpoints/ajax_endpoint.php",
     data: data,
 
-   error: function(xhr, ajaxOptions, thrownError) {
+    error: function(xhr, ajaxOptions, thrownError) {
        // If we're in the error block either we've lost the connection
        // or our session expired, so reload the page to force re-login
-       location.reload();
+       //location.reload();
    }
   });
 }
