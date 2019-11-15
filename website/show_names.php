@@ -173,7 +173,7 @@ $('.select_btn').click(function() {
 
      // $('#oldNameText').text(nameList[0]['name']);
 	$('#oldNameText').text(nameList[0]['name'] + ' is a match!');
-	$('#oldNameText').animate({'opacity': 0}, 1500, function() {
+	$('#oldNameText').animate({'opacity': 0}, 3000, function() {
 	  $(this).html('&nbsp;');
 	}).animate({'opacity': 1}, 1);
     }
