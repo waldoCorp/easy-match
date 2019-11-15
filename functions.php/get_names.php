@@ -27,12 +27,14 @@ function get_names($uuid,$n) {
         require_once __DIR__ . '/db_connect.php';
         $db = db_connect();
 
+//	SELECT COALESCE(ps.name, rs.name, ss.name) as name
 	$sql = "
-	SELECT COALESCE(ps.name, rs.name, ss.name) as name
+	SELECT COALESCE(ps.name, rs.name) AS name,
+	COALESCE(ps.match, false) AS match
 
 	  FROM (
 		-- Get partner selections
-    		SELECT name, true AS priority
+    		SELECT name, true AS priority, true AS match
     		FROM $selections_table s
     		LEFT JOIN $partners_table p ON s.uuid = p.partner_uuid
     		WHERE p.uuid = :uuid AND s.selected = true
@@ -64,10 +66,6 @@ function get_names($uuid,$n) {
 
         // Get names from specified table
 	$names = $stmt->fetchAll();
-
-	// Convert to 1D array
-	$names = call_user_func_array('array_merge',$names);
-	array_shift($names); // First element is duplicated
 
 return $names;
 

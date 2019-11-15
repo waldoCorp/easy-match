@@ -50,7 +50,7 @@ $letters = range('A','Z');
 
 <div class="container">
 
-  <h2 class="align-center" id = "oldNameText"  > </h2> <!-- maybe bad practice, but no assigned value for first name shown and doesn't appear on page -->
+  <h2 class="align-center" id ="oldNameText">&nbsp;</h2> <!-- maybe bad practice, but no assigned value for first name shown and doesn't appear on page -->
 
   <h2 class="align-center">Approve/Disapprove Names</h2>
 
@@ -148,13 +148,13 @@ var nameList = <?php echo($names) ?>; // Note: Globals are bad -- maybe a better
 
 $( document ).ready(function() {
   // Set name to first available name:
-  $('#nameText').text(nameList[0]);
+  $('#nameText').text(nameList[0]['name']);
   // nameList.shift(); //  dont remove until we are getting the next name, makes setting the oldNameText easier
 });
 
 
 $('.select_btn').click(function() {
-  console.log(nameList.length);
+
   // Get the name we're working on:
   var name = $('#nameText').text().trim(); // trim() removes whitespace
 
@@ -162,17 +162,22 @@ $('.select_btn').click(function() {
   if( $(this).attr('id') == 'noName' ) {
     // We don't like this name
     nameRecord('no',name);
+
   } else {
     // We do!
     nameRecord('yes',name);
+
+    // Show prior name if we hit a match!
+    if( nameList[0]['match'] ){
+      $('#oldNameText').text(nameList[0]['name']);
+    }
+
   }
 
-  // Show prior name - this should be conditional on it being a match
-  $('#oldNameText').text(nameList[0]);
 
   // Finally, update with a new name:
   nameList.shift();
-  $('#nameText').text(nameList[0]);
+  $('#nameText').text(nameList[0]['name']);
   // nameList.shift(); // Remove element we just used
 
   if( nameList.length < 5) {
@@ -201,7 +206,9 @@ function nameRecord(status,oldName) {
     data: data,
 
    error: function(xhr, ajaxOptions, thrownError) {
-       // Do something here if error
+       // If we're in the error block either we've lost the connection
+       // or our session expired, so reload the page to force re-login
+       location.reload();
    }
   });
 }
