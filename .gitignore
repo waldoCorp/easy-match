@@ -1,0 +1,22 @@
+#Ignore Temporary Files (of many types)
+.*
+$*
+*.save
+*.swap
+
+# Ignore old_files Directories:
+old_files/
+
+# Ignore Vendor directory:
+vendor/
+
+# Ignore composer.phar
+composer.phar
+
+# Ignore files called "test"
+test.*
+
+# Ignore Credential-Containing Files:
+email_config.php
+db_config.php
+db_script.sh

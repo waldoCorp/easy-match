@@ -74,6 +74,7 @@ $letters = range('A','Z');
 <br>
 <br>
 
+<div style="display:none"> <-- THIS IS BAD PRACTICE but I want to hide the filter buttons until they are working -->
 <div class="container">
   <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#filterDiv" aria-expanded="false" aria-controls="filterDiv">
     Show Filters
@@ -136,7 +137,7 @@ $letters = range('A','Z');
     </div>
   </div>
 </div>
-
+</div>
 
 <!-- Custom JavaScript goes here -->
 <script>
