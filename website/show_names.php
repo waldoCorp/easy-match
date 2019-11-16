@@ -30,16 +30,27 @@ $uuid = $_SESSION['uuid'];
 
 // Region to set up PHP stuff
 require_once $function_path . 'get_names.php';
+require_once $function_path . 'get_preferences.php';
 
 $names = get_names($uuid,25);
-//$names = array('Alice','Bob','Charlie');
+
+$prefs = get_preferences($uuid);
+
+// Find if we have non-standard preferences in place:
+$standard_prefs = false;
+
+if( empty($prefs['gender']) &&
+  is_null($prefs['first_letter']) &&
+  is_null($prefs['last_letter']) &&
+  is_null($prefs['popularity']) ) {
+    $standard_prefs = true;
+}
 
 // Prepare for passing to JS
 $names = json_encode($names);
 
 // Get list of letters:
 $letters = range('A','Z');
-
 ?>
 
 <body>
@@ -74,24 +85,46 @@ $letters = range('A','Z');
 <br>
 <br>
 
-<div style="display:none"> <-- THIS IS BAD PRACTICE but I want to hide the filter buttons until they are working -->
 <div class="container">
   <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#filterDiv" aria-expanded="false" aria-controls="filterDiv">
     Show Filters
   </button>
-  <div class="collapse" id="filterDiv">
+  <div class="<?php echo ($standard_prefs ? "collapse" : "collapse show"); ?>" id="filterDiv">
     <div class="row d-flex">
 
       <!-- gender filter -->
       <div class="col-sm">
         <h2> Gender? </h2>
-        <select id="gender_select">
-          <option value="">No Preference</option>
-          <option value="">Boys</option>
-          <option value="">Girls</option>
-          <option value="">Gender Neutral 20-80</option>
-          <option value="">Gender Neutral 40-60</option>
-        </select>
+        <div class="form-check" name="gender">
+          <input class="form-check-input" type="checkbox" value="" id="noPref"
+          <?php echo (empty($prefs['gender']) ? 'checked' : ''); ?> >
+          <label class="form-check-label" for="noPref">No Preference</label>
+        </div>
+
+        <div class="form-check" name="gender">
+          <input class="form-check-input" type="checkbox" value="boy" id="boy"
+          <?php echo (in_array('boy', $prefs['gender']) ? 'checked' : ''); ?> >
+          <label class="form-check-label" for="boy">Boys</label>
+        </div>
+
+        <div class="form-check" name="gender">
+          <input class="form-check-input" type="checkbox" value="girl" id="girl"
+          <?php echo (in_array('girl', $prefs['gender']) ? 'checked' : ''); ?> >
+          <label class="form-check-label" for="girl">Girls</label>
+        </div>
+
+        <div class="form-check" name="gender">
+          <input class="form-check-input" type="checkbox" value="neutral20" id="neutral20"
+          <?php echo (in_array('neutral20', $prefs['gender']) ? 'checked' : ''); ?> >
+          <label class="form-check-label" for="neutral20">Gender Neutral 20-80</label>
+        </div>
+
+        <div class="form-check" name="gender">
+          <input class="form-check-input" type="checkbox" value="neutral40" id="neutral40"
+          <?php echo (in_array('neutral40', $prefs['gender']) ? 'checked' : ''); ?> >
+          <label class="form-check-label" for="neutral40">Gender Neutral 40-60</label>
+        </div>
+
       </div>
 
     <!-- First letter filter -->
@@ -101,7 +134,7 @@ $letters = range('A','Z');
         <option value="">No Preference</option>
         <?php foreach( $letters as $letter ) {
 	// if this letter matches their previous selection, select it:
-	  if( $letter == $_SESSION['first_letter_filt'] ) { ?>
+	  if( $letter == $prefs['first_letter'] ) { ?>
 	    <option value="<?php echo $letter ?>" selected="selected"><?php echo $letter ?></option>
 	  <?php } else { ?>
 	    <option value="<?php echo $letter ?>"><?php echo $letter ?></option>
@@ -117,7 +150,7 @@ $letters = range('A','Z');
 	<option value="">No Preference</option>
         <?php foreach( $letters as $letter ) {
 	// if this letter matches their previous selection, select it:
-	  if( $letter == $_SESSION['last_letter_filt'] ) { ?>
+	  if( $letter == $prefs['last_letter'] ) { ?>
 	    <option value="<?php echo $letter ?>" selected="selected"><?php echo $letter ?></option>
 	  <?php } else { ?>
 	    <option value="<?php echo $letter ?>"><?php echo $letter ?></option>
@@ -129,10 +162,10 @@ $letters = range('A','Z');
     <!-- Popularity filter -->
     <div class="col-sm">
       <h2> Popular or Unusual? </h2>
-      <select id="popularity_select">
-        <option value="">No Preference</option>
-	<option value="pop">Popular Names Now</option>
-	<option value="unpop">Unusal Names Now</option>
+      <select id="popularity">
+        <option value="" <?php echo (is_null($prefs['popularity']) ? 'selected' : ''); ?>>No Preference</option>
+        <option value="popular" <?php echo ($prefs['popularity'] == 'popular' ? 'selected' : ''); ?>>Popular Names Only</option>
+        <option value="unusual" <?php echo ($prefs['popularity'] == 'unusual' ? 'selected' : ''); ?>>Unusual Names Only</option>
       </select>
     </div>
   </div>
@@ -146,7 +179,6 @@ var nameList = <?php echo($names) ?>; // Note: Globals are bad -- maybe a better
 $( document ).ready(function() {
   // Set name to first available name:
   $('#nameText').text(nameList[0]);
-  nameList.shift(); // Remove element we just used
 });
 
 
@@ -171,17 +203,50 @@ $('.select_btn').click(function() {
   if( nameList.length < 5) {
     // Get more names!
     getNames();
+
     // deduplicate name list
-    function uniq(a) {
-        var seen = {};
-        return a.filter(function(item) {
-            return seen.hasOwnProperty(item) ? false : (seen[item] = true);
-    });
     nameList = uniq(nameList);
-}
-    console.log(nameList);
+
   }
 });
+
+
+$('#filterDiv').find('input, select').change(function() {
+  // One of our filters changed, so send an update:
+
+  // Figure out if we need to modify extra checkboxes:
+  if( $(this).attr('class') == 'form-check-input' ) {
+    // If it was the 'No Preference' Box, uncheck other choices:
+    if( $(this).attr('id') == 'noPref' && $('#noPref').is(':checked') ) {
+      $('#boy').prop('checked',false);
+      $('#girl').prop('checked',false);
+      $('#neutral20').prop('checked',false);
+      $('#neutral40').prop('checked',false);
+    } else if( $('#boy').is(':checked') || $('#girl').is(':checked') ||
+               $('#neutral20').is(':checked') || $('neutral40').is(':checked') ) {
+
+      $('#noPref').prop('checked', false);
+    } else {
+      $('#noPref').prop('checked', true);
+    }
+  }
+
+  // First do gender checkboxes:
+  var gender = [];
+  $('.form-check-input:checked').each(function() {
+    gender.push($(this).val());
+  });
+
+  // Then all the easy ones:
+  var first_letter = $('#start_select').val();
+  var last_letter = $('#stop_select').val();
+  var popular = $('#popularity').val();
+
+  // Now send the update request:
+  prefRecord(gender,first_letter,last_letter,popular);
+
+});
+
 
 // Function to record if we liked or disliked the name
 function nameRecord(status,oldName) {
@@ -201,6 +266,7 @@ function nameRecord(status,oldName) {
 
 function getNames() {
   var data = {"action":'getNames',"email":"<?php echo htmlspecialchars($email) ?>"};
+
   // AJAX Request here
   // Maybe pass current list of names too? So we don't get duplicates?
   $.ajax({
@@ -213,6 +279,50 @@ function getNames() {
     }
   });
 }
+
+function uniq(a) {
+ var seen = {};
+ return a.filter(function(item) {
+   return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+ });
+}
+
+
+// Function to record preferences:
+function prefRecord(gender,first_letter,last_letter,popularity) {
+
+  var data = {"action":'preferencesRecord', "gender":gender,
+             "first_letter":first_letter, "last_letter":last_letter,
+             "popularity":popularity};
+
+  // AJAX Request here
+  $.ajax({
+    type: "POST",
+    url: "./endpoints/ajax_endpoint.php",
+    data: data,
+
+    success: function() {
+      // This is failing as getNames() takes too long and because
+      // it's asynchronous (which is good in the normal use case)
+      // it's not done before we try to reset the text and whatnot...
+      console.log('In success!');
+      console.log(nameList);
+      nameList = []; // Drop old names since they might not fit new filter
+      getNames(); // Refresh names list with filters
+      console.log(nameList);
+
+      $('#nameText').text(nameList[0]); // Update text with new name
+
+    },
+
+    error: function(xhr, ajaxOptions, thrownError) {
+       // Do something here if error
+    }
+  });
+}
+
+
+
 </script>
 
 </body>
