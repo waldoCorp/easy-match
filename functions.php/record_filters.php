@@ -6,10 +6,10 @@
  * @param $preferences : Associative array containing filter choices
  * Expected form is:
  * 		array(
- * 		gender=>array("Boys","Girls","Neutral20","Neutral40"),
+ * 		gender=>array("boys","girls","neutral20","neutral40"),
  * 		first_letter=>null/"A-Z",
  *		last_letter=>null/"A-Z",
- * 		popularity=>null/"Popular/Unusual" )
+ * 		popularity=>null/"popular/unusual" )
  *
  * Gender array can contain none/any/all of those entries indicating
  *
@@ -29,12 +29,14 @@ function record_filters($uuid, $preferences) {
     // Parse input gender preferences:
     $gender_text = '';
 
-    if( count($preferences['gender']) == 4 || count($preferences['gender']) == 0 ) {
+    if( count($preferences['gender']) == 4 || count($preferences['gender']) == 0  ) {
       // We have selected everything or nothing, which is the same as no preference:
       $gender_text = null;
     } else {
       foreach( $preferences['gender'] as $pref ) {
-        $gender_text = $gender_text .'-'. $pref;
+        if( !empty($pref) ) {
+          $gender_text = $gender_text .'-'. $pref;
+        }
       }
     }
 
