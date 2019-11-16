@@ -27,6 +27,12 @@ function get_names($uuid,$n) {
         require_once __DIR__ . '/db_connect.php';
         $db = db_connect();
 
+	// Get preferences:
+        require_once __DIR__ . '/get_preferences.php';
+	$preferences = get_preferences($uuid);
+
+	// Build filtering statements:
+
 	$sql = "
 	SELECT COALESCE(ps.name, rs.name, ss.name) as name
 
