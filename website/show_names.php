@@ -291,34 +291,39 @@ function uniq(a) {
 // Function to record preferences:
 function prefRecord(gender,first_letter,last_letter,popularity) {
 
-  var data = {"action":'preferencesRecord', "gender":gender,
+  var prefData = {"action":'preferencesRecord', "gender":gender,
              "first_letter":first_letter, "last_letter":last_letter,
              "popularity":popularity};
 
-  // AJAX Request here
-  $.ajax({
+  // AJAX Request to update preferences
+  var prefUpdate = $.ajax({
     type: "POST",
     url: "./endpoints/ajax_endpoint.php",
-    data: data,
-
-    success: function() {
-      // This is failing as getNames() takes too long and because
-      // it's asynchronous (which is good in the normal use case)
-      // it's not done before we try to reset the text and whatnot...
-      console.log('In success!');
-      console.log(nameList);
-      nameList = []; // Drop old names since they might not fit new filter
-      getNames(); // Refresh names list with filters
-      console.log(nameList);
-
-      $('#nameText').text(nameList[0]); // Update text with new name
-
-    },
-
+    data: prefData,
     error: function(xhr, ajaxOptions, thrownError) {
        // Do something here if error
     }
   });
+
+  var nameData = {"action":'getNames',"email":"<?php echo htmlspecialchars($email) ?>"};
+
+  // AJAX Request to get new names and update shown name from new list
+  var nameUpdate = $.ajax({
+    type: "POST",
+    url: "./endpoints/ajax_endpoint.php",
+    dataType: "json",
+    data: nameData,
+    success: function(data) {
+      nameList = [];
+      $.merge(nameList, data); // There might be a better way to do this...
+      $('#nameText').text(nameList[0]); // Update name with one that conforms
+    }
+  });
+
+  // Use promise to only do the name update after the preferences are ready...
+  $.when(prefUpdate).then(
+    nameUpdate
+  )
 }
 
 
