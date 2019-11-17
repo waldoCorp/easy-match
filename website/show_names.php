@@ -183,7 +183,7 @@ $( document ).ready(function() {
 
 
 $('.select_btn').click(function() {
-  console.log(nameList.length);
+
   // Get the name we're working on:
   var name = $('#nameText').text().trim(); // trim() removes whitespace
 
@@ -196,16 +196,19 @@ $('.select_btn').click(function() {
     nameRecord('yes',name);
   }
 
-  // Finally, update with a new name:
-  $('#nameText').text(nameList[0]);
   nameList.shift(); // Remove element we just used
 
-  if( nameList.length < 5) {
-    // Get more names!
-    getNames();
+  // Finally, update with a new name:
+  $('#nameText').text(nameList[0]);
 
-    // deduplicate name list
-    nameList = uniq(nameList);
+  if( nameList.length < 5) {
+    // Get more names using a promise
+    getNames().then( function(respData) {
+      $.merge(nameList, respData); // There might be a better way to do this...
+      // deduplicate name list
+      nameList = uniq(nameList);
+    });
+
 
   }
 });
@@ -265,18 +268,13 @@ function nameRecord(status,oldName) {
 }
 
 function getNames() {
-  var data = {"action":'getNames',"email":"<?php echo htmlspecialchars($email) ?>"};
-
   // AJAX Request here
   // Maybe pass current list of names too? So we don't get duplicates?
-  $.ajax({
+ return $.ajax({
     type: "POST",
     url: "./endpoints/ajax_endpoint.php",
     dataType: "json",
-    data: data,
-    success: function(data) {
-      $.merge(nameList, data); // There might be a better way to do this...
-    }
+    data: {"action":'getNames',"email":"<?php echo htmlspecialchars($email) ?>"}
   });
 }
 
@@ -305,24 +303,12 @@ function prefRecord(gender,first_letter,last_letter,popularity) {
     }
   });
 
-  var nameData = {"action":'getNames',"email":"<?php echo htmlspecialchars($email) ?>"};
-
-  // AJAX Request to get new names and update shown name from new list
-  var nameUpdate = $.ajax({
-    type: "POST",
-    url: "./endpoints/ajax_endpoint.php",
-    dataType: "json",
-    data: nameData,
-    success: function(data) {
-      nameList = [];
-      $.merge(nameList, data); // There might be a better way to do this...
-      $('#nameText').text(nameList[0]); // Update name with one that conforms
-    }
-  });
-
   // Use promise to only do the name update after the preferences are ready...
-  $.when(prefUpdate).then(
-    nameUpdate
+  $.when(prefUpdate).then( // After the preferences have been updated
+    getNames().then( function(respData) { // Get more names
+      nameList = respData;
+      $('#nameText').text(nameList[0]);
+    })
   )
 }
 
