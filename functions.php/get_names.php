@@ -33,6 +33,80 @@ function get_names($uuid,$n) {
 
 	// Build filtering statements:
 
+	// Gender filters -----------
+	$gender_text = '';
+	if( !empty($preferences['gender']) ) {
+
+	  $gender_text = ' (';
+
+	  foreach( $preferences['gender'] as $key=>$pref ) {
+	    reset($preferences['gender']); // For determining first/last element
+
+	    switch ($pref) {
+	      case 'boy':
+	        $gender_text = $gender_text . 'm = true';
+	        break;
+	      case 'girl':
+	        $gender_text = $gender_text . 'f = true';
+	        break;
+	      case 'neutral20':
+	        $gender_text = $gender_text . 'NETRUAL20';
+	        break;
+	      case 'neutral40':
+	        $gender_text = $gender_text . 'NEUTRAL40';
+	        break;
+	      }
+
+	    end($preferences['gender']); // Move to last index
+
+	    if( $key !== key($preferences['gender']) ) {
+	      $gender_text = $gender_text . ' OR ';
+	    } else {
+	      $gender_text = $gender_text . ')';
+	    }
+	  }
+	}
+
+	// First Letter filter -----------
+	$first_let_text = '';
+	if( !empty($preferences['first_letter']) ) {
+	  if( empty($gender_text) ) {
+	    $first_let_text = " first_letter = '".$preferences['first_letter']."'";
+	  } else {
+	    $first_let_text = " AND first_letter = '".$preferences['first_letter']."'";
+	  }
+	}
+
+	// Last Letter filter -----------
+	$last_let_text = '';
+	if( !empty($preferences['last_letter']) ) {
+	  if( empty($gender_text) && empty($first_let_text) ) {
+	    $last_let_text = " last_letter = '".$preferences['last_letter']."'";
+	  } else {
+	    $last_let_text = " AND last_letter = '".$preferences['last_letter']."'";
+	  }
+	}
+
+	// Popularity filter -----------
+	$pop_text = ''; // Whatever the default is goes here...
+	if( !empty($preferences['popularity']) ) {
+	  switch ($preferences['popularity']) {
+	    case 'popular':
+	      $pop_text = ' (rank_m_2010 <= 500 OR rank_f_2010 <= 500)';
+	      break;
+	    case 'unusual':
+	      $pop_text = ' (rank_m_2010 => 500 OR rank_f_2010 => 500)';
+	      break;
+	  }
+	}
+
+	if( !empty($gender_text) || !empty($first_let_text) || !empty($last_let_text) ) {
+	  $pop_text = ' AND ' . $pop_text;
+	}
+
+	// Put all filters together:
+	$filter_text = 'WHERE'.$gender_text.$first_let_text.$last_let_text.$pop_text;
+
 	$sql = "
 	SELECT COALESCE(ps.name, rs.name, ss.name) as name
 
