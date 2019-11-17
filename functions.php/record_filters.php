@@ -53,7 +53,7 @@ function record_filters($uuid, $preferences) {
     }
 
     // Popularity filter:
-    $popularity_text = null;
+    $pop_text = null;
     if( !is_null($preferences['popularity']) ) {
       $pop_text = $preferences['popularity'];
     }
