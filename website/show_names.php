@@ -40,9 +40,9 @@ $prefs = get_preferences($uuid);
 $standard_prefs = false;
 
 if( empty($prefs['gender']) &&
-  is_null($prefs['first_letter']) &&
-  is_null($prefs['last_letter']) &&
-  is_null($prefs['popularity']) ) {
+  empty($prefs['first_letter']) &&
+  empty($prefs['last_letter']) &&
+  empty($prefs['popularity']) ) {
     $standard_prefs = true;
 }
 
@@ -97,30 +97,35 @@ $letters = range('A','Z');
         <h2> Gender? </h2>
         <div class="form-check" name="gender">
           <input class="form-check-input" type="checkbox" value="" id="noPref"
+            data-toggle="tooltip" data-placement="bottom" title="Show me the default mixture of names"
           <?php echo (empty($prefs['gender']) ? 'checked' : ''); ?> >
           <label class="form-check-label" for="noPref">No Preference</label>
         </div>
 
         <div class="form-check" name="gender">
           <input class="form-check-input" type="checkbox" value="boy" id="boy"
+            data-toggle="tooltip" data-placement="bottom" title="Show me traditionally boys' names"
           <?php echo (in_array('boy', $prefs['gender']) ? 'checked' : ''); ?> >
           <label class="form-check-label" for="boy">Boys</label>
         </div>
 
         <div class="form-check" name="gender">
           <input class="form-check-input" type="checkbox" value="girl" id="girl"
+            data-toggle="tooltip" data-placement="bottom" title="Show me traditionally girls' names"
           <?php echo (in_array('girl', $prefs['gender']) ? 'checked' : ''); ?> >
           <label class="form-check-label" for="girl">Girls</label>
         </div>
 
         <div class="form-check" name="gender">
           <input class="form-check-input" type="checkbox" value="neutral20" id="neutral20"
+            data-toggle="tooltip" data-placement="bottom" title="Show me names that skew less consistently male/female"
           <?php echo (in_array('neutral20', $prefs['gender']) ? 'checked' : ''); ?> >
           <label class="form-check-label" for="neutral20">Gender Neutral 20-80</label>
         </div>
 
         <div class="form-check" name="gender">
           <input class="form-check-input" type="checkbox" value="neutral40" id="neutral40"
+            data-toggle="tooltip" data-placement="bottom" title="Show me nams that are barley on the edge of male/female"
           <?php echo (in_array('neutral40', $prefs['gender']) ? 'checked' : ''); ?> >
           <label class="form-check-label" for="neutral40">Gender Neutral 40-60</label>
         </div>
@@ -179,8 +184,12 @@ var nameList = <?php echo($names) ?>; // Note: Globals are bad -- maybe a better
 $( document ).ready(function() {
   // Set name to first available name:
   $('#nameText').text(nameList[0]);
-});
 
+  // Turn on tooltips:
+  $('[data-toggle="tooltip"]').tooltip({
+    container: 'body'
+  });
+});
 
 $('.select_btn').click(function() {
 
