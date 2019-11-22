@@ -88,14 +88,14 @@ function get_names($uuid,$n) {
 	}
 
 	// Popularity filter -----------
-	$pop_text = ''; // Whatever the default is goes here...
+	$pop_text = '(rank_m_2010 <= 500 OR rank_f_2010 <= 500)'; // Whatever the default is goes here...
 	if( !empty($preferences['popularity']) ) {
 	  switch ($preferences['popularity']) {
 	    case 'popular':
-	      $pop_text = ' (rank_m_2010 <= 500 OR rank_f_2010 <= 500)';
+	      $pop_text = ' (rank_m_2010 <= 250 OR rank_f_2010 <= 250)';
 	      break;
 	    case 'unusual':
-	      $pop_text = ' (rank_m_2010 => 500 OR rank_f_2010 => 500)';
+	      $pop_text = ' (2000 => rank_m_2010 => 500 OR 2000 => rank_f_2010 => 500)';
 	      break;
 	  }
 	}
@@ -105,7 +105,7 @@ function get_names($uuid,$n) {
 	}
 
 	// Put all filters together:
-	$filter_text = 'WHERE'.$gender_text.$first_let_text.$last_let_text.$pop_text;
+	$filter_text = $gender_text.$first_let_text.$last_let_text.$pop_text;
 
 	$sql = "
 	SELECT COALESCE(ps.name, rs.name, ss.name) as name
@@ -122,7 +122,7 @@ function get_names($uuid,$n) {
 	  -- get all the names from the db
     		SELECT name
     		FROM $names_table n
-		WHERE rank_m_2010 <= 500 OR rank_f_2010 <= 500
+		WHERE $filter_text
 	  ) AS rs ON ps.name = rs.name
 
 	  LEFT JOIN (
