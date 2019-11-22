@@ -183,7 +183,7 @@ var nameList = <?php echo($names) ?>; // Note: Globals are bad -- maybe a better
 
 $( document ).ready(function() {
   // Set name to first available name:
-  $('#nameText').text(nameList[0]);
+  nameTextUpdate(nameList);
 
   // Turn on tooltips:
   $('[data-toggle="tooltip"]').tooltip({
@@ -208,7 +208,7 @@ $('.select_btn').click(function() {
   nameList.shift(); // Remove element we just used
 
   // Finally, update with a new name:
-  $('#nameText').text(nameList[0]);
+  nameTextUpdate(nameList);
 
   if( nameList.length < 5) {
     // Get more names using a promise
@@ -224,7 +224,8 @@ $('.select_btn').click(function() {
 
 
 $('#filterDiv').find('input, select').change(function() {
-  // One of our filters changed, so send an update:
+  // Close tooltip (otherwise it stays until next click on page):
+  $(this).tooltip('hide');
 
   // Figure out if we need to modify extra checkboxes:
   if( $(this).attr('class') == 'form-check-input' ) {
@@ -316,12 +317,28 @@ function prefRecord(gender,first_letter,last_letter,popularity) {
   $.when(prefUpdate).then( // After the preferences have been updated
     getNames().then( function(respData) { // Get more names
       nameList = respData;
-      $('#nameText').text(nameList[0]);
+      nameTextUpdate(nameList);
     })
   )
 }
 
+// Function to update #nameText and display an error if we're out of names:
+function nameTextUpdate(name) {
+  if( name ) {
+    $('#nameText').text(name[0]);
+    // Turn on buttons if they had been turned off:
+    $('.select_btn').attr('disabled', false);
+  } else {
+    // We're out of names D:
+    $('#nameText').text('N/A');
 
+    // Disable buttons:
+    $('.select_btn').attr('disabled', true);
+
+    // Maybe add an alert or something?
+  }
+
+}
 
 </script>
 
