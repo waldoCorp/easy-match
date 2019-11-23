@@ -50,7 +50,7 @@ function get_names($uuid,$n) {
 	        $gender_text = $gender_text . 'f = true';
 	        break;
 	      case 'neutral20':
-	        $gender_text = $gender_text . 'NETRUAL20';
+	        $gender_text = $gender_text . 'NEUTRAL20';
 	        break;
 	      case 'neutral40':
 	        $gender_text = $gender_text . 'NEUTRAL40';
