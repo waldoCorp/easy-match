@@ -25,13 +25,11 @@
      useful for you. </p>
 
   <h2>About the Data</h2>
-  <p>The set of names that are used on this site are drawn from ~150 years of
-     the US Social Security database. That means that any name that was given
-     to at least 5 newborns in a given year in the last century and a half
-     is inside the database (somewhere, there are a lot of dusty corners around
-     here). By default, we will only show you names that have been relatively
-     popular within the last 20 years but you are more than welcome to adjust
-     the filtering options to your liking. </p>
+   <p>The set of names that are used on this site are drawn from
+      the <a href="https://www.ssa.gov/OACT/babynames/limits.html"> US Social Security database</a> . That means that any name that was given
+      to at least 5 newborns in a given year since 1880
+      is inside the database (somewhere, there are a lot of dusty corners around
+      here). </p>
 </div>
 
 </body>
