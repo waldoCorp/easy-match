@@ -70,7 +70,8 @@ $letters = range('A','Z');
     </div>
 
     <!-- Name -->
-    <div class="col-6 display-3 text-center align-center" id="nameText">
+    <div class="col-6 display-3 text-center align-center" id="nameText"
+     data-toggle="tooltip" data-placement="bottom" title="We've run out of names to show with the current filters in place.">
 
     </div>
 
@@ -185,8 +186,8 @@ $( document ).ready(function() {
   // Set name to first available name:
   nameTextUpdate(nameList);
 
-  // Turn on tooltips:
-  $('[data-toggle="tooltip"]').tooltip({
+  // Turn on tooltips for filters:
+  $('.form-check-input').tooltip({
     container: 'body'
   });
 });
@@ -328,6 +329,7 @@ function nameTextUpdate(name) {
     $('#nameText').text(name[0]);
     // Turn on buttons if they had been turned off:
     $('.select_btn').attr('disabled', false);
+    $('#nameText').tooltip('disable');
   } else {
     // We're out of names D:
     $('#nameText').text('N/A');
@@ -336,6 +338,9 @@ function nameTextUpdate(name) {
     $('.select_btn').attr('disabled', true);
 
     // Maybe add an alert or something?
+    // Turn on tooltip indicating no more names
+    $('#nameText').tooltip('enable');
+    $('#nameText').tooltip('show');
   }
 
 }
