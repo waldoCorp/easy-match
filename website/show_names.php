@@ -94,44 +94,17 @@ $letters = range('A','Z');
     <div class="row d-flex">
 
       <!-- gender filter -->
-      <div class="col-sm">
-        <h2> Gender? </h2>
-        <div class="form-check" name="gender">
-          <input class="form-check-input" type="checkbox" value="" id="noPref"
-            data-toggle="tooltip" data-placement="bottom" title="Show me the default mixture of names"
-          <?php echo (empty($prefs['gender']) ? 'checked' : ''); ?> >
-          <label class="form-check-label" for="noPref">No Preference</label>
-        </div>
+    <div class="col-sm">
+      <h2>Gender Preference</h2>
 
-        <div class="form-check" name="gender">
-          <input class="form-check-input" type="checkbox" value="boy" id="boy"
-            data-toggle="tooltip" data-placement="bottom" title="Show me traditionally boys' names"
-          <?php echo (in_array('boy', $prefs['gender']) ? 'checked' : ''); ?> >
-          <label class="form-check-label" for="boy">Boys</label>
-        </div>
-
-        <div class="form-check" name="gender">
-          <input class="form-check-input" type="checkbox" value="girl" id="girl"
-            data-toggle="tooltip" data-placement="bottom" title="Show me traditionally girls' names"
-          <?php echo (in_array('girl', $prefs['gender']) ? 'checked' : ''); ?> >
-          <label class="form-check-label" for="girl">Girls</label>
-        </div>
-
-        <div class="form-check" name="gender">
-          <input class="form-check-input" type="checkbox" value="neutral20" id="neutral20"
-            data-toggle="tooltip" data-placement="bottom" title="Show me names that skew less consistently male/female"
-          <?php echo (in_array('neutral20', $prefs['gender']) ? 'checked' : ''); ?> >
-          <label class="form-check-label" for="neutral20">Gender Neutral 20-80</label>
-        </div>
-
-        <div class="form-check" name="gender">
-          <input class="form-check-input" type="checkbox" value="neutral40" id="neutral40"
-            data-toggle="tooltip" data-placement="bottom" title="Show me nams that are barley on the edge of male/female"
-          <?php echo (in_array('neutral40', $prefs['gender']) ? 'checked' : ''); ?> >
-          <label class="form-check-label" for="neutral40">Gender Neutral 40-60</label>
-        </div>
-
-      </div>
+      <select id="gender" data-toggle="tooltip" data-placement="right"
+        title="<img src='images/reduced-name-venn.png' />">
+        <option value="" <?php echo (is_null($prefs['gender']) ? 'selected' : ''); ?>>No Preference</option>
+        <option value="boy" <?php echo ($prefs['gender'] == 'boy' ? 'selected' : ''); ?>>Boys</option>
+        <option value="girl" <?php echo ($prefs['gender'] == 'girl' ? 'selected' : ''); ?>>Girls</option>
+        <option value="neutral20" <?php echo ($prefs['gender'] == 'neutral20' ? 'selected' : ''); ?>>Gender Neutral</option>
+      </select>
+    </div>
 
     <!-- First letter filter -->
     <div class="col-sm">
@@ -187,8 +160,9 @@ $( document ).ready(function() {
   nameTextUpdate(nameList);
 
   // Turn on tooltips for filters:
-  $('.form-check-input').tooltip({
-    container: 'body'
+  $('#gender').tooltip({
+    container: 'body',
+    html: true
   });
 });
 
@@ -224,34 +198,12 @@ $('.select_btn').click(function() {
 });
 
 
-$('#filterDiv').find('input, select').change(function() {
+$('#filterDiv').find('select').change(function() {
   // Close tooltip (otherwise it stays until next click on page):
   $(this).tooltip('hide');
 
-  // Figure out if we need to modify extra checkboxes:
-  if( $(this).attr('class') == 'form-check-input' ) {
-    // If it was the 'No Preference' Box, uncheck other choices:
-    if( $(this).attr('id') == 'noPref' && $('#noPref').is(':checked') ) {
-      $('#boy').prop('checked',false);
-      $('#girl').prop('checked',false);
-      $('#neutral20').prop('checked',false);
-      $('#neutral40').prop('checked',false);
-    } else if( $('#boy').is(':checked') || $('#girl').is(':checked') ||
-               $('#neutral20').is(':checked') || $('neutral40').is(':checked') ) {
-
-      $('#noPref').prop('checked', false);
-    } else {
-      $('#noPref').prop('checked', true);
-    }
-  }
-
-  // First do gender checkboxes:
-  var gender = [];
-  $('.form-check-input:checked').each(function() {
-    gender.push($(this).val());
-  });
-
-  // Then all the easy ones:
+  // Get Filter Results:
+  var gender = $('#gender').val();
   var first_letter = $('#start_select').val();
   var last_letter = $('#stop_select').val();
   var popular = $('#popularity').val();
