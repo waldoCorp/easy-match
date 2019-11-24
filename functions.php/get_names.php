@@ -64,9 +64,9 @@ function get_names($uuid,$n) {
 	$last_let_text = '';
 	if( !empty($preferences['last_letter']) ) {
 	  if( empty($gender_text) && empty($first_let_text) ) {
-	    $last_let_text = " last_letter = '".$preferences['last_letter']."'";
+	    $last_let_text = "UPPER(last_letter) = '".$preferences['last_letter']."'";
 	  } else {
-	    $last_let_text = " AND last_letter = '".$preferences['last_letter']."'";
+	    $last_let_text = " AND UPPER(last_letter) = '".$preferences['last_letter']."'";
 	  }
 	}
 
@@ -78,7 +78,7 @@ function get_names($uuid,$n) {
 	      $pop_text = ' (rank_m_2010 <= 250 OR rank_f_2010 <= 250)';
 	      break;
 	    case 'unusual':
-	      $pop_text = ' (2000 => rank_m_2010 => 500 OR 2000 => rank_f_2010 => 500)';
+	      $pop_text = '((rank_m_2010 >= 500 OR rank_m_2010 IS NULL) AND (rank_f_2010 >= 500 OR rank_f_2010 IS NULL)) ';
 	      break;
 	  }
 	}
@@ -101,8 +101,8 @@ function get_names($uuid,$n) {
     		WHERE p.uuid = :uuid AND s.selected = true
 	  ) AS ps
 
-	  FULL JOIN (
-	  -- get all the names from the db
+	  RIGHT JOIN (
+	  -- get all the names from the db, apply filters and right join to drop partner selections that dont match
     		SELECT name
     		FROM $names_table n
 		WHERE $filter_text
