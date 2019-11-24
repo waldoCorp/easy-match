@@ -6,7 +6,7 @@
  * @param $preferences : Associative array containing filter choices
  * Expected form is:
  * 		array(
- * 		gender=>array("boys","girls","neutral20","neutral40"),
+ * 		gender=>""/"boys"/"girls"/"neutral20",
  * 		first_letter=>null/"A-Z",
  *		last_letter=>null/"A-Z",
  * 		popularity=>null/"popular/unusual" )
@@ -27,17 +27,9 @@ function record_filters($uuid, $preferences) {
     $db = db_connect();
 
     // Parse input gender preferences:
-    $gender_text = '';
-
-    if( count($preferences['gender']) == 4 || count($preferences['gender']) == 0  ) {
-      // We have selected everything or nothing, which is the same as no preference:
-      $gender_text = null;
-    } else {
-      foreach( $preferences['gender'] as $pref ) {
-        if( !empty($pref) ) {
-          $gender_text = $gender_text .'-'. $pref;
-        }
-      }
+    $gender_text = null;
+    if( !is_null($preferences['gender']) ) {
+      $gender_text = $preferences['gender'];
     }
 
     // First Letter filters:

@@ -37,35 +37,18 @@ function get_names($uuid,$n) {
 	$gender_text = '';
 	if( !empty($preferences['gender']) ) {
 
-	  $gender_text = ' (';
-
-	  foreach( $preferences['gender'] as $key=>$pref ) {
-	    reset($preferences['gender']); // For determining first/last element
-
-	    switch ($pref) {
-	      case 'boy':
-	        $gender_text = $gender_text . 'm = true';
-	        break;
-	      case 'girl':
-	        $gender_text = $gender_text . 'f = true';
-	        break;
-	      case 'neutral20':
-	        $gender_text = $gender_text . 'NEUTRAL20';
-	        break;
-	      case 'neutral40':
-	        $gender_text = $gender_text . 'NEUTRAL40';
-	        break;
-	      }
-
-	    end($preferences['gender']); // Move to last index
-
-	    if( $key !== key($preferences['gender']) ) {
-	      $gender_text = $gender_text . ' OR ';
-	    } else {
-	      $gender_text = $gender_text . ')';
-	    }
-	  }
-	}
+          switch ($preferences['gender']) {
+	    case 'boy':
+	      $gender_text = 'm = true';
+	      break;
+	    case 'girl':
+	      $gender_text = 'f = true';
+	      break;
+	    case 'neutral20':
+	      $gender_text = 'neutral20 = true';
+	      break;
+          }
+        }
 
 	// First Letter filter -----------
 	$first_let_text = '';
