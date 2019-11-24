@@ -11,11 +11,11 @@ require './login_script.php';
 <?php include("./resources.php"); ?>
 
 <style>
-<!-- Extra CSS to make buttons BIG -->
-.big-btns {
-  height:200px;
-  width:200px;
+.tooltip.show {
+  opacity: 1 !important;
+  filter: alpha(opacity=100);
 }
+
 </style>
 
 <title>Pick Names!</title>
@@ -164,6 +164,7 @@ $( document ).ready(function() {
     container: 'body',
     html: true
   });
+
 });
 
 $('.select_btn').click(function() {
@@ -281,6 +282,7 @@ function nameTextUpdate(name) {
     $('#nameText').text(name[0]);
     // Turn on buttons if they had been turned off:
     $('.select_btn').attr('disabled', false);
+    $('#nameText').tooltip('hide');
     $('#nameText').tooltip('disable');
   } else {
     // We're out of names D:
