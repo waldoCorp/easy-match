@@ -23,7 +23,6 @@ require './login_script.php';
 </head>
 
 <?php
-
 // UUID -- should be pulled depending on who is logged in:
 $uuid = $_SESSION['uuid'];
 //$uuid = 'test2';
@@ -60,6 +59,9 @@ $letters = range('A','Z');
 <br>
 
 <div class="container">
+
+  <h2 class="align-center" id ="oldNameText">&nbsp;</h2> <!-- maybe bad practice, but no assigned value for first name shown and doesn't appear on page -->
+
   <h2 class="align-center">Approve/Disapprove Names</h2>
 
   <div class="row d-flex">
@@ -176,12 +178,29 @@ $('.select_btn').click(function() {
   if( $(this).attr('id') == 'noName' ) {
     // We don't like this name
     nameRecord('no',name);
+
   } else {
     // We do!
     nameRecord('yes',name);
+
+    // Show prior name if we hit a match!
+    if( nameList[0]['match'] ){
+	// If previous animation is still running, kill it
+	$('#oldNameText').finish();
+
+     // $('#oldNameText').text(nameList[0]['name']);
+	$('#oldNameText').text(nameList[0]['name'] + ' is a match!');
+	$('#oldNameText').animate({'opacity': 0}, 3000, function() {
+	  $(this).html('&nbsp;');
+	}).animate({'opacity': 1}, 1);
+    }
+
   }
 
-  nameList.shift(); // Remove element we just used
+  // Finally, update with a new name:
+  nameList.shift();
+  $('#nameText').text(nameList[0]['name']);
+
 
   // Finally, update with a new name:
   nameTextUpdate(nameList);
@@ -225,8 +244,10 @@ function nameRecord(status,oldName) {
     url: "./endpoints/ajax_endpoint.php",
     data: data,
 
-   error: function(xhr, ajaxOptions, thrownError) {
-       // Do something here if error
+    error: function(xhr, ajaxOptions, thrownError) {
+       // If we're in the error block either we've lost the connection
+       // or our session expired, so reload the page to force re-login
+       //location.reload();
    }
   });
 }

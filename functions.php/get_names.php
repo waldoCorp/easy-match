@@ -28,7 +28,7 @@ function get_names($uuid,$n) {
         $db = db_connect();
 
 	// Get preferences:
-        require_once __DIR__ . '/get_preferences.php';
+  require_once __DIR__ . '/get_preferences.php';
 	$preferences = get_preferences($uuid);
 
 	// Build filtering statements:
@@ -91,11 +91,12 @@ function get_names($uuid,$n) {
 	$filter_text = $gender_text.$first_let_text.$last_let_text.$pop_text;
 
 	$sql = "
-	SELECT COALESCE(ps.name, rs.name, ss.name) as name
+	SELECT COALESCE(ps.name, rs.name) AS name,
+	COALESCE(ps.match, false) AS match
 
 	  FROM (
 		-- Get partner selections
-    		SELECT name, true AS priority
+    		SELECT DISTINCT name, true AS priority, true AS match
     		FROM $selections_table s
     		LEFT JOIN $partners_table p ON s.uuid = p.partner_uuid
     		WHERE p.uuid = :uuid AND s.selected = true
@@ -127,10 +128,6 @@ function get_names($uuid,$n) {
 
         // Get names from specified table
 	$names = $stmt->fetchAll();
-
-	// Convert to 1D array
-	$names = call_user_func_array('array_merge',$names);
-	array_shift($names); // First element is duplicated
 
 return $names;
 
