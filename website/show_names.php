@@ -102,8 +102,8 @@ $letters = range('A','Z');
       <select id="gender" data-toggle="tooltip" data-placement="right"
         title="<img src='images/reduced-name-venn.png' />">
         <option value="" <?php echo (is_null($prefs['gender']) ? 'selected' : ''); ?>>No Preference</option>
-        <option value="boy" <?php echo ($prefs['gender'] == 'boy' ? 'selected' : ''); ?>>Boys</option>
-        <option value="girl" <?php echo ($prefs['gender'] == 'girl' ? 'selected' : ''); ?>>Girls</option>
+        <option value="boy" <?php echo ($prefs['gender'] == 'boy' ? 'selected' : ''); ?>>Boy's</option>
+        <option value="girl" <?php echo ($prefs['gender'] == 'girl' ? 'selected' : ''); ?>>Girl's</option>
         <option value="neutral20" <?php echo ($prefs['gender'] == 'neutral20' ? 'selected' : ''); ?>>Gender Neutral</option>
       </select>
     </div>
@@ -299,8 +299,8 @@ function prefRecord(gender,first_letter,last_letter,popularity) {
 
 // Function to update #nameText and display an error if we're out of names:
 function nameTextUpdate(name) {
-  if( name ) {
-    $('#nameText').text(name[0]);
+  if( name.length !== 0 ) {
+    $('#nameText').text(name[0]['name']);
     // Turn on buttons if they had been turned off:
     $('.select_btn').attr('disabled', false);
     $('#nameText').tooltip('hide');
