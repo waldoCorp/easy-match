@@ -19,6 +19,7 @@ if (is_ajax()) {
 			case "partnerResponse": partner_response(); break;
 			case "email_check": unique_email(); break;
 			case "send_password_token": send_password_token(); break;
+			case "preferencesRecord": pref_record(); break;
 		}
 	}
 }
@@ -160,6 +161,19 @@ function send_password_token() {
 
 
 }
+
+function pref_record() {
+	global $function_path;
+
+        require_once $function_path . 'record_filters.php';
+	$preferences = $_POST;
+
+
+	$uuid = $_SESSION['uuid'];
+	record_filters($uuid, $preferences);
+}
+
+
 
 // ------------------------------------
 // Helper functions not directly accessible through AJAX

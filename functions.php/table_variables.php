@@ -11,3 +11,4 @@ $selections_table = 'selections';
 $partners_table = 'partners';
 $password_recovery_table = 'password_recovery';
 $users_table = 'users';
+$preferences_table = 'name_preferences';
