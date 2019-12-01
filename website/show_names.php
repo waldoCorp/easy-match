@@ -102,8 +102,8 @@ $letters = range('A','Z');
       <select id="gender" data-toggle="tooltip" data-placement="right"
         title="<img src='images/reduced-name-venn.png' />">
         <option value="" <?php echo (is_null($prefs['gender']) ? 'selected' : ''); ?>>No Preference</option>
-        <option value="boy" <?php echo ($prefs['gender'] == 'boy' ? 'selected' : ''); ?>>Boy's</option>
-        <option value="girl" <?php echo ($prefs['gender'] == 'girl' ? 'selected' : ''); ?>>Girl's</option>
+        <option value="boy" <?php echo ($prefs['gender'] == 'boy' ? 'selected' : ''); ?>>Traditionally Boy's</option>
+        <option value="girl" <?php echo ($prefs['gender'] == 'girl' ? 'selected' : ''); ?>>Traditionally Girl's</option>
         <option value="neutral20" <?php echo ($prefs['gender'] == 'neutral20' ? 'selected' : ''); ?>>Gender Neutral</option>
       </select>
     </div>
