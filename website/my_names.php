@@ -45,7 +45,9 @@ $selections = get_selections($uuid);
       <?php echo ($selection['selected'] ? 'Yes' : 'No') ; ?>
     </div>
     <div class="col-sm">
-      <button type="button" class="swap_btn">Swap</button>
+      <button type="button" class="swap_btn">
+        <?php echo ($selection['selected'] ? 'Actually, No' : 'Actually, Yes') ; ?>
+      </button>
     </div>
   </div>
 <?php } ?>
@@ -73,9 +75,6 @@ $('.swap_btn').click(function() {
     cur_field.text('No');
     updateNameStatus('no',name_text);
   }
-
-
-  //find('.row').closest("name=['selected']")
 
 });
 
