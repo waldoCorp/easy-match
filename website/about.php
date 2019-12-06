@@ -33,6 +33,13 @@
      here). By default, we will only show you names that have been relatively
      popular within the last 20 years but you are more than welcome to adjust
      the filtering options to your liking. </p>
+
+  <h2>About Privacy</h2>
+  <p>While we're still working out an <a href='privacy.php'>official policy</a>
+     The short version is: We will not sell your data. Internal statistics
+     will only ever use anonymized data. You can delete your account at any
+     time, at which point all data we store about you (in any fashion) will
+     be deleted. </p>
 </div>
 
 </body>
