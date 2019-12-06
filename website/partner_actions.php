@@ -144,6 +144,8 @@ $invitations = get_invitations($uuid);
 </div>
 <?php } ?>
 
+<?php include("footer.php"); ?>
+
 <!-- Custom JavaScript goes here -->
 <script>
 $('#add_friend').click(function() {

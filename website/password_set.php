@@ -86,6 +86,7 @@ if( !empty($_SERVER['QUERY_STRING']) ) {
 
 </div>
 
+<?php include("footer.php"); ?>
 
 <!-- Custom JavaScript goes here -->
 <script>

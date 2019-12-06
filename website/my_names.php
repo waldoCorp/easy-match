@@ -53,6 +53,7 @@ $selections = get_selections($uuid);
 <?php } ?>
 </div>
 
+<?php include("footer.php"); ?>
 
 <!-- Custom JavaScript goes here -->
 <script>

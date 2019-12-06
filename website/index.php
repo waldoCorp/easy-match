@@ -41,6 +41,8 @@
 
 </div>
 
+<?php include("footer.php"); ?>
+
 <script>
 const urlParams = new URLSearchParams(window.location.search);
 const error = urlParams.get('error');
