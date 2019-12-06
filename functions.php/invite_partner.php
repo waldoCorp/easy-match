@@ -29,7 +29,7 @@ function invite_partner($email, $orig_uuid) {
     require_once __DIR__ . '/add_new_user.php';
 
     // Giving them a fake password (if they do not already have one)
-    $pass = bin2hex(random_bytes(5));
+    $pass = bin2hex(random_bytes(15));
     add_new_user($email, $pass); // This will silently fail if the user already exists
 
     // Now, get the UUID of the new user:
@@ -41,7 +41,6 @@ function invite_partner($email, $orig_uuid) {
       exit();
     }
 
-    // Send an email here???
 
     // First check if we're "responding" by inviting someone who invited us:
     $sql = "SELECT * from $partners_table WHERE uuid = :partner_uuid AND
@@ -70,6 +69,18 @@ function invite_partner($email, $orig_uuid) {
       $stmt->bindValue(':uuid',$orig_uuid);
       $stmt->bindValue(':partner_uuid',$partner_uuid);
       $stmt->execute();
+
+      // Send an email here
+      require_once __DIR__ . '/send_email.php';
+      require_once __DIR__ . '/get_email.php';
+      $partner_email = get_email($orig_uuid);
+      $htmlBody = "You have been invited to match names with ".$partner_email;
+      $textBody = "You have been invited to match names with ".$partner_email;
+      $subj = "Baby Names Partner";
+      $recipient = $email;
+      send_email($htmlBody,$textBody,$subj,$recipient);
+
+
     } else {
       // This person is unknowningly 'responding' to an invitation:
       require_once __DIR__ . '/record_partner_choice.php';
