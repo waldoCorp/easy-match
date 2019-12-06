@@ -31,6 +31,41 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
+-- Name: add_new_matches(); Type: FUNCTION; Schema: public; Owner: namebot
+--
+
+CREATE FUNCTION public.add_new_matches() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+
+DECLARE partner varchar(255);
+BEGIN
+        FOR partner IN SELECT partner_uuid
+			FROM partners
+			WHERE uuid = NEW.uuid AND confirmed
+        LOOP
+                IF EXISTS
+                     (SELECT 1 FROM selections WHERE uuid = partner
+                      AND name = NEW.name AND selected)
+                   THEN
+                        INSERT INTO new_matches(uuid, partner_uuid, name)
+                        VALUES(NEW.uuid, partner, NEW.name)
+                        ON CONFLICT DO NOTHING;
+			INSERT INTO new_matches(uuid, partner_uuid, name)
+			VALUES(partner, NEW.uuid, NEW.name)
+			ON CONFLICT DO NOTHING;
+                END IF;
+
+        END LOOP;
+
+        RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.add_new_matches() OWNER TO namebot;
+
+--
 -- Name: get_partner_uuids(character varying); Type: FUNCTION; Schema: public; Owner: namebot
 --
 
@@ -56,12 +91,12 @@ ALTER FUNCTION public.get_partner_uuids(input_uuid character varying) OWNER TO n
 CREATE FUNCTION public.partner_pair_insert() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
-	BEGIN
-		INSERT INTO partners(uuid,partner_uuid,pair_date)
-		VALUES (new.partner_uuid, new.uuid, new.pair_date);
+        BEGIN
+                INSERT INTO partners(uuid,partner_uuid,pair_date)
+                VALUES (new.partner_uuid, new.uuid, new.pair_date);
 
-		RETURN new;
-	END;
+                RETURN new;
+        END;
 $$;
 
 
@@ -100,11 +135,28 @@ CREATE TABLE public.names (
     rank_f_2010 real,
     m boolean,
     f boolean,
-    mf_2010 boolean
+    mf_2010 boolean,
+    neutral20 boolean,
+    neutral40 boolean,
+    first_letter character varying(1),
+    last_letter character varying(1)
 );
 
 
 ALTER TABLE public.names OWNER TO namebot;
+
+--
+-- Name: new_matches; Type: TABLE; Schema: public; Owner: namebot
+--
+
+CREATE TABLE public.new_matches (
+    uuid character varying(255) NOT NULL,
+    partner_uuid character varying(255) NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.new_matches OWNER TO namebot;
 
 --
 -- Name: partners; Type: TABLE; Schema: public; Owner: namebot
@@ -182,6 +234,14 @@ ALTER TABLE ONLY public.names
 
 
 --
+-- Name: new_matches new_matches_uuid_partner_uuid_name_key; Type: CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.new_matches
+    ADD CONSTRAINT new_matches_uuid_partner_uuid_name_key UNIQUE (uuid, partner_uuid, name);
+
+
+--
 -- Name: partners partners_uuid_partner_uuid_proposer_key; Type: CONSTRAINT; Schema: public; Owner: namebot
 --
 
@@ -222,11 +282,42 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: selections add_new_matches_trigger; Type: TRIGGER; Schema: public; Owner: namebot
+--
+
+CREATE TRIGGER add_new_matches_trigger AFTER INSERT OR UPDATE ON public.selections FOR EACH ROW EXECUTE PROCEDURE public.add_new_matches();
+
+
+--
 -- Name: name_preferences name_preferences_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: namebot
 --
 
 ALTER TABLE ONLY public.name_preferences
     ADD CONSTRAINT name_preferences_uuid_fkey FOREIGN KEY (uuid) REFERENCES public.users(uuid) ON DELETE CASCADE;
+
+
+--
+-- Name: new_matches new_matches_name_fkey; Type: FK CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.new_matches
+    ADD CONSTRAINT new_matches_name_fkey FOREIGN KEY (name) REFERENCES public.names(name);
+
+
+--
+-- Name: new_matches new_matches_partner_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.new_matches
+    ADD CONSTRAINT new_matches_partner_uuid_fkey FOREIGN KEY (partner_uuid) REFERENCES public.users(uuid) ON DELETE CASCADE;
+
+
+--
+-- Name: new_matches new_matches_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.new_matches
+    ADD CONSTRAINT new_matches_uuid_fkey FOREIGN KEY (uuid) REFERENCES public.users(uuid) ON DELETE CASCADE;
 
 
 --

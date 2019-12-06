@@ -11,11 +11,11 @@ require './login_script.php';
 <?php include("./resources.php"); ?>
 
 <style>
-<!-- Extra CSS to make buttons BIG -->
-.big-btns {
-  height:200px;
-  width:200px;
+.tooltip.show {
+  opacity: 1 !important;
+  filter: alpha(opacity=100);
 }
+
 </style>
 
 <title>Pick Names!</title>
@@ -23,23 +23,33 @@ require './login_script.php';
 </head>
 
 <?php
-
 // UUID -- should be pulled depending on who is logged in:
 $uuid = $_SESSION['uuid'];
 //$uuid = 'test2';
 
 // Region to set up PHP stuff
 require_once $function_path . 'get_names.php';
+require_once $function_path . 'get_preferences.php';
 
 $names = get_names($uuid,25);
-//$names = array('Alice','Bob','Charlie');
+
+$prefs = get_preferences($uuid);
+
+// Find if we have non-standard preferences in place:
+$standard_prefs = false;
+
+if( empty($prefs['gender']) &&
+  empty($prefs['first_letter']) &&
+  empty($prefs['last_letter']) &&
+  empty($prefs['popularity']) ) {
+    $standard_prefs = true;
+}
 
 // Prepare for passing to JS
 $names = json_encode($names);
 
 // Get list of letters:
 $letters = range('A','Z');
-
 ?>
 
 <body>
@@ -49,6 +59,9 @@ $letters = range('A','Z');
 <br>
 
 <div class="container">
+
+  <h2 class="align-center" id ="oldNameText">&nbsp;</h2> <!-- maybe bad practice, but no assigned value for first name shown and doesn't appear on page -->
+
   <h2 class="align-center">Approve/Disapprove Names</h2>
 
   <div class="row d-flex">
@@ -59,7 +72,8 @@ $letters = range('A','Z');
     </div>
 
     <!-- Name -->
-    <div class="col-6 display-3 text-center align-center" id="nameText">
+    <div class="col-6 display-3 text-center align-center" id="nameText"
+     data-toggle="tooltip" data-placement="bottom" title="We've run out of names to show with the current filters in place.">
 
     </div>
 
@@ -74,25 +88,25 @@ $letters = range('A','Z');
 <br>
 <br>
 
-<div style="display:none"> <-- THIS IS BAD PRACTICE but I want to hide the filter buttons until they are working -->
 <div class="container">
   <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#filterDiv" aria-expanded="false" aria-controls="filterDiv">
     Show Filters
   </button>
-  <div class="collapse" id="filterDiv">
+  <div class="<?php echo ($standard_prefs ? "collapse" : "collapse show"); ?>" id="filterDiv">
     <div class="row d-flex">
 
       <!-- gender filter -->
-      <div class="col-sm">
-        <h2> Gender? </h2>
-        <select id="gender_select">
-          <option value="">No Preference</option>
-          <option value="">Boys</option>
-          <option value="">Girls</option>
-          <option value="">Gender Neutral 20-80</option>
-          <option value="">Gender Neutral 40-60</option>
-        </select>
-      </div>
+    <div class="col-sm">
+      <h2>Gender Preference</h2>
+
+      <select id="gender" data-toggle="tooltip" data-placement="right"
+        title="<img src='images/reduced-name-venn.png' />">
+        <option value="" <?php echo (is_null($prefs['gender']) ? 'selected' : ''); ?>>No Preference</option>
+        <option value="boy" <?php echo ($prefs['gender'] == 'boy' ? 'selected' : ''); ?>>Boy's</option>
+        <option value="girl" <?php echo ($prefs['gender'] == 'girl' ? 'selected' : ''); ?>>Girl's</option>
+        <option value="neutral20" <?php echo ($prefs['gender'] == 'neutral20' ? 'selected' : ''); ?>>Gender Neutral</option>
+      </select>
+    </div>
 
     <!-- First letter filter -->
     <div class="col-sm">
@@ -101,7 +115,7 @@ $letters = range('A','Z');
         <option value="">No Preference</option>
         <?php foreach( $letters as $letter ) {
 	// if this letter matches their previous selection, select it:
-	  if( $letter == $_SESSION['first_letter_filt'] ) { ?>
+	  if( $letter == $prefs['first_letter'] ) { ?>
 	    <option value="<?php echo $letter ?>" selected="selected"><?php echo $letter ?></option>
 	  <?php } else { ?>
 	    <option value="<?php echo $letter ?>"><?php echo $letter ?></option>
@@ -117,7 +131,7 @@ $letters = range('A','Z');
 	<option value="">No Preference</option>
         <?php foreach( $letters as $letter ) {
 	// if this letter matches their previous selection, select it:
-	  if( $letter == $_SESSION['last_letter_filt'] ) { ?>
+	  if( $letter == $prefs['last_letter'] ) { ?>
 	    <option value="<?php echo $letter ?>" selected="selected"><?php echo $letter ?></option>
 	  <?php } else { ?>
 	    <option value="<?php echo $letter ?>"><?php echo $letter ?></option>
@@ -129,10 +143,10 @@ $letters = range('A','Z');
     <!-- Popularity filter -->
     <div class="col-sm">
       <h2> Popular or Unusual? </h2>
-      <select id="popularity_select">
-        <option value="">No Preference</option>
-	<option value="pop">Popular Names Now</option>
-	<option value="unpop">Unusal Names Now</option>
+      <select id="popularity">
+        <option value="" <?php echo (is_null($prefs['popularity']) ? 'selected' : ''); ?>>No Preference</option>
+        <option value="popular" <?php echo ($prefs['popularity'] == 'popular' ? 'selected' : ''); ?>>Popular Names Only</option>
+        <option value="unusual" <?php echo ($prefs['popularity'] == 'unusual' ? 'selected' : ''); ?>>Unusual Names Only</option>
       </select>
     </div>
   </div>
@@ -145,13 +159,18 @@ var nameList = <?php echo($names) ?>; // Note: Globals are bad -- maybe a better
 
 $( document ).ready(function() {
   // Set name to first available name:
-  $('#nameText').text(nameList[0]);
-  nameList.shift(); // Remove element we just used
+  nameTextUpdate(nameList);
+
+  // Turn on tooltips for filters:
+  $('#gender').tooltip({
+    container: 'body',
+    html: true
+  });
+
 });
 
-
 $('.select_btn').click(function() {
-  console.log(nameList.length);
+
   // Get the name we're working on:
   var name = $('#nameText').text().trim(); // trim() removes whitespace
 
@@ -159,29 +178,57 @@ $('.select_btn').click(function() {
   if( $(this).attr('id') == 'noName' ) {
     // We don't like this name
     nameRecord('no',name);
+
   } else {
     // We do!
     nameRecord('yes',name);
+
+    // Show prior name if we hit a match!
+    if( nameList[0]['match'] ){
+	// If previous animation is still running, kill it
+	$('#oldNameText').finish();
+
+     // $('#oldNameText').text(nameList[0]['name']);
+	$('#oldNameText').text(nameList[0]['name'] + ' is a match!');
+	$('#oldNameText').animate({'opacity': 0}, 3000, function() {
+	  $(this).html('&nbsp;');
+	}).animate({'opacity': 1}, 1);
+    }
+
   }
 
   // Finally, update with a new name:
-  $('#nameText').text(nameList[0]);
-  nameList.shift(); // Remove element we just used
+  nameList.shift();
+  nameTextUpdate(nameList);
 
   if( nameList.length < 5) {
-    // Get more names!
-    getNames();
-    // deduplicate name list
-    function uniq(a) {
-        var seen = {};
-        return a.filter(function(item) {
-            return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    // Get more names using a promise
+    getNames().then( function(respData) {
+      $.merge(nameList, respData); // There might be a better way to do this...
+      // deduplicate name list
+      nameList = uniq(nameList);
     });
-    nameList = uniq(nameList);
-}
-    console.log(nameList);
+
+
   }
 });
+
+
+$('#filterDiv').find('select').change(function() {
+  // Close tooltip (otherwise it stays until next click on page):
+  $(this).tooltip('hide');
+
+  // Get Filter Results:
+  var gender = $('#gender').val();
+  var first_letter = $('#start_select').val();
+  var last_letter = $('#stop_select').val();
+  var popular = $('#popularity').val();
+
+  // Now send the update request:
+  prefRecord(gender,first_letter,last_letter,popular);
+
+});
+
 
 // Function to record if we liked or disliked the name
 function nameRecord(status,oldName) {
@@ -193,26 +240,81 @@ function nameRecord(status,oldName) {
     url: "./endpoints/ajax_endpoint.php",
     data: data,
 
-   error: function(xhr, ajaxOptions, thrownError) {
-       // Do something here if error
+    error: function(xhr, ajaxOptions, thrownError) {
+       // If we're in the error block either we've lost the connection
+       // or our session expired, so reload the page to force re-login
+       //location.reload();
    }
   });
 }
 
 function getNames() {
-  var data = {"action":'getNames',"email":"<?php echo htmlspecialchars($email) ?>"};
   // AJAX Request here
   // Maybe pass current list of names too? So we don't get duplicates?
-  $.ajax({
+  return $.ajax({
     type: "POST",
     url: "./endpoints/ajax_endpoint.php",
     dataType: "json",
-    data: data,
-    success: function(data) {
-      $.merge(nameList, data); // There might be a better way to do this...
-    }
+    data: {"action":'getNames',"email":"<?php echo htmlspecialchars($email) ?>"}
   });
 }
+
+function uniq(a) {
+ var seen = {};
+ return a.filter(function(item) {
+   return seen.hasOwnProperty(item['name']) ? false : (seen[item['name']] = true);
+ });
+}
+
+// Function to record preferences:
+function prefRecord(gender,first_letter,last_letter,popularity) {
+
+  var prefData = {"action":'preferencesRecord', "gender":gender,
+             "first_letter":first_letter, "last_letter":last_letter,
+             "popularity":popularity};
+
+  // AJAX Request to update preferences
+  var prefUpdate = $.ajax({
+    type: "POST",
+    url: "./endpoints/ajax_endpoint.php",
+    data: prefData,
+    error: function(xhr, ajaxOptions, thrownError) {
+       // Do something here if error
+    }
+  });
+
+  // Use promise to only do the name update after the preferences are ready...
+  $.when(prefUpdate).then( // After the preferences have been updated
+    getNames().then( function(respData) { // Get more names
+      nameList = respData;
+      nameTextUpdate(nameList);
+    })
+  )
+}
+
+// Function to update #nameText and display an error if we're out of names:
+function nameTextUpdate(name) {
+  if( name.length !== 0 ) {
+    $('#nameText').text(name[0]['name']);
+    // Turn on buttons if they had been turned off:
+    $('.select_btn').attr('disabled', false);
+    $('#nameText').tooltip('hide');
+    $('#nameText').tooltip('disable');
+  } else {
+    // We're out of names D:
+    $('#nameText').text('N/A');
+
+    // Disable buttons:
+    $('.select_btn').attr('disabled', true);
+
+    // Maybe add an alert or something?
+    // Turn on tooltip indicating no more names
+    $('#nameText').tooltip('enable');
+    $('#nameText').tooltip('show');
+  }
+
+}
+
 </script>
 
 </body>
