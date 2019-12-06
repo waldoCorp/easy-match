@@ -55,6 +55,7 @@ $invitations = get_invitations($uuid);
 
 <br>
 
+<?php if( !empty($partners) ) { ?>
 <div class="container">
   <h2>Choose which partner to match names with</h2>
 
@@ -67,6 +68,7 @@ $invitations = get_invitations($uuid);
     <?php } ?>
   </select>
 </div>
+<?php } ?>
 
 <br>
 
