@@ -35,10 +35,21 @@
         <button type="submit" value="Submit">Log In</button>
       </p>
 
+      <p id='errorText' class="text-danger"></p>
     </fieldset>
   </form>
 
 </div>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const error = urlParams.get('error');
+
+if( error == 'bad_login' ) {
+  $('#errorText').html('Bad Password or Username, please try again');
+}
+
+</script>
 
 </body>
 
