@@ -21,8 +21,9 @@
      to find names that they both find palatable for any potential young
      individuals in their lives (or cats, fish, iguanas, or whatever -- we're
      not here to judge). It is hosted as a service of WaldoCorp, which is just
-     a fancy way of saying the Ben and Lief made it and they hope that it is
-     useful for you. </p>
+     a fancy way of saying that <a href='mailto:ben@waldocorp.com'>Ben</a>
+     and <a href='mailto:lief@waldocorp.com'>Lief</a> made it and they hope
+     that it is useful for you. </p>
 
   <h2>About the Data</h2>
   <p>The set of names that are used on this site are drawn from ~150 years of
