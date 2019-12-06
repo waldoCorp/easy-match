@@ -7,7 +7,7 @@
 <?php include("./resources.php"); ?>
 
 
-<title>Demo Page</title>
+<title>Name Match!</title>
 </head>
 
 <body>
