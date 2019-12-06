@@ -70,9 +70,11 @@ $('.swap_btn').click(function() {
   // Show the swap on the page:
   if( cur_text == 'No' ) {
     cur_field.text('Yes');
+   $(this).text('Actually, No');
     updateNameStatus('yes',name_text);
   } else {
     cur_field.text('No');
+   $(this).text('Actually, Yes');
     updateNameStatus('no',name_text);
   }
 
