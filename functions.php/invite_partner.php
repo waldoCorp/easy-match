@@ -70,16 +70,31 @@ function invite_partner($email, $orig_uuid) {
       $stmt->bindValue(':partner_uuid',$partner_uuid);
       $stmt->execute();
 
-      // Send an email here
-      require_once __DIR__ . '/send_email.php';
-      require_once __DIR__ . '/get_email.php';
-      $partner_email = get_email($orig_uuid);
-      $htmlBody = "You have been invited to match names with ".$partner_email;
-      $textBody = "You have been invited to match names with ".$partner_email;
-      $subj = "Baby Names Partner";
-      $recipient = $email;
-      send_email($htmlBody,$textBody,$subj,$recipient);
+      // To prevent spam, check if this invite has already been sent:
+      $sql = "SELECT pair_propose_date FROM $partners_table WHERE
+              uuid = :uuid AND partner_uuid = :partner_uuid";
+      $stmt = $db->prepare($sql);
+      $stmt->bindValue(':uuid',$orig_uuid);
+      $stmt->bindValue(':partner_uuid',$partner_uuid);
+      $stmt->execute();
+      $ans = $stmt->fetchAll();
 
+      $date = new DateTime($ans[0]["pair_propose_date"]);
+      $now = new DateTime("now", new DateTimeZone("America/Chicago"));
+      $diff = abs($date->getTimestamp() - $now->getTimestamp());
+
+      // Send an email here if new invite:
+      if( $diff < 1 ) { // New if we are within 1 sec of original invite
+                        // It is conceivable that a bot could still spam...
+        require_once __DIR__ . '/send_email.php';
+        require_once __DIR__ . '/get_email.php';
+        $partner_email = get_email($orig_uuid);
+        $htmlBody = "You have been invited to match names with ".$partner_email;
+        $textBody = "You have been invited to match names with ".$partner_email;
+        $subj = "Baby Names Partner";
+        $recipient = $email;
+        send_email($htmlBody,$textBody,$subj,$recipient);
+      }
 
     } else {
       // This person is unknowningly 'responding' to an invitation:
