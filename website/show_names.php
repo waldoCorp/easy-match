@@ -62,8 +62,6 @@ $letters = range('A','Z');
 
   <h2 class="align-center" id ="oldNameText">&nbsp;</h2> <!-- maybe bad practice, but no assigned value for first name shown and doesn't appear on page -->
 
-  <h2 class="align-center">Approve/Disapprove Names</h2>
-
   <div class="row d-flex">
     <!-- No button -->
     <div class="col-2 align-items-center d-flex">
