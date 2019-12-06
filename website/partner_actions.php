@@ -55,23 +55,6 @@ $invitations = get_invitations($uuid);
 
 <br>
 
-<?php if( !empty($partners) ) { ?>
-<div class="container">
-  <h2>Choose which partner to match names with</h2>
-
-  <select id="partner_select">
-    <option value="">Pick a Partner</option>
-    <?php foreach($partners as $partner) { ?>
-      <option value="<?php echo htmlspecialchars($partner); ?>">
-        <?php echo htmlspecialchars($partner); ?>
-      </option>
-    <?php } ?>
-  </select>
-</div>
-<?php } ?>
-
-<br>
-
 <?php if( !empty($invitations) ) { ?>
 <div class="container">
 
@@ -156,12 +139,6 @@ $('#add_friend').click(function() {
 
 });
 
-$('#partner_select').change(function() {
-  var partner_email = $(this).val()
-  partnerSelect(partner_email);
-});
-
-
 $('.select_btn').click(function() {
   // Find the partner's uuid:
   var uuid = $(this).val();
@@ -195,21 +172,6 @@ function inviteFriend(email) {
   });
 
 }
-
-function partnerSelect(email) {
-  // AJAX Request here
-  var data = {"action":'partnerSelect', "partner_email":email};
-
-  // AJAX Request here
-  $.ajax({
-    type: "POST",
-    dataType: "json",
-    url: "./endpoints/ajax_endpoint.php",
-    data: data
-  });
-
-}
-
 
 function invitationResponse(uuid,status) {
   // AJAX Request here
