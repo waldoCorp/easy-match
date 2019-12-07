@@ -20,7 +20,7 @@
   <form action="./endpoints/user_endpoint.php" method="post">
     <input type="hidden" name="type" value="1"></input>
     <fieldset>
-      <legend>Sign in (or <a href="new_account.php">create account</a>)</legend>
+      <legend>Sign in (or <a href="new_account.php">create account / reset password</a>)</legend>
       <p>
         <label for="email">Email</label>
         <input name="email" id="login_email" type="email" placeholder="Enter Email Address">
