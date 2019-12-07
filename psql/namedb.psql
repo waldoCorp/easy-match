@@ -135,7 +135,11 @@ CREATE TABLE public.names (
     rank_f_2010 real,
     m boolean,
     f boolean,
-    mf_2010 boolean
+    mf_2010 boolean,
+    neutral20 boolean,
+    neutral40 boolean,
+    first_letter character varying(1),
+    last_letter character varying(1)
 );
 
 

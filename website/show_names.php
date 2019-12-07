@@ -197,10 +197,6 @@ $('.select_btn').click(function() {
 
   // Finally, update with a new name:
   nameList.shift();
-  $('#nameText').text(nameList[0]['name']);
-
-
-  // Finally, update with a new name:
   nameTextUpdate(nameList);
 
   if( nameList.length < 5) {
@@ -253,7 +249,7 @@ function nameRecord(status,oldName) {
 function getNames() {
   // AJAX Request here
   // Maybe pass current list of names too? So we don't get duplicates?
- return $.ajax({
+  return $.ajax({
     type: "POST",
     url: "./endpoints/ajax_endpoint.php",
     dataType: "json",
@@ -264,10 +260,9 @@ function getNames() {
 function uniq(a) {
  var seen = {};
  return a.filter(function(item) {
-   return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+   return seen.hasOwnProperty(item['name']) ? false : (seen[item['name']] = true);
  });
 }
-
 
 // Function to record preferences:
 function prefRecord(gender,first_letter,last_letter,popularity) {
