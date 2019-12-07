@@ -60,8 +60,8 @@ if ( $_POST["type"] == 0) {
 
 
 	} else {
-		//header('Location: /path/to/failed/login.php');
-		echo "Login FAILURE!";
+		header('Location: ../index.php?error=bad_login');
+		//echo "Login FAILURE!";
 
 	}
 
@@ -69,7 +69,7 @@ if ( $_POST["type"] == 0) {
 
 	session_regenerate_id(true); // Create new ID to be safe
 	$_SESSION = array(); // Unset all session variables
-	header('Location: ./index.php');
+	header('Location: ../index.php');
 
 } elseif ( $_POST["type"] == 3 ) { // Password Change Request
 

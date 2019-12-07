@@ -62,8 +62,6 @@ $letters = range('A','Z');
 
   <h2 class="align-center" id ="oldNameText">&nbsp;</h2> <!-- maybe bad practice, but no assigned value for first name shown and doesn't appear on page -->
 
-  <h2 class="align-center">Approve/Disapprove Names</h2>
-
   <div class="row d-flex">
     <!-- No button -->
     <div class="col-2 align-items-center d-flex">
@@ -102,8 +100,8 @@ $letters = range('A','Z');
       <select id="gender" data-toggle="tooltip" data-placement="right"
         title="<img src='images/reduced-name-venn.png' />">
         <option value="" <?php echo (is_null($prefs['gender']) ? 'selected' : ''); ?>>No Preference</option>
-        <option value="boy" <?php echo ($prefs['gender'] == 'boy' ? 'selected' : ''); ?>>Boy's</option>
-        <option value="girl" <?php echo ($prefs['gender'] == 'girl' ? 'selected' : ''); ?>>Girl's</option>
+        <option value="boy" <?php echo ($prefs['gender'] == 'boy' ? 'selected' : ''); ?>>Traditionally Boy's</option>
+        <option value="girl" <?php echo ($prefs['gender'] == 'girl' ? 'selected' : ''); ?>>Traditionally Girl's</option>
         <option value="neutral20" <?php echo ($prefs['gender'] == 'neutral20' ? 'selected' : ''); ?>>Gender Neutral</option>
       </select>
     </div>
@@ -152,6 +150,8 @@ $letters = range('A','Z');
   </div>
 </div>
 </div>
+
+<?php include("footer.php"); ?>
 
 <!-- Custom JavaScript goes here -->
 <script>
