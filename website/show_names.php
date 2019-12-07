@@ -151,6 +151,8 @@ $letters = range('A','Z');
 </div>
 </div>
 
+<?php include("footer.php"); ?>
+
 <!-- Custom JavaScript goes here -->
 <script>
 var nameList = <?php echo($names) ?>; // Note: Globals are bad -- maybe a better way?
