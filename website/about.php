@@ -42,6 +42,8 @@
      be deleted. </p>
 </div>
 
+<?php include("footer.php"); ?>
+
 </body>
 
 </html>
