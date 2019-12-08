@@ -45,12 +45,15 @@ $selections = get_selections($uuid);
       <?php echo ($selection['selected'] ? 'Yes' : 'No') ; ?>
     </div>
     <div class="col-sm">
-      <button type="button" class="swap_btn">Swap</button>
+      <button type="button" class="swap_btn">
+        <?php echo ($selection['selected'] ? 'Actually, No' : 'Actually, Yes') ; ?>
+      </button>
     </div>
   </div>
 <?php } ?>
 </div>
 
+<?php include("footer.php"); ?>
 
 <!-- Custom JavaScript goes here -->
 <script>
@@ -68,14 +71,13 @@ $('.swap_btn').click(function() {
   // Show the swap on the page:
   if( cur_text == 'No' ) {
     cur_field.text('Yes');
+   $(this).text('Actually, No');
     updateNameStatus('yes',name_text);
   } else {
     cur_field.text('No');
+   $(this).text('Actually, Yes');
     updateNameStatus('no',name_text);
   }
-
-
-  //find('.row').closest("name=['selected']")
 
 });
 

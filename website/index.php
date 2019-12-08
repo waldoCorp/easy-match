@@ -7,7 +7,7 @@
 <?php include("./resources.php"); ?>
 
 
-<title>Demo Page</title>
+<title>Name Match!</title>
 </head>
 
 <body>
@@ -20,7 +20,7 @@
   <form action="./endpoints/user_endpoint.php" method="post">
     <input type="hidden" name="type" value="1"></input>
     <fieldset>
-      <legend>Sign in (or <a href="new_account.php">create account</a>)</legend>
+      <legend>Sign in (or <a href="new_account.php">create account / reset password</a>)</legend>
       <p>
         <label for="email">Email</label>
         <input name="email" id="login_email" type="email" placeholder="Enter Email Address">
@@ -35,10 +35,23 @@
         <button type="submit" value="Submit">Log In</button>
       </p>
 
+      <p id='errorText' class="text-danger"></p>
     </fieldset>
   </form>
 
 </div>
+
+<?php include("footer.php"); ?>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const error = urlParams.get('error');
+
+if( error == 'bad_login' ) {
+  $('#errorText').html('Bad Password or Username, please try again');
+}
+
+</script>
 
 </body>
 
