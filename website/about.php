@@ -36,10 +36,13 @@
 
   <h2>About Privacy</h2>
   <p>While we're still working out an <a href='privacy.php'>official policy</a>
-     The short version is: We will not sell your data. Internal statistics
-     will only ever use anonymized data. You can delete your account at any
-     time, at which point all data we store about you (in any fashion) will
-     be deleted. </p>
+     The short version is: We will not sell any personal data that could
+     be used to identify you. Internal statistics and any data given or sold
+     to a third party will always use anonymized data. You can delete your
+     account at any time, at which point all data we store about you
+     will be deleted. Note that aggregated data given to an external party
+     in the past might still contain your anonymous data (as we no longer
+     control it). </p>
 </div>
 
 <?php include("footer.php"); ?>
