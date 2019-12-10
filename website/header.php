@@ -22,15 +22,7 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="my_names.php">My Names</a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="match_list.php">List of Matching Names</a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="partner_actions.php">Manage Partners</a>
+      <a class="nav-link" href="match_list.php">My Matches!</a>
     </li>
 
     <li class="nav-item">
@@ -38,7 +30,15 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="about.php">About Baby Names Match</a>
+      <a class="nav-link" href="my_names.php">Manage Names</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="partner_actions.php">Manage Partners</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="about.php">About</a>
     </li>
 
     <li class="nav-item">
@@ -55,7 +55,7 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="about.php">About Baby Names Match</a>
+      <a class="nav-link" href="about.php">About</a>
     </li>
   <?php } ?>
   </ul>
