@@ -12,7 +12,7 @@
  * @author Ben Cerjan
  * @param string $uuid : user's UUID
  *
- * returns User's UUID (string)
+ * returns User's Email (string)
  *
 **/
 

@@ -91,6 +91,8 @@ sort($names); // sort ensures new matches (with stars) are at the top
   <?php } ?>
 </div>
 
+<?php include("footer.php"); ?>
+
 <script>
 $('#partner_select').change(function() {
   var partner_email = $(this).val()
