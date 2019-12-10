@@ -34,6 +34,10 @@
     </li>
 
     <li class="nav-item">
+      <a class="nav-link" href="popularity_charts.php">Popularity Charts</a>
+    </li>
+
+    <li class="nav-item">
       <a class="nav-link" href="about.php">About Baby Names Match</a>
     </li>
 
@@ -44,6 +48,10 @@
   <?php } else { ?>
     <li class="nav-item">
       <a class="nav-link" href="index.php">My Account/Signup</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="popularity_charts.php">Popularity Charts</a>
     </li>
 
     <li class="nav-item">
