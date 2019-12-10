@@ -43,7 +43,7 @@
      will be deleted. Note that aggregated data given to an external party
      in the past might still contain your anonymous data (as we no longer
      control it). </p>
->>>>>>> origin/master
+
 </div>
 
 <?php include("footer.php"); ?>
