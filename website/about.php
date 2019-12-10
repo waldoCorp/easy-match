@@ -19,7 +19,7 @@
   <h2>About Baby Name Match</h2>
   <p>This website is designed to allow users to pair with one another
      to find names that they both find palatable for any potential young
-     individuals in their lives (or cats, fish, iguanas, or whatever -- we're
+     individuals in their lives (or cats, fish, iguanas, or whatever - we're
      not here to judge). It is hosted as a service of WaldoCorp, which is just
      a fancy way of saying that <a href='mailto:ben@waldocorp.com'>Ben</a>
      and <a href='mailto:lief@waldocorp.com'>Lief</a> made it and they hope
@@ -43,6 +43,7 @@
      will be deleted. Note that aggregated data given to an external party
      in the past might still contain your anonymous data (as we no longer
      control it). </p>
+
 </div>
 
 <?php include("footer.php"); ?>
