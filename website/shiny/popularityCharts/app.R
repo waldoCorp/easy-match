@@ -24,7 +24,10 @@ ui <- fluidPage(
                    value=""),
          textInput("name4",
                    "Name:",
-                   value="")
+                   value=""),
+
+	 helpText("Here you can compare up to four names at a time. These charts are designed to compare trends, so please note that the y axis may vary across names.")
+
       ),
       
       # Show a plot of the generated distribution
