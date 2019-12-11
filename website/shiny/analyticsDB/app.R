@@ -27,9 +27,10 @@ ui <- fluidPage(
     tabPanel("Names Ranked vs Liked", plotOutput("scatter_rank_like")),
     tabPanel("Totals"),
     
-    
     "Partners/Matches",
-
+    tabPanel("Number of Partners", plotOutput("plot_num_partners")),
+    tabPanel("Number of Matches", plotOutput("plot_num_matches")), 
+    
     "Usage"
     
   )
@@ -48,6 +49,7 @@ server <- function(input, output) {
   
   # Get data tables ------------------------------------------------------------
   selections <- RPostgres::dbReadTable(con, "selections")
+  partners <- RPostgres::dbReadTable(con, "partners")
   
   name_popularity <- selections %>% 
     group_by(name) %>% 
@@ -59,6 +61,23 @@ server <- function(input, output) {
     group_by(uuid) %>% 
     summarize(names_ranked = n(), 
               names_liked = sum(selected))
+  
+  
+  get_match <- function(uuid) {
+    
+    my_selected <- selections %>% filter(uuid == !!uuid, selected == 1)
+    my_partners <- partners %>% filter(uuid == !!uuid) %>% pull(partner_uuid)
+    
+    partner_selected <- selections %>% 
+      filter(uuid %in% !!my_partners, selected == 1) %>% 
+      select(partner = uuid, name)
+    
+    
+    return(my_selected %>% 
+             inner_join(partner_selected, 
+                        by = 'name') %>% 
+             select(uuid, partner, name))
+  }
   
   # Output for Names Tab -------------------------------------------------------
   
@@ -78,7 +97,7 @@ server <- function(input, output) {
            aes(times_liked)) +
       geom_histogram() +
       labs(title = "Histogram of Name Likes",
-           y = "Number of Names", 
+           y = "Count of Names", 
            x = "Number of Times Liked") +
       theme_minimal()
   })
@@ -88,7 +107,7 @@ server <- function(input, output) {
            aes(times_seen)) +
       geom_histogram() +
       labs(title = "Histogram of Name Views",
-           y = "Number of Names", 
+           y = "Count of Names", 
            x = "Number of Times Seen") +
       theme_minimal()
   })
@@ -98,7 +117,7 @@ server <- function(input, output) {
            aes(popularity)) +
       geom_histogram() +
       labs(title = "Histogram of Name Popularity",
-           y = "Number of Names", 
+           y = "Count of Names", 
            x = "Likes / Views") +
       theme_minimal()
   })
@@ -110,7 +129,7 @@ server <- function(input, output) {
            aes(names_ranked)) +
       geom_histogram() +
       labs(title = "Number of Names Ranked by Site Users",
-           y = "Number of Users", 
+           y = "Count of Users", 
            x = "Number of Names Ranked") +
       theme_minimal()
   })
@@ -120,7 +139,7 @@ server <- function(input, output) {
            aes(names_liked)) +
       geom_histogram() +
       labs(title = "Number of Names Liked by Site Users",
-           y = "Number of Users", 
+           y = "Count of Users", 
            x = "Number of Names Liked") +
       theme_minimal()
   })
@@ -137,6 +156,30 @@ server <- function(input, output) {
   })
   
   # Output for Partners/Matches ------------------------------------------------
+  
+  output$plot_num_partners <- renderPlot({
+    ggplot(partners %>% group_by(uuid) %>% count(), 
+           aes(n)) +
+      geom_bar() +
+      labs(title = "Distribution of Number of Partners",
+           y = "Count of Users", 
+           x = "Number of Partners") +
+      theme_minimal()
+  })
+  
+  output$plot_num_matches <- renderPlot({
+    matches <- unique(selections$uuid) %>% 
+      map_dfr(get_match)
+
+    ggplot(matches %>% count(uuid), 
+           aes(n)) +
+      geom_histogram() +
+      labs(title = "Distribution of Number of Matches", 
+           y = "Count of Users", 
+           x = "Number of Matches") +
+      theme_minimal()
+  })
+  
   # Output for Usage Tab -------------------------------------------------------
   
 }
