@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <?php include("./resources.php"); ?>
 
-<title>Chart Name Popularity</title>
+<title>Name Trends</title>
 
 
 </head>

@@ -26,7 +26,7 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="popularity_charts.php">Popularity Charts</a>
+      <a class="nav-link" href="popularity_charts.php">Name Trends</a>
     </li>
 
     <li class="nav-item">
