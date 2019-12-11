@@ -21,7 +21,7 @@ if (!isset($_SESSION['canary'])) {
 }
 
 // Also, regenerate the ID every 5 minutes:
-if ($_SESSION['canary'] < time() - 300) {
+if ($_SESSION['canary'] < time() - 1800) {
 	session_regenerate_id(true);
 	$_SESSION['canary'] = time();
 }
