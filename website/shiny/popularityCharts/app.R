@@ -7,7 +7,7 @@ ui <- fluidPage(
    # Application title
    titlePanel("Name Trends 1880-2017"),
    
-  h4( "Here you can compare up to four names at a time. These charts are designed to compare trends, so please note that y axis may vary across names."),
+  # h4( "Here you can compare up to four names at a time. These charts are designed to compare trends, so please note that y axis may vary across names."),
   # "The four most popular names from 1880 are shown at load.",
    
    # Sidebar with a slider input for number of bins 
