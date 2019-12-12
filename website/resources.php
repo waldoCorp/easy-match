@@ -13,7 +13,7 @@ body {
   min-height: 100vh;
   position: relative;
   margin: 0;
-  padding-bottom: 70px;
+  padding-bottom: 40px;
 }
 .footer {
   position: absolute;
