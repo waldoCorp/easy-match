@@ -30,11 +30,11 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="account.php">My Account</a>
+      <a class="nav-link" href="partner_actions.php">Invite Partner!</a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="partner_actions.php">Invite Partner!</a>
+      <a class="nav-link" href="account.php">My Account</a>
     </li>
 
     <li class="nav-item">
