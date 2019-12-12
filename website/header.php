@@ -6,7 +6,7 @@
 -->
 <header>
 <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #d6d2f7">
-  <span class="navbar-brand mb-01 h1">Baby Names</span>
+  <a class="navbar-brand mb-01 h1" href="about.php">Baby Names</a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -38,10 +38,6 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="about.php">About</a>
-    </li>
-
-    <li class="nav-item">
       <a class="nav-link" href="logout.php">Logout</a>
     </li>
 
@@ -54,9 +50,6 @@
       <a class="nav-link" href="popularity_charts.php">Popularity Charts</a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link" href="about.php">About</a>
-    </li>
   <?php } ?>
   </ul>
  </div>
