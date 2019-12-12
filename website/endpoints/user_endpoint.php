@@ -9,6 +9,7 @@ require_once $function_path . 'check_email.php';
 require_once $function_path . 'password_check.php';
 require_once $function_path . 'add_new_user.php';
 require_once $function_path . 'get_uuid.php';
+require_once $function_path . 'get_email.php';
 require_once $function_path . 'send_password_link.php';
 require_once $function_path . 'update_password.php';
 require_once $function_path . 'update_last_login.php';
@@ -90,7 +91,17 @@ if ( $_POST["type"] == 0) {
 
 		// Clear SESSION variables to stop weird mailicious things:
 		$_SESSION = array();
-		header('Location: ../index.php');
+
+		// Log the user in now:
+		// Set Session variables so we don't need to keep hitting DB:
+		$_SESSION['login'] = true; // We are now logged in
+		$_SESSION['email'] = get_email($uuid); // Set stuff here
+		$_SESSION['uuid'] = $uuid;
+
+		// Update last_login time:
+		update_last_login($_SESSION['uuid']);
+
+		header('Location: ../show_names.php');
 	} else {
 		// This was bad somehow:
 		header('Location: ../password_timeout.php');
