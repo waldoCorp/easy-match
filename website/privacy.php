@@ -14,7 +14,7 @@
 
 <?php include("header.php"); ?>
 
-
+<main role="main">
 <div class="container">
   <h2>Privacy Policy</h2>
   <p>While we are working on a privacy policy, the abbreviated things to know
@@ -34,6 +34,7 @@
      it will always be anonymous by that point. </p>
 
 </div>
+</main>
 
 </body>
 

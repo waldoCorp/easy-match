@@ -8,13 +8,14 @@
 
 
 <title>Name Match!</title>
+
 </head>
 
 <body>
 
 <?php include("header.php"); ?>
 
-
+<main role="main">
 <div class="container">
   <h2>Welcome to Baby Names Match!</h2>
   <form action="./endpoints/user_endpoint.php" method="post">
@@ -40,7 +41,7 @@
   </form>
 
 </div>
-
+</main>
 <?php include("footer.php"); ?>
 
 <script>

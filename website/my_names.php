@@ -32,7 +32,7 @@ $selections = get_selections($uuid);
 
 <?php include("header.php"); ?>
 
-
+<main role="main">
 <div class="container">
   <h2>Change what you think about a name</h2>
 
@@ -52,6 +52,7 @@ $selections = get_selections($uuid);
   </div>
 <?php } ?>
 </div>
+</main>
 
 <?php include("footer.php"); ?>
 

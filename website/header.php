@@ -4,7 +4,7 @@
 #e3f2fd
 
 -->
-
+<header>
 <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #d6d2f7">
   <span class="navbar-brand mb-01 h1">Baby Names</span>
 
@@ -61,5 +61,6 @@
   </ul>
  </div>
 </nav>
+</header>
 
 <br>

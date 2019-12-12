@@ -14,7 +14,7 @@
 
 <?php include("header.php"); ?>
 
-
+<main role="main">
 <div class="container">
   <h2>About Baby Name Match</h2>
   <p>Have someone (human, cat, iguana, we don't judge) coming into your life that needs a name? 
@@ -56,7 +56,7 @@
      hope to create more cool things in the future.</p>
 
 </div>
-
+</main>
 <?php include("footer.php"); ?>
 
 </body>

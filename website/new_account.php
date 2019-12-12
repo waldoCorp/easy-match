@@ -14,7 +14,7 @@
 
 <?php include("header.php"); ?>
 
-
+<main role="main">
 <div class="container">
   <h2>Please Enter Your Email Address</h2>
   <p>An email will be sent allowing you to set (or reset) password for this email address</p>
@@ -35,6 +35,7 @@
   </form>
 
 </div>
+</main>
 
 <?php include("footer.php"); ?>
 

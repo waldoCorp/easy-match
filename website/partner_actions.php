@@ -33,7 +33,7 @@ $invitations = get_invitations($uuid);
 
 <?php include("header.php"); ?>
 
-
+<main role="main">
 <div class="container">
  <h2>Add a Partner</h2>
 
@@ -126,6 +126,8 @@ $invitations = get_invitations($uuid);
   </div>
 </div>
 <?php } ?>
+
+</main>
 
 <?php include("footer.php"); ?>
 

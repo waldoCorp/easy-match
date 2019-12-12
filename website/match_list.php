@@ -46,7 +46,7 @@ sort($names); // sort ensures new matches (with stars) are at the top
 <body>
 
 <?php include("header.php"); ?>
-
+<main role="main">
 <div class="container">
   <h2>Choose which partner to match names with</h2>
 
@@ -90,6 +90,7 @@ sort($names); // sort ensures new matches (with stars) are at the top
     <?php } ?>
   <?php } ?>
 </div>
+</main>
 
 <?php include("footer.php"); ?>
 

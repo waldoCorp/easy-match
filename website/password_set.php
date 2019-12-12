@@ -59,7 +59,7 @@ if( !empty($_SERVER['QUERY_STRING']) ) {
 
 <?php include("header.php"); ?>
 
-
+<main role="main">
 <div class="container">
   <h2>Please enter your Email and Password</h2>
   <form action="./endpoints/user_endpoint.php" method="post">
@@ -85,6 +85,7 @@ if( !empty($_SERVER['QUERY_STRING']) ) {
   </form>
 
 </div>
+</main>
 
 <?php include("footer.php"); ?>
 
