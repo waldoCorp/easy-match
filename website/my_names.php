@@ -35,6 +35,7 @@ $selections = get_selections($uuid);
 <main role="main">
 <div class="container">
   <h2>Change what you think about a name</h2>
+  <a href="account.php">Back to Account</a>
 
 <?php foreach($selections as $selection) { ?>
   <div class="row py-2 border-bottom">

@@ -20,21 +20,21 @@
     <li class="nav-item">
       <a class="nav-link" href="show_names.php">Show Me Names!</a>
     </li>
-
+<!--
     <li class="nav-item">
       <a class="nav-link" href="match_list.php">My Matches!</a>
     </li>
-
+-->
     <li class="nav-item">
       <a class="nav-link" href="popularity_charts.php">Popularity Charts</a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="my_names.php">Manage Names</a>
+      <a class="nav-link" href="account.php">My Account</a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="partner_actions.php">Manage Partners</a>
+      <a class="nav-link" href="partner_actions.php">Invite Partner!</a>
     </li>
 
     <li class="nav-item">
