@@ -54,32 +54,35 @@ $invitations = get_invitations($uuid);
  <h2>Get Collected Data</h2>
  <form>
     <fieldset>
-      <legend>Retrieve Stored Data</legend>
+      <p>See and/or download all the data we have about the names you have seen:</p>
       <p>
-        <button type="button" class="btn btn-secondary" id="get_data" value="retreive">Download</button>
+        <a class="btn btn-secondary" href="user_data.php">Download</a>
       </p>
     </fieldset>
   </form>
 </div>
+
+<br>
 
 <div class="container">
  <h2>View Selected Names</h2>
  <form>
     <fieldset>
-      <legend>See names you've liked/disliked and (potentially) change your mind</legend>
+      <p>See names you've liked/disliked and (potentially) change your mind:</p>
       <p>
-        <a href="my_names.php">My Names</a>
+          <a class="btn btn-primary" href="my_names.php">My Names</a>
       </p>
     </fieldset>
   </form>
 </div>
 
+<br>
 
 <div class="container">
  <h2>Delete Account</h2>
  <form>
     <fieldset>
-      <legend>Permanently Delete Account</legend>
+      <p>Permanently delete your account and all of our stored data about it:</p>
       <p>
         <button type="button" class="btn btn-danger" id="delete_account"
           data-toggle="modal" data-target="#deletionModal" value="delete">Delete</button>
