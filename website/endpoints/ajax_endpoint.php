@@ -20,6 +20,7 @@ if (is_ajax()) {
 			case "email_check": unique_email(); break;
 			case "send_password_token": send_password_token(); break;
 			case "preferencesRecord": pref_record(); break;
+			case "deleteAccount": delete_acc(); break;
 		}
 	}
 }
@@ -173,7 +174,16 @@ function pref_record() {
 	record_filters($uuid, $preferences);
 }
 
+function delete_acc() {
+	global $function_path;
 
+	require_once $function_path . 'delete_account.php';
+	$uuid = $_SESSION['uuid'];
+	delete_account($uuid);
+	// Also clear SESSION variables:
+	session_regenerate_id(true);
+	$_SESSION = array();
+}
 
 // ------------------------------------
 // Helper functions not directly accessible through AJAX

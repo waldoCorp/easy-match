@@ -177,7 +177,7 @@ $invitations = get_invitations($uuid);
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Not Now</button>
-        <button type="button" class="btn btn-danger" id="realDelete">Really Delete</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" id="realDelete">Really Delete</button>
       </div>
     </div>
   </div>
@@ -197,6 +197,18 @@ $(function () {
 
 $('#realDelete').click(function() {
   console.log("Clicked!");
+  // AJAX Request here
+  var data = {"action":'deleteAccount'};
+
+  $.ajax({
+    type: "POST",
+    url: "./endpoints/ajax_endpoint.php",
+    data: data,
+    success: function() {
+      // Go back to index since we've logged out now (permanently)
+      window.location.href = "./index.php";
+    }
+  });
 });
 
 $('#add_friend').click(function() {
