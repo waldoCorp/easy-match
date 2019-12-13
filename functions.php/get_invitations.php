@@ -13,7 +13,7 @@
  * @return Array containing the uuid and email addresses of people who have
  * sent a partnership request.
  *
- * The format is array(uuid => email_address,...)
+ * The format is array(uuid => array(email=>email_address,uname=>username),...)
 **/
 
 function get_invitations($uuid) {
@@ -52,17 +52,21 @@ function get_invitations($uuid) {
     if( !empty($p_uuids) ) {
       // Convert to flat array:
       $p_uuids = call_user_func_array('array_merge',$p_uuids);
-      array_shift($p_uuids);
-
-      // Copy to new array to replace with emails:
-      $emails = $p_uuids;
+      array_shift($p_uuids); // first element is duplicated, so remove it
 
       require_once __DIR__ . '/get_email.php';
 
-      array_walk($emails, 'get_emails_array');
+      require_once __DIR__ . '/get_username.php';
 
-      // Combine to make array($uuid => $email) pairs
-      $output = array_combine($p_uuids,$emails);
+      $output = array();
+
+      foreach( $p_uuids as $p_uuid ) {
+        $output[$p_uuid] = array(
+                            'email' => get_email($p_uuid),
+                            'uname' => get_username($p_uuid)
+                           );
+      }
+
     } else {
       $output = $p_uuids;
     }

@@ -43,3 +43,10 @@ function get_username($uuid) {
 	return $uname;
 }
 
+
+// Helper function to allow for array_walk to work to get all usernames:
+function get_usernames_array(&$uuid) {
+    // Convert to emails:
+    $uuid = get_username($uuid);
+}
+
