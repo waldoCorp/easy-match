@@ -14,7 +14,8 @@
 
   <div class="collapse navbar-collapse" id="navbarNav">
 
-  <ul class="navbar-nav nav-fill w-100">
+<!--  <ul class="navbar-nav nav-fill w-100"> -->
+  <ul class="navbar-nav mr-auto">
 
   <?php if($_SESSION['login']) { ?>
     <li class="nav-item">
@@ -36,11 +37,13 @@
     <li class="nav-item">
       <a class="nav-link" href="account.php">My Account</a>
     </li>
+  </ul>
 
+  <ul class="navbar-nav">
     <li class="nav-item">
       <a class="nav-link" href="logout.php">Logout</a>
     </li>
-
+  </ul>
   <?php } else { ?>
     <li class="nav-item">
       <a class="nav-link" href="index.php">My Account/Signup</a>
@@ -50,8 +53,8 @@
       <a class="nav-link" href="popularity_charts.php">Popularity Charts</a>
     </li>
 
-  <?php } ?>
   </ul>
+  <?php } ?>
  </div>
 </nav>
 </header>
