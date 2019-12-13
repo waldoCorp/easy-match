@@ -211,7 +211,8 @@ CREATE TABLE public.users (
     email character varying(255) NOT NULL,
     create_date timestamp without time zone NOT NULL,
     last_login timestamp without time zone NOT NULL,
-    password character varying(255) NOT NULL
+    password character varying(255) NOT NULL,
+    username character varying(255)
 );
 
 
