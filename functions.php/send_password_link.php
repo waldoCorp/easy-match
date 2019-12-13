@@ -25,11 +25,11 @@ function send_password_link($email) {
     $email = strtolower($email);
 
     // First, we need to add the new user to the database
-    require_once __DIR__ . '/add_new_user.php';
+    //require_once __DIR__ . '/add_new_user.php';
 
     // Giving them a fake password (if they do not already have one)
-    $pass = bin2hex(random_bytes(5));
-    add_new_user($email, $pass); // This will silently fail if the user already exists
+    //$pass = bin2hex(random_bytes(5));
+    //add_new_user($email, $pass); // This will silently fail if the user already exists
 
     // Now, get the UUID of the new user:
     require_once __DIR__ . '/get_uuid.php';
