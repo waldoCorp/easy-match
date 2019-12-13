@@ -30,7 +30,8 @@ function invite_partner($email, $orig_uuid) {
 
     // Giving them a fake password (if they do not already have one)
     $pass = bin2hex(random_bytes(15));
-    add_new_user($email, $pass); // This will silently fail if the user already exists
+    $uname = null; // empty username to start with
+    add_new_user($email, $pass, $uname); // This will silently fail if the user already exists
 
     // Now, get the UUID of the new user:
     require_once __DIR__ . '/get_uuid.php';
