@@ -38,18 +38,13 @@ $invitations = get_invitations($uuid);
  <h2>Add a Partner</h2>
 
  <form>
-    <fieldset>
       <legend>Invite a friend to compare matches!</legend>
-      <p>
-        <label for="email">Email</label>
-        <input id="friend_email" type="email" placeholder="Enter Email Address of a Partner">
-      </p>
+      <div class="form-group">
+        <input id="friend_email" class="form-control" type="email" placeholder="Enter Email Address of a Partner">
+      </div>
 
-      <p>
-        <button type="button" id="add_friend" value="Submit">Add Friend!</button>
-      </p>
+      <button type="button" id="add_friend" class="btn btn-primary" value="Submit">Add Friend!</button>
 
-    </fieldset>
   </form>
 </div>
 
