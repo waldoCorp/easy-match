@@ -18,6 +18,7 @@ require_once $function_path . 'update_last_login.php';
 if( empty($_SESSION['uuid']) ) {
 	$_SESSION['login'] = false; // We are not logged in yet
 	$email = strtolower($_POST['email']);
+	$uname = $_POST['uname'];
 } else {
 	$email = $_SESSION['email'];
 	$uuid = $_SESSION['uuid'];
@@ -37,6 +38,8 @@ if ( $_POST["type"] == 0) {
 
 
 	// Now that we know we're good to add the user, do so:
+        $pass = bin2hex(random_bytes(15)); // Fake password to start with
+        add_new_user($email,$pass,$uname);
 	$s = send_password_link($email);
 
 	// And re-direct back to homepage:
@@ -52,7 +55,6 @@ if ( $_POST["type"] == 0) {
 		$_SESSION['login'] = true; // We are now logged in
 		$_SESSION['email'] = $email; // Set stuff here
 		$_SESSION['uuid'] = get_uuid($email);
-		// GET PARTNER(S) HERE AND SET IF ONLY ONE
 
 		// Update last_login time:
 		update_last_login($_SESSION['uuid']);
