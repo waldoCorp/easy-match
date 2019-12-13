@@ -5,7 +5,7 @@
 
 -->
 <header>
-<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #d6d2f7">
+<nav class="navbar navbar-expand-md navbar-light" style="background-color: #d6d2f7">
   <a class="navbar-brand mb-01 h1" href="about.php">Baby Names</a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,17 +20,17 @@
     <li class="nav-item">
       <a class="nav-link" href="show_names.php">Show Me Names!</a>
     </li>
-<!--
-    <li class="nav-item">
-      <a class="nav-link" href="match_list.php">My Matches!</a>
-    </li>
--->
-    <li class="nav-item">
-      <a class="nav-link" href="popularity_charts.php">Popularity Charts</a>
-    </li>
 
     <li class="nav-item">
       <a class="nav-link" href="partner_actions.php">Invite Partner!</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="match_list.php">My Matches!</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="popularity_charts.php">Popularity Charts</a>
     </li>
 
     <li class="nav-item">
