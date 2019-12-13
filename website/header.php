@@ -33,15 +33,17 @@
     <li class="nav-item">
       <a class="nav-link" href="popularity_charts.php">Popularity Charts</a>
     </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="account.php">My Account</a>
-    </li>
   </ul>
 
   <ul class="navbar-nav">
-    <li class="nav-item">
-      <a class="nav-link" href="logout.php">Logout</a>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Account
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="account.php">My Account</a>
+        <a class="dropdown-item" href="logout.php">Logout</a>
+      </div>
     </li>
   </ul>
   <?php } else { ?>
