@@ -8,19 +8,20 @@
  * Example usage:
  * require_once '../add_new_user.php';
  *
- * add_new_user($email,$passwd);
+ * add_new_user($email,$passwd,$uname);
  *
  *
  *
  * @author Ben Cerjan
  * @param string $email : user's email address
  * @param string $passwd : clear-text password
+ * @param string $uname : string of user's name / handle / whatever
  *
  * returns TRUE if insert was successful
 
 **/
 
-function add_new_user($email,$pass) {
+function add_new_user($email,$pass,$uname) {
 	// Require table variables:
 	require __DIR__ . '/table_variables.php';
 
@@ -42,7 +43,8 @@ function add_new_user($email,$pass) {
 
 
 	try {
-		$sql = "INSERT INTO $users_table (uuid, email, create_date, last_login, password) VALUES (:uuid, :email, :create_date, :last_login, :pass)
+		$sql = "INSERT INTO $users_table (uuid, email, create_date, last_login, password, username)
+                        VALUES (:uuid, :email, :create_date, :last_login, :pass, :uname)
 			ON CONFLICT DO NOTHING";
 		$stmt = $db->prepare($sql);
 		$stmt->bindValue(':uuid', $hashed_email);
@@ -50,6 +52,7 @@ function add_new_user($email,$pass) {
 		$stmt->bindValue(':create_date', $current_date);
 		$stmt->bindValue(':last_login', $current_date);
 		$stmt->bindValue(':pass', $hashed_pass);
+		$stmt->bindValue(':uname', $uname);
 		$success = $stmt->execute();
 	} catch(PDOException $e) {
 		die('ERROR: ' . $e->getMessage() . "\n");
