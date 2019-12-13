@@ -18,26 +18,27 @@
 <main role="main">
 <div class="container">
   <h2>Welcome to Baby Names Match!</h2>
+
   <form action="./endpoints/user_endpoint.php" method="post">
     <input type="hidden" name="type" value="1"></input>
-    <fieldset>
-      <legend>Sign in (or <a href="new_account.php">create account / reset password</a>)</legend>
-      <p>
+
+      <legend>Sign in (or <a href="new_account.php">create account</a> / <a href="reset_password.php">reset password</a>)</legend>
+
+      <div class="form-group">
         <label for="email">Email</label>
-        <input name="email" id="login_email" type="email" placeholder="Enter Email Address">
-      </p>
+        <input name="email" id="email" class="form-control" type="email" placeholder="Enter Email Address">
+      </div>
 
-      <p>
+      <div class="form-group">
         <label for="password">Password</label>
-        <input name="passwd" id="password" type="password">
-      </p>
+        <input name="passwd" class="form-control" id="password" type="password" placeholder="Super Secret">
+      </div>
 
-      <p>
-        <button type="submit" value="Submit">Log In</button>
-      </p>
-
-      <p id='errorText' class="text-danger"></p>
-    </fieldset>
+      <div>
+      <small id='errorText' class="text-danger"></small>
+      </div>
+<br>
+      <button type="submit" class="btn btn-primary" value="Submit">Log In</button>
   </form>
 
 </div>
@@ -49,7 +50,9 @@ const urlParams = new URLSearchParams(window.location.search);
 const error = urlParams.get('error');
 
 if( error == 'bad_login' ) {
-  $('#errorText').html('Bad Password or Username, please try again');
+  $('#errorText').html('Bad Email Address or Password, please try again');
+  $('#email').addClass("is-invalid");
+  $('#password').addClass("is-invalid");
 }
 
 </script>
