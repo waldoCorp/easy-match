@@ -4,9 +4,9 @@
 #e3f2fd
 
 -->
-
-<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #d6d2f7">
-  <span class="navbar-brand mb-01 h1">Baby Names</span>
+<header>
+<nav class="navbar navbar-expand-md navbar-light" style="background-color: #d6d2f7">
+  <a class="navbar-brand mb-01 h1" href="about.php">Baby Names</a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -14,11 +14,16 @@
 
   <div class="collapse navbar-collapse" id="navbarNav">
 
-  <ul class="navbar-nav nav-fill w-100">
+<!--  <ul class="navbar-nav nav-fill w-100"> -->
+  <ul class="navbar-nav mr-auto">
 
   <?php if($_SESSION['login']) { ?>
     <li class="nav-item">
       <a class="nav-link" href="show_names.php">Show Me Names!</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="partner_actions.php">Invite Partner!</a>
     </li>
 
     <li class="nav-item">
@@ -28,38 +33,32 @@
     <li class="nav-item">
       <a class="nav-link" href="popularity_charts.php">Name Trends</a>
     </li>
+  </ul>
 
-    <li class="nav-item">
-      <a class="nav-link" href="my_names.php">Manage Names</a>
+  <ul class="navbar-nav">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Account
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="account.php">My Account</a>
+        <a class="dropdown-item" href="logout.php">Logout</a>
+      </div>
     </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="partner_actions.php">Manage Partners</a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="about.php">About</a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link" href="logout.php">Logout</a>
-    </li>
-
+  </ul>
   <?php } else { ?>
     <li class="nav-item">
       <a class="nav-link" href="index.php">My Account/Signup</a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="popularity_charts.php">Popularity Charts</a>
+      <a class="nav-link" href="popularity_charts.php">Name Trends</a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link" href="about.php">About</a>
-    </li>
-  <?php } ?>
   </ul>
+  <?php } ?>
  </div>
 </nav>
+</header>
 
 <br>

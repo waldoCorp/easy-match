@@ -59,32 +59,28 @@ if( !empty($_SERVER['QUERY_STRING']) ) {
 
 <?php include("header.php"); ?>
 
-
+<main role="main">
 <div class="container">
-  <h2>Please enter your Email and Password</h2>
+  <h2>Please enter your new password</h2>
   <form action="./endpoints/user_endpoint.php" method="post">
     <input type="hidden" name="type" value="3"></input>
-    <fieldset>
-      <legend>New Password Please</legend>
 
-      <p>
+      <div class="form-group">
         <label for="password">Password</label>
-        <input id="password1" name="passwd1" type="password">
-      </p>
+        <input class="form-control" id="password1" name="passwd1" type="password" placeholder="hunter2">
+      </div>
 
-      <p>
+      <div class="form-group">
         <label for="password">Re-type Password</label>
-        <input id="password2" name="passwd2" type="password">
-      </p>
+        <input class="form-control" id="password2" name="passwd2" type="password" placeholder="*******">
+      </div>
 
-      <p>
-        <button type="submit" value="Submit" id="submit_btn" disabled>Update Password</button>
-      </p>
+      <button type="submit" class="btn btn-primary" value="Submit" id="submit_btn" disabled>Update Password</button>
 
-    </fieldset>
   </form>
 
 </div>
+</main>
 
 <?php include("footer.php"); ?>
 
@@ -99,8 +95,6 @@ $('#password2').focusout(function() {
     $('#submit_btn').attr('disabled',false);
   }
 });
-
-
 
 </script>
 

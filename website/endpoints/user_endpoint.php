@@ -9,6 +9,7 @@ require_once $function_path . 'check_email.php';
 require_once $function_path . 'password_check.php';
 require_once $function_path . 'add_new_user.php';
 require_once $function_path . 'get_uuid.php';
+require_once $function_path . 'get_email.php';
 require_once $function_path . 'send_password_link.php';
 require_once $function_path . 'update_password.php';
 require_once $function_path . 'update_last_login.php';
@@ -17,6 +18,7 @@ require_once $function_path . 'update_last_login.php';
 if( empty($_SESSION['uuid']) ) {
 	$_SESSION['login'] = false; // We are not logged in yet
 	$email = strtolower($_POST['email']);
+	$uname = $_POST['uname'];
 } else {
 	$email = $_SESSION['email'];
 	$uuid = $_SESSION['uuid'];
@@ -36,6 +38,8 @@ if ( $_POST["type"] == 0) {
 
 
 	// Now that we know we're good to add the user, do so:
+        $pass = bin2hex(random_bytes(15)); // Fake password to start with
+        add_new_user($email,$pass,$uname);
 	$s = send_password_link($email);
 
 	// And re-direct back to homepage:
@@ -51,7 +55,6 @@ if ( $_POST["type"] == 0) {
 		$_SESSION['login'] = true; // We are now logged in
 		$_SESSION['email'] = $email; // Set stuff here
 		$_SESSION['uuid'] = get_uuid($email);
-		// GET PARTNER(S) HERE AND SET IF ONLY ONE
 
 		// Update last_login time:
 		update_last_login($_SESSION['uuid']);
@@ -90,7 +93,17 @@ if ( $_POST["type"] == 0) {
 
 		// Clear SESSION variables to stop weird mailicious things:
 		$_SESSION = array();
-		header('Location: ../index.php');
+
+		// Log the user in now:
+		// Set Session variables so we don't need to keep hitting DB:
+		$_SESSION['login'] = true; // We are now logged in
+		$_SESSION['email'] = get_email($uuid); // Set stuff here
+		$_SESSION['uuid'] = $uuid;
+
+		// Update last_login time:
+		update_last_login($_SESSION['uuid']);
+
+		header('Location: ../show_names.php');
 	} else {
 		// This was bad somehow:
 		header('Location: ../password_timeout.php');

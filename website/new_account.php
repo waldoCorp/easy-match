@@ -7,34 +7,39 @@
 <?php include("./resources.php"); ?>
 
 
-<title>Create an Account / Reset Password</title>
+<title>Create an Account</title>
 </head>
 
 <body>
 
 <?php include("header.php"); ?>
 
-
+<main role="main">
 <div class="container">
-  <h2>Please Enter Your Email Address</h2>
-  <p>An email will be sent allowing you to set (or reset) password for this email address</p>
+  <h2>Create an Account</h2>
+
   <form action="./endpoints/user_endpoint.php" method="post">
+
     <input type="hidden" name="type" value="0"></input>
-    <fieldset>
-      <legend>Information Please</legend>
-      <p>
-        <label for="email">Email</label>
-        <input id="login_email" type="email" name="email" placeholder="Enter Email Address">
-      </p>
 
-      <p>
-        <button type="submit" value="Submit" id="submit_btn" >Send Password Link</button>
-      </p>
+    <div class="form-group">
+        <label for="email">Email Address</label>
+        <input id="login_email" class="form-control" type="email" name="email" aria-describedby="emailHelp" placeholder="Enter Email">
+        <small id="emailHelp" class="form-text text-muted">An email will be sent to verify that you own this email and to set up a password.</small>
+    </div>
 
-    </fieldset>
+    <div class="form-group">
+        <label for="uname">Username</label>
+        <input id="username" class="form-control" aria-describedby="unameHelp" type="text" name="uname" placeholder="Your Name Here">
+        <small id="unameHelp" class="form-text text-muted">This username is only used to identify yourself to other users &mdash; it is optional.</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary" value="Submit" id="submit_btn" >Create Account</button>
+
   </form>
 
 </div>
+</main>
 
 <?php include("footer.php"); ?>
 

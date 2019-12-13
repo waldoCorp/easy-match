@@ -18,8 +18,10 @@ if (is_ajax()) {
 			case "partnerSelect": partner_select(); break;
 			case "partnerResponse": partner_response(); break;
 			case "email_check": unique_email(); break;
+			case "unameUpdate": uname_update(); break;
 			case "send_password_token": send_password_token(); break;
 			case "preferencesRecord": pref_record(); break;
+			case "deleteAccount": delete_acc(); break;
 		}
 	}
 }
@@ -49,15 +51,23 @@ function name_record() {
 
 }
 
+function uname_update() {
+	global $function_path;
+	require_once $function_path . 'update_username.php';
+        $uuid = $_SESSION['uuid'];
+	$uname = $_POST['uname'];
+	update_username($uuid,$uname);
+}
+
 function invite_friend() {
 	global $function_path;
         require_once $function_path . 'invite_partner.php';
 	$new_email = $_POST['new_email'];
 	$orig_uuid = $_SESSION['uuid']; // Maybe use orig_email instead?
 
-	//if (filter_var($return["email"], FILTER_VALIDATE_EMAIL)) {
+	if( filter_var($new_email, FILTER_VALIDATE_EMAIL) ) {
 		invite_partner($new_email,$orig_uuid);
-	//}
+	}
 }
 
 function partner_select() {
@@ -173,7 +183,16 @@ function pref_record() {
 	record_filters($uuid, $preferences);
 }
 
+function delete_acc() {
+	global $function_path;
 
+	require_once $function_path . 'delete_account.php';
+	$uuid = $_SESSION['uuid'];
+	delete_account($uuid);
+	// Also clear SESSION variables:
+	session_regenerate_id(true);
+	$_SESSION = array();
+}
 
 // ------------------------------------
 // Helper functions not directly accessible through AJAX

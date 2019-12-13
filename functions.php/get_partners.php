@@ -38,15 +38,17 @@ function get_partners($uuid) {
     $p_uuids = call_user_func_array('array_merge',$p_uuids);
     array_shift($p_uuids);
 
-    // Copy to new array to replace with emails:
-    $emails = $p_uuids;
-
     require_once __DIR__ . '/get_email.php';
+    require_once __DIR__ . '/get_username.php';
 
-    array_walk($emails, 'get_emails_array');
+    $output = array();
 
-    // Combine to make array($uuid => $email) pairs
-    $output = array_combine($p_uuids,$emails);
+    foreach( $p_uuids as $p_uuid ) {
+      $output[$p_uuid] = array(
+                            'email' => get_email($p_uuid),
+                            'uname' => get_username($p_uuid)
+                         );
+    }
 
     return $output;
 }

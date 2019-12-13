@@ -20,6 +20,7 @@ require './login_script.php';
 require_once $function_path . 'get_matching_names_list.php';
 require_once $function_path . 'get_uuid.php';
 require_once $function_path . 'get_partners.php';
+require_once $function_path . 'get_username.php';
 
 $uuid = $_SESSION['uuid'];
 
@@ -29,6 +30,7 @@ $partners = get_partners($uuid);
 $partner_email = $_SESSION['partner_email'];
 $partner_uuid = get_uuid($partner_email);
 
+$partner_name = get_username($partner_uuid);
 // FOR TESTING
 //$partner_uuid = 'test1';
 //$partner_email = 'test1';
@@ -46,20 +48,22 @@ sort($names); // sort ensures new matches (with stars) are at the top
 <body>
 
 <?php include("header.php"); ?>
-
+<main role="main">
 <div class="container">
   <h2>Choose which partner to match names with</h2>
 
-  <select id="partner_select">
+ <div class="form-group">
+  <select id="partner_select" class="form-control">
     <option value="">Pick a Partner</option>
     <?php foreach($partners as $partner) { ?>
-      <option value="<?php echo htmlspecialchars($partner); ?>"
-        <?php echo ($partner == $partner_email) ? 'selected' : ''; ?>>
+      <option value="<?php echo htmlspecialchars($partner['email']); ?>"
+        <?php echo ($partner['email'] == $partner_email) ? 'selected' : ''; ?>>
 
-	<?php echo htmlspecialchars($partner); ?>
+	<?php echo htmlspecialchars($partner['uname']) ." (". htmlspecialchars($partner['email']) .")"; ?>
       </option>
     <?php } ?>
   </select>
+ </div>
 </div>
 
 <br>
@@ -71,7 +75,7 @@ sort($names); // sort ensures new matches (with stars) are at the top
   <?php if( empty($partner_uuid) ) { ?>
     <h2>No partner selected to match with</h2>
   <?php } else { ?>
-    <h2>List of names you and <?php echo htmlspecialchars($partner_email); ?> agree on</h2>
+    <h2>List of names you and <?php echo htmlspecialchars($partner_name) . " (". htmlspecialchars($partner_email).")"; ?> agree on</h2>
 
     <?php if( !is_null($names) ) {
       foreach($names as $name) { ?>
@@ -90,6 +94,7 @@ sort($names); // sort ensures new matches (with stars) are at the top
     <?php } ?>
   <?php } ?>
 </div>
+</main>
 
 <?php include("footer.php"); ?>
 

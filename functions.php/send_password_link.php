@@ -25,11 +25,11 @@ function send_password_link($email) {
     $email = strtolower($email);
 
     // First, we need to add the new user to the database
-    require_once __DIR__ . '/add_new_user.php';
+    //require_once __DIR__ . '/add_new_user.php';
 
     // Giving them a fake password (if they do not already have one)
-    $pass = bin2hex(random_bytes(5));
-    add_new_user($email, $pass); // This will silently fail if the user already exists
+    //$pass = bin2hex(random_bytes(5));
+    //add_new_user($email, $pass); // This will silently fail if the user already exists
 
     // Now, get the UUID of the new user:
     require_once __DIR__ . '/get_uuid.php';
@@ -43,10 +43,11 @@ function send_password_link($email) {
     require_once __DIR__ . '/send_email.php';
 
     $subject = 'NameSelector Password Re/Set';
-    $html_body = 'Please follow this link to reset your password: <br>
-                 <a href='. $urlToSend .'>'. $urlToSend .'</a>';
+    $html_body = 'Please follow <a href='. $urlToSend .'>this link</a> to
+                  (re)set your password for Baby Name Selector.';
 
-    $txt_body = 'Follow this link to re/set your password: \n' . $urlToSend;
+    $txt_body = 'Follow this link to (re)set your password: \n' . $urlToSend
+                 .' for Baby Name Selector';
 
     send_email($html_body,$txt_body,$subject,$email);
 }

@@ -14,7 +14,7 @@
 
 <?php include("header.php"); ?>
 
-
+<main role="main">
 <div class="container">
   <h2>About Baby Name Match</h2>
   <p>Have someone (human, cat, iguana, we don't judge) coming into your life that needs a name? 
@@ -47,8 +47,8 @@
   <p> Baby Name Match is hosted as a service of WaldoCorp, which is just
      a fancy way of saying that <a href='mailto:ben@waldocorp.com'>Ben</a>
      and <a href='mailto:lief@waldocorp.com'>Lief</a> made it and we hope
-     that it is useful for you. 
- 
+     that it is useful for you.
+
      WaldoCorp is not (yet) a registered corporation, but its the name Ben and Lief picked  
      as an umbrella for various projects. 
      Its named for Waldo, an adorable cat who started life in a college dorm room, 
@@ -56,7 +56,7 @@
      hope to create more cool things in the future.</p>
 
 </div>
-
+</main>
 <?php include("footer.php"); ?>
 
 </body>

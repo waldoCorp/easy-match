@@ -57,7 +57,7 @@ $letters = range('A','Z');
 <?php include("header.php"); ?>
 
 <br>
-
+<main role="main">
 <div class="container">
 
   <h2 class="align-center" id ="oldNameText">&nbsp;</h2> <!-- maybe bad practice, but no assigned value for first name shown and doesn't appear on page -->
@@ -150,6 +150,7 @@ $letters = range('A','Z');
   </div>
 </div>
 </div>
+</main>
 
 <?php include("footer.php"); ?>
 
