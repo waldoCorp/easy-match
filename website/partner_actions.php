@@ -61,9 +61,17 @@ $invitations = get_invitations($uuid);
   <h2>Invitations from Other Users</h2>
 <?php foreach($invitations as $uuid=>$invitation) { ?>
   <div class="row py-2 border-bottom">
+
+    <?php if( !empty($invitation["uname"]) ) { ?>
     <div class="col-sm align-items-center d-flex" name="name">
-      <?php echo(htmlspecialchars($invitation)); ?>
+      <?php echo(htmlspecialchars($invitation['uname'])); ?>
     </div>
+    <?php } ?>
+
+    <div class="col-sm align-items-center d-flex" name="name">
+      <?php echo(htmlspecialchars($invitation['email'])); ?>
+    </div>
+
     <div class="col-sm align-items-center d-flex">
       <button type="button" class="select_btn btn reject_btn btn-danger" value="<?php echo(htmlspecialchars($uuid)); ?>">Reject</button>
     </div>
@@ -90,8 +98,15 @@ $invitations = get_invitations($uuid);
     <h4>Un-pair with a person</h4>
 <?php foreach($partners as $uuid=>$part) { ?>
     <div class="row py-2 border-bottom">
+
+      <?php if( !empty($part["uname"]) ) { ?>
       <div class="col-sm align-items-center d-flex" name="name">
-        <?php echo(htmlspecialchars($part)); ?>
+        <?php echo(htmlspecialchars($part['uname'])); ?>
+      </div>
+      <?php } ?>
+
+      <div class="col-sm align-items-center d-flex" name="name">
+        <?php echo(htmlspecialchars($part['email'])); ?>
       </div>
       <div class="col-sm align-items-center d-flex">
         <button type="button" class="select_btn btn reject_btn btn-danger" value="<?php echo(htmlspecialchars($uuid)); ?>">Reject</button>
@@ -114,8 +129,15 @@ $invitations = get_invitations($uuid);
     <h4>Rejected Invitations</h4>
 <?php foreach($rejected_partners as $uuid=>$r_part) { ?>
     <div class="row py-2 border-bottom">
+
+      <?php if( !empty($r_part["uname"]) ) { ?>
       <div class="col-sm align-items-center d-flex" name="name">
-        <?php echo(htmlspecialchars($r_part)); ?>
+        <?php echo(htmlspecialchars($r_part['uname'])); ?>
+      </div>
+      <?php } ?>
+
+      <div class="col-sm align-items-center d-flex" name="name">
+        <?php echo(htmlspecialchars($r_part['email'])); ?>
       </div>
       <div class="col-sm align-items-center d-flex">
         <button type="button" class="select_btn btn accept_btn btn-success" value="<?php echo(htmlspecialchars($uuid)); ?>">Accept</button>
