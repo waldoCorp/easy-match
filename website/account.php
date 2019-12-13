@@ -19,6 +19,7 @@ require './login_script.php';
 require_once $function_path . 'get_partners.php';
 require_once $function_path . 'get_rejected_partners.php';
 require_once $function_path . 'get_invitations.php';
+require_once $function_path . 'get_username.php';
 
 
 $uuid = $_SESSION['uuid'];
@@ -26,6 +27,7 @@ $uuid = $_SESSION['uuid'];
 $partners = get_partners($uuid);
 $rejected_partners = get_rejected_partners($uuid);
 $invitations = get_invitations($uuid);
+$uname = get_username($uuid);
 
 ?>
 
@@ -36,15 +38,13 @@ $invitations = get_invitations($uuid);
 <main role="main">
 <div class="container">
  <h2>Account Info</h2>
-
  <form>
-    <fieldset>
       <legend>Username</legend>
-      <p>
-        <input id="username" type="text" placeholder="" data-toggle="tooltip"
-         data-placement="top" title="Your username is only used to identify yourself to other users">
-      </p>
-    </fieldset>
+      <div class="form-group">
+        <input id="username" class="form-control" type="text" placeholder="No Username Yet"
+         aria-describedby="unameHelp" value="<?php echo htmlspecialchars($uname) ?>">
+        <small id="unameHelp" class="form-text text-muted">Your username is only used to identify yourself to other users and is optional</small>
+      </div>
   </form>
 </div>
 
@@ -90,79 +90,6 @@ $invitations = get_invitations($uuid);
     </fieldset>
   </form>
 </div>
-
-
-<?php if( !empty($invitations) ) { ?>
-<div class="container">
-
-  <h2>Invitations from Other Users</h2>
-<?php foreach($invitations as $uuid=>$invitation) { ?>
-  <div class="row py-2 border-bottom">
-    <div class="col-sm align-items-center d-flex" name="name">
-      <?php echo(htmlspecialchars($invitation)); ?>
-    </div>
-    <div class="col-sm align-items-center d-flex">
-      <button type="button" class="select_btn btn reject_btn btn-danger" value="<?php echo(htmlspecialchars($uuid)); ?>">Reject</button>
-    </div>
-    <div class="col-sm align-items-center d-flex">
-      <button type="button" class="select_btn btn accept_btn btn-success" value="<?php echo(htmlspecialchars($uuid)); ?>">Accept</button>
-    </div>
-  </div>
-<?php } ?>
-
-</div>
-
-<?php } ?>
-<br>
-
-
-<?php if( !empty($partners) ) { ?>
-<div class="container">
-  <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#rejectPartners" aria-expanded="false" aria-controls="rejectedInvites">
-  Remove paired partner
-  </button>
-
-  <div class="collapse" id="rejectPartners">
-    <br>
-    <h4>Un-pair with a person</h4>
-<?php foreach($partners as $uuid=>$part) { ?>
-    <div class="row py-2 border-bottom">
-      <div class="col-sm align-items-center d-flex" name="name">
-        <?php echo(htmlspecialchars($part)); ?>
-      </div>
-      <div class="col-sm align-items-center d-flex">
-        <button type="button" class="select_btn btn reject_btn btn-danger" value="<?php echo(htmlspecialchars($uuid)); ?>">Reject</button>
-      </div>
-    </div>
-<?php } ?>
-
-  </div>
-</div>
-<?php } ?>
-
-<?php if( !empty($rejected_partners) ) { ?>
-<div class="container">
-  <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#rejectedInvites" aria-expanded="false" aria-controls="rejectedInvites">
-  Show rejected offers
-  </button>
-
-  <div class="collapse" id="rejectedInvites">
-    <br>
-    <h4>Rejected Invitations</h4>
-<?php foreach($rejected_partners as $uuid=>$r_part) { ?>
-    <div class="row py-2 border-bottom">
-      <div class="col-sm align-items-center d-flex" name="name">
-        <?php echo(htmlspecialchars($r_part)); ?>
-      </div>
-      <div class="col-sm align-items-center d-flex">
-        <button type="button" class="select_btn btn accept_btn btn-success" value="<?php echo(htmlspecialchars($uuid)); ?>">Accept</button>
-      </div>
-    </div>
-<?php } ?>
-
-  </div>
-</div>
-<?php } ?>
 
 <!-- Modal for account deletion (to be sure...) -->
 <div class="modal fade" id="deletionModal" tabindex="-1" role="dialog" aria-labelledby="deleteionModalLabel" aria-hidden="true">
@@ -214,61 +141,20 @@ $('#realDelete').click(function() {
   });
 });
 
-$('#add_friend').click(function() {
-  var new_email = $('#friend_email').val();
-  inviteFriend(new_email);
-  // Reset to stop spamming the button
-  $('#friend_email').val('');
-
+$('#username').change(function() {
+  const uname = $(this).val();
+  unameUpdate(uname);
 });
 
-$('.select_btn').click(function() {
-  // Find the partner's uuid:
-  var uuid = $(this).val();
-  var name_field = $(this).closest("div.row").find("[name='name']");
-  var partner_text = name_field.text().trim();
-
-  // Find if accept/reject status:
-  if( $(this).hasClass('accept_btn') ) {
-    // Accepted invitation:
-    invitationResponse(uuid,'accept');
-  } else {
-    invitationResponse(uuid,'reject');
-  }
-
-  // Remove line either way:
-  $(this).closest("div.row").fadeOut(300, function(){$(this).remove();});
-
-});
-
-
-function inviteFriend(email) {
+function unameUpdate(uname) {
   // AJAX Request here
-  var data = {"action":'inviteFriend', "new_email":email};
+  var data = {"action":'unameUpdate', "uname":uname};
 
   // AJAX Request here
   $.ajax({
     type: "POST",
-    dataType: "json",
-    url: "./endpoints/ajax_endpoint.php",
-    data: data
-  });
-
-}
-
-function invitationResponse(uuid,status) {
-  // AJAX Request here
-  var data = {"action":'partnerResponse', "partner_uuid":uuid,"status":status};
-
-  // AJAX Request here
-  $.ajax({
-    type: "POST",
-    dataType: "json",
     url: "./endpoints/ajax_endpoint.php",
     data: data,
-    success: function(data) {
-    location.reload()
-    }
   });
 
 }
