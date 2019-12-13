@@ -3,7 +3,8 @@ library(tidyverse)
 library(DBI)
 library(RPostgres)
 
-# Define UI for application that draws a histogram
+# Define UI --------------------------------------------------------------------
+
 ui <- fluidPage(
   
   titlePanel("Site Analytics Dashboard"),
@@ -15,84 +16,49 @@ ui <- fluidPage(
              textInput("name",
                        "Name:",
                        value="Waldo"),
-             textOutput("single_name")),
+             tableOutput("single_name")),
     tabPanel("View Distribution", plotOutput("plot_name_seen")),
     tabPanel("Like Distribution", plotOutput("plot_name_like")),
     tabPanel("Popularity", plotOutput("plot_name_popularity")),
-    tabPanel("Totals"),
-    
+
     "Stats by User",
-    tabPanel("Number of Names Ranked", plotOutput("hist_rank")),
+    tabPanel("Number of Names Viewed", plotOutput("hist_view")),
     tabPanel("Number of Names Liked", plotOutput("hist_like")),
     tabPanel("Names Ranked vs Liked", plotOutput("scatter_rank_like")),
-    tabPanel("Totals"),
-    
+
     "Partners/Matches",
     tabPanel("Number of Partners", plotOutput("plot_num_partners")),
     tabPanel("Number of Matches", plotOutput("plot_num_matches")), 
     
-    "Usage"
+    "Usage",
+    tabPanel("# Views/Likes Over Time", plotOutput("likerank_time_trend")),
+    tabPanel("# Users Over Time", plotOutput("user_time_trend"))
     
   )
 )
+
+
+# Server -----------------------------------------------------------------------
+
 # Define server logic required to draw a histogram
 server <- function(input, output) {
   
-  # Connect to database
-  con <-  DBI::dbConnect(
-    RPostgres::Postgres(), 
-    dbname = 'namedb', 
-    user = 'namebot', 
-    host = '127.0.0.1',
-    port = 9000)
-  
-  
-  # Get data tables ------------------------------------------------------------
-  selections <- RPostgres::dbReadTable(con, "selections")
-  partners <- RPostgres::dbReadTable(con, "partners")
-  
-  name_popularity <- selections %>% 
-    group_by(name) %>% 
-    summarize(times_seen = n(), 
-              times_liked = sum(selected),
-              popularity = mean(selected))
-  
-  user_selections <- selections %>% 
-    group_by(uuid) %>% 
-    summarize(names_ranked = n(), 
-              names_liked = sum(selected))
-  
-  
-  get_match <- function(uuid) {
-    
-    my_selected <- selections %>% filter(uuid == !!uuid, selected == 1)
-    my_partners <- partners %>% filter(uuid == !!uuid) %>% pull(partner_uuid)
-    
-    partner_selected <- selections %>% 
-      filter(uuid %in% !!my_partners, selected == 1) %>% 
-      select(partner = uuid, name)
-    
-    
-    return(my_selected %>% 
-             inner_join(partner_selected, 
-                        by = 'name') %>% 
-             select(uuid, partner, name))
-  }
+  source("get_data.R")
   
   # Output for Names Tab -------------------------------------------------------
   
   single_name <- reactive({
-    selections[selections$name == input$name, "selected"]
+    left_join(data.frame(name = as.character(input$name)),
+    filter(name_popularity, name == as.character(input$name)))
   })
-  output$single_name <- renderText(
-    paste0(
-      "Times Seen: ", length(single_name()), "\n",
-      "Times Liked: ", sum(single_name()), "\n",
-      "Like Ratio: ", round(sum(single_name())/length(single_name()),2), "\n"
-    )
+
+  output$single_name <- renderTable(
+    
+    single_name()
   )
   
   output$plot_name_seen <- renderPlot({
+    
     ggplot(name_popularity, 
            aes(times_liked)) +
       geom_histogram() +
@@ -103,6 +69,7 @@ server <- function(input, output) {
   })
   
   output$plot_name_like <- renderPlot({
+    
     ggplot(name_popularity, 
            aes(times_seen)) +
       geom_histogram() +
@@ -113,6 +80,7 @@ server <- function(input, output) {
   })
   
   output$plot_name_popularity <- renderPlot({
+    
     ggplot(name_popularity, 
            aes(popularity)) +
       geom_histogram() +
@@ -122,19 +90,22 @@ server <- function(input, output) {
       theme_minimal()
   })
   
+  
   # Output for Rankings/Likes Tab ----------------------------------------------
   
-  output$hist_rank <- renderPlot({
+  output$hist_view <- renderPlot({
+    
     ggplot(user_selections, 
            aes(names_ranked)) +
       geom_histogram() +
-      labs(title = "Number of Names Ranked by Site Users",
+      labs(title = "Number of Names Viewed by Site Users",
            y = "Count of Users", 
-           x = "Number of Names Ranked") +
+           x = "Number of Names Viewed") +
       theme_minimal()
   })
   
   output$hist_like <- renderPlot({
+    
     ggplot(user_selections, 
            aes(names_liked)) +
       geom_histogram() +
@@ -158,30 +129,49 @@ server <- function(input, output) {
   # Output for Partners/Matches ------------------------------------------------
   
   output$plot_num_partners <- renderPlot({
+    
     ggplot(partners %>% group_by(uuid) %>% count(), 
            aes(n)) +
-      geom_bar() +
-      labs(title = "Distribution of Number of Partners",
+      geom_histogram() +
+      labs(title = "Distribution of Number of Partners Per User",
            y = "Count of Users", 
            x = "Number of Partners") +
       theme_minimal()
   })
   
   output$plot_num_matches <- renderPlot({
-    matches <- unique(selections$uuid) %>% 
-      map_dfr(get_match)
-
+    
     ggplot(matches %>% count(uuid), 
            aes(n)) +
       geom_histogram() +
-      labs(title = "Distribution of Number of Matches", 
+      labs(title = "Distribution of Number of Matches Per User", 
            y = "Count of Users", 
            x = "Number of Matches") +
       theme_minimal()
   })
   
   # Output for Usage Tab -------------------------------------------------------
+  output$user_time_trend <- renderPlot({
+    
+    ggplot(byMonth %>% pivot_longer(cols = c(new_users, active_users)), 
+           aes(x=month, y = value, group = name, color = name)) +
+      geom_line() +
+      theme_minimal() +
+      labs(y = "Number of Users", 
+           x = "Time", 
+           title = "New/Active Users by Month")
+  })
   
+  output$likerank_time_trend <- renderPlot({
+    
+    ggplot(byMonth %>% pivot_longer(cols = c(views, likes)), 
+           aes(x=month, y = value, group = name, color = name)) +
+      geom_line() +
+      theme_minimal() +
+      labs(y = "Number of Names", 
+           x = "Month", 
+           title = "Names Viewed and Liked Over Time")
+  })
 }
 
 # Run the application 
