@@ -40,7 +40,7 @@ $uname = get_username($uuid);
  <h2>Account Info</h2>
  <form>
       <legend>Username</legend>
-      <div class="form-group">
+      <div class="form-group w-25">
         <input id="username" class="form-control" type="text" placeholder="No Username Yet"
          aria-describedby="unameHelp" value="<?php echo htmlspecialchars($uname) ?>">
         <small id="unameHelp" class="form-text text-muted">Your username is only used to identify yourself to other users and is optional</small>

@@ -39,7 +39,7 @@ $invitations = get_invitations($uuid);
 
  <form>
       <legend>Invite a friend to compare matches!</legend>
-      <div class="form-group">
+      <div class="form-group w-25">
         <input id="friend_email" class="form-control" type="email" placeholder="Enter Email Address of a Partner">
       </div>
 

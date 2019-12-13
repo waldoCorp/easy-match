@@ -52,7 +52,7 @@ sort($names); // sort ensures new matches (with stars) are at the top
 <div class="container">
   <h2>Choose which partner to match names with</h2>
 
- <div class="form-group">
+ <div class="form-group w-25">
   <select id="partner_select" class="form-control">
     <option value="">Pick a Partner</option>
     <?php foreach($partners as $partner) { ?>
