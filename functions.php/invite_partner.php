@@ -89,9 +89,21 @@ function invite_partner($email, $orig_uuid) {
                         // It is conceivable that a bot could still spam...
         require_once __DIR__ . '/send_email.php';
         require_once __DIR__ . '/get_email.php';
+        require_once __DIR__ . '/get_username.php';
         $partner_email = get_email($orig_uuid);
-        $htmlBody = "You have been invited to match names with ".$partner_email;
-        $textBody = "You have been invited to match names with ".$partner_email;
+        $partner_uname = get_username($orig_uuid);
+
+        $htmlBody = "<p>You have been invited to match names with ".
+                     (!empty($partner_uname) ? $partner_uname : $partner_email)
+                     .' on <a href="https://waldocorp.com">Baby Name Selector</a>.
+                     Make an account (or log in) and see if you agree on any names!</p>';
+
+        $textBody = "You have been invited to match names with ".
+                     (!empty($partner_uname) ? $partner_uname : $partner_email)
+                     ." on Baby Name Selector (waldocorp.com). Make an account
+                     (or log in) and see if you agree on any names!";
+
+
         $subj = "Baby Names Partner";
         $recipient = $email;
         send_email($htmlBody,$textBody,$subj,$recipient);
