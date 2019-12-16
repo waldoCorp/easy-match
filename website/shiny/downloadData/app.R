@@ -5,7 +5,7 @@ library(RPostgres)
 # Define UI for data download app ----
 ui <- fluidPage(
   
-  HTML(‘ <input type="text" id="uuid" name="uuid" style="display: none;"> ‘), 
+  HTML(' <input type="text" id="uuid" name="uuid" style="display: none;">'), 
   includeScript("../get_uuid.js"), 
   
   # App title ----
