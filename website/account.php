@@ -56,7 +56,7 @@ $uname = get_username($uuid);
     <fieldset>
       <p>See and/or download all the data we have about the names you have seen:</p>
       <p>
-        <a class="btn btn-secondary" href="#" disabled>Download</a> (Coming Soon!)
+        <a class="btn btn-primary" href="download_data.php"> My Data</a>
       </p>
     </fieldset>
   </form>
