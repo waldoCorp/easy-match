@@ -11,6 +11,7 @@
 </head>
 <body>
 <?php include("header.php"); ?>
+<?php $uuid = $_SESSION['uuid']; ?>
 
 <main role="main">
 <div class="container">
