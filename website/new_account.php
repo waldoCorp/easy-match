@@ -22,19 +22,26 @@
 
     <input type="hidden" name="type" value="0"></input>
 
-    <div class="form-group">
+    <div class="form-group w-50">
         <label for="email">Email Address</label>
         <input id="login_email" class="form-control" type="email" name="email" aria-describedby="emailHelp" placeholder="Enter Email">
         <small id="emailHelp" class="form-text text-muted">An email will be sent to verify that you own this email and to set up a password.</small>
     </div>
 
-    <div class="form-group">
+    <div class="form-group w-50">
         <label for="uname">Username</label>
         <input id="username" class="form-control" aria-describedby="unameHelp" type="text" name="uname" placeholder="Your Name Here">
         <small id="unameHelp" class="form-text text-muted">This username is only used to identify yourself to other users &mdash; it is optional.</small>
     </div>
 
-    <button type="submit" class="btn btn-primary" value="Submit" id="submit_btn" >Create Account</button>
+    <div class="form-group">
+      <input id="privacyPolicy" class="form-check-input" type="checkbox" value="privacy">
+      <label class="form-check-label" for="privacyPolicy">
+        I have read and agree to the <a href="privacy.php">privacy policy</a>.
+      </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary" value="Submit" id="submit_btn" disabled >Create Account</button>
 
   </form>
 
@@ -43,6 +50,16 @@
 
 <?php include("footer.php"); ?>
 
+
+<script>
+$('#privacyPolicy').change(function() {
+  if ($(this).is(':checked')) {
+    $('#submit_btn').prop('disabled',false);
+  } else {
+    $('#submit_btn').prop('disabled',true);
+  }
+});
+</script>
 </body>
 
 </html>
