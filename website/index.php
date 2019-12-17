@@ -24,12 +24,12 @@
 
       <legend>Sign in (or <a href="new_account.php">create account</a> / <a href="reset_password.php">reset password</a>)</legend>
 
-      <div class="form-group">
+      <div class="form-group w-25">
         <label for="email">Email</label>
         <input name="email" id="email" class="form-control" type="email" placeholder="Enter Email Address">
       </div>
 
-      <div class="form-group">
+      <div class="form-group w-25">
         <label for="password">Password</label>
         <input name="passwd" class="form-control" id="password" type="password" placeholder="Super Secret">
       </div>

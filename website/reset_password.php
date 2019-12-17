@@ -20,7 +20,7 @@
   <form action="./endpoints/user_endpoint.php" method="post">
     <input type="hidden" name="type" value="0"></input>
 
-      <div class="form-group">
+      <div class="form-group w-50">
         <input id="login_email" class="form-control" aria-describedby="emailHelp" type="email" name="email" placeholder="Enter Email Address">
         <small id="emailHelp" class="form-text text-muted">If this email address has an account associated with it, you'll receive an email shortly to reset your password</small>
       </div>
