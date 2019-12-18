@@ -1,80 +1,95 @@
 
-con <-  DBI::dbConnect(
-  RPostgres::Postgres(), 
-  dbname = 'namedb', 
-  user = 'namebot', 
-  host = '127.0.0.1',
-  port = 5432)
-
-
 # Get data tables --------------------------------------------------------------
 
-selections <- RPostgres::dbReadTable(con, "selections") %>%
-  mutate(month = paste(lubridate::year(date_selected), 
-                       lubridate::month(date_selected), 
-                       sep = "-"))
-partners <- RPostgres::dbReadTable(con, "partners")
+partners <- 
+  "SELECT COUNT(*) AS n
+  FROM partners
+  GROUP BY uuid;" %>% 
+  dbGetQuery(con, .)
 
-# Above lines pull selections from db into memory, in theory it would be better
-# to run all the aggregation querys in the db itself in sql. These lines do so
-# but dbplyr seems like its not very fully developed and a lot of the code below
-# breaks
-# library(dbplyr)
-# selections <- tbl(con, "selections")
-# partners <- tbl(con, "partners")  
+name_popularity <- 
+  "SELECT name,
+    COUNT(*) as times_seen, 
+    SUM(selected::int) as times_liked, 
+    AVG(selected::int) as popularity
+   FROM selections
+   GROUP BY name;" %>% 
+  dbGetQuery(con, .)
 
-name_popularity <- selections %>% 
-  group_by(name) %>% 
-  summarize(times_seen = n(), 
-            times_liked = sum(as.integer(selected)),
-            popularity = mean(as.integer(selected)))
-
-user_selections <- selections %>% 
-  group_by(uuid) %>% 
-  summarize(names_ranked = n(), 
-            names_liked = sum(as.integer(selected)))
+user_selections <- 
+  "SELECT uuid, 
+    COUNT(*) as names_ranked, 
+    SUM(selected::int) as names_liked
+  FROM selections
+  GROUP BY uuid;" %>% 
+  dbGetQuery(con, .)
 
 # Month Aggregated Selection Data
+month <- 
+    "SELECT *, CONCAT(DATE_PART('year' , date_selected), '-',
+                     DATE_PART('month', date_selected)) AS month
+    FROM selections"
 
-byMonth_selections <- selections %>% 
-  group_by(month) %>% 
-  summarize(views = n(), 
-            likes = sum(as.integer(selected)))
+byMonth_selections <- 
+  paste(
+  "SELECT month,
+    COUNT(*) as views,
+    SUM(selected::int) as likes
+  FROM (", month, ") as s
+  GROUP BY MONTH") %>% 
+  dbGetQuery(con, .)
 
-byMonth_newUsers <- selections %>% 
-  group_by(uuid) %>% 
-  filter(row_number() == 1) %>% 
-  ungroup() %>% 
-  count(month) %>% 
-  rename(new_users = n)
+byMonth_newUsers <- 
+  paste(
+  "SELECT month, count(*) AS new_users
+  FROM 
+  ( SELECT uuid, min(month) as month, min(date_selected)
+    FROM (", month, ") AS a
+    GROUP BY uuid) AS b
+  GROUP BY month") %>% 
+  dbGetQuery(con, .)
 
-byMonth_activeUsers <- selections %>% 
-  distinct(month, uuid) %>% 
-  count(month) %>% 
-  rename(active_users = n)
+byMonth_activeUsers <- 
+  paste(
+  "SELECT month, COUNT(DISTINCT uuid) as active_users
+    FROM (", month, ") AS a
+    GROUP BY month") %>% 
+  dbGetQuery(con, .)
 
 byMonth <- 
   full_join(byMonth_selections, 
             byMonth_newUsers) %>% 
   full_join(byMonth_activeUsers)
 
+rm(byMonth_selections, byMonth_activeUsers, byMonth_newUsers)
+
 # Match data
+matches <- 
+  "SELECT s.uuid, partner_uuid, s.name
+  FROM selections AS s
+  INNER JOIN partners AS p on s.uuid = p.uuid
+  INNER JOIN selections AS s2 on p.partner_uuid = s2.uuid AND s.name = s2.name
+  WHERE s.selected AND s2.selected" %>% 
+    dbGetQuery(con, .)
 
-get_match <- function(uuid) {
-  
-  my_selected <- selections %>% filter(uuid == as.character(!!uuid), selected == TRUE)
-  my_partners <- partners %>% filter(uuid == as.character(!!uuid)) %>% pull(partner_uuid)
+name_matches <-
+  "SELECT s.name, count(s.name)/2 as times_matched
+  FROM selections AS s
+  INNER JOIN partners AS p on s.uuid = p.uuid
+  INNER JOIN selections AS s2 on p.partner_uuid = s2.uuid AND s.name = s2.name
+  WHERE s.selected AND s2.selected
+  GROUP BY s.name" %>% 
+  dbGetQuery(con, .)
 
-  partner_selected <- selections %>%
-    filter(uuid %in% my_partners, selected == TRUE) %>%
-    select(partner = uuid, name, date_selected_2 = date_selected)
 
-  return(my_selected %>%
-           inner_join(partner_selected,
-                      by = 'name') %>%
-           select(uuid, partner, name))
+# Put all the datasets together into a list
+# Clean up data types - sql outputs as int64 which ggplot does not like
+data <- list("byMonth" = byMonth, 
+             "matches" = matches, 
+             "name_matches" = name_matches,
+             "name_popularity" = name_popularity, 
+             "partners" = partners, 
+             "user_selections" = user_selections)
+for (i in 1:length(data)) {
+  data[[i]]<- data[[i]] %>% mutate_if(function(x) {class(x) == "integer64"}, as.numeric)
 }
-
-matches <- selections %>% distinct(uuid) %>% pull(uuid) %>%  
-  map_dfr(get_match) 
-
