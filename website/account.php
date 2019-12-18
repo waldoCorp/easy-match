@@ -20,6 +20,8 @@ require_once $function_path . 'get_partners.php';
 require_once $function_path . 'get_rejected_partners.php';
 require_once $function_path . 'get_invitations.php';
 require_once $function_path . 'get_username.php';
+//require_once $function_path . 'get_communication_status.php';
+//require_once $function_path . 'get_data_status.php';
 
 
 $uuid = $_SESSION['uuid'];
@@ -28,6 +30,8 @@ $partners = get_partners($uuid);
 $rejected_partners = get_rejected_partners($uuid);
 $invitations = get_invitations($uuid);
 $uname = get_username($uuid);
+//$comm = get_communication_status($uuid);
+//$data_opt = get_data_status($uuid);
 
 ?>
 
@@ -53,12 +57,18 @@ $uname = get_username($uuid);
 <div class="container">
  <h2>Get Collected Data</h2>
  <form>
-    <fieldset>
-      <p>See and/or download all the data we have about the names you have seen:</p>
-      <p>
-        <a class="btn btn-secondary" href="#" disabled>Download</a> (Coming Soon!)
-      </p>
-    </fieldset>
+    <p>See and/or download all the data we have about the names you have seen:</p>
+
+    <a class="btn btn-secondary" href="#" disabled>Download</a> (Coming Soon!)
+
+    <br>
+
+    <div class="form-check">
+      <input type="checkbox" id="dataOptOut" class="form-check-input" value="">
+      <label class="form-check-label" for="dataOptOut">
+        Opt out of having your data shared with any third parties.
+      </label>
+    </div>
   </form>
 </div>
 
@@ -73,6 +83,37 @@ $uname = get_username($uuid);
           <a class="btn btn-primary" href="my_names.php">My Names</a>
       </p>
     </fieldset>
+  </form>
+</div>
+
+<br>
+
+<div class="container">
+ <h2>Communication Preferences</h2>
+ <form>
+    <p>Choose what types of communication(s) you would like to receive from us:</p>
+
+    <div class="form-check">
+      <input type="checkbox" id="allComm" class="form-check-input" value="">
+      <label class="form-check-label" for="allComm">
+        Any and all communications Waldo Corp. puts out about Name Selector.
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input type="checkbox" id="partnersComm" class="form-check-input" value="">
+      <label class="form-check-label" for="partnersComm">
+        Only emails relating to when someone adds you as a partner.
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input type="checkbox" id="noComm" class="form-check-input" value="">
+      <label class="form-check-label" for="noComm">
+        No communications of any kind, this means if someone tries to match names with you, they'll need to reach out to you not through this site.
+      </label>
+    </div>
+
   </form>
 </div>
 
