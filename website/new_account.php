@@ -34,8 +34,8 @@
         <small id="unameHelp" class="form-text text-muted">This username is only used to identify yourself to other users &mdash; it is optional.</small>
     </div>
 
-    <div class="form-group">
-      <input id="privacyPolicy" class="form-check-input" type="checkbox" value="privacy">
+    <div class="form-check">
+      <input id="privacyPolicy" class="form-check-input" type="checkbox" name="privacy" value="privacy">
       <label class="form-check-label" for="privacyPolicy">
         I have read and agree to the <a href="privacy.php">privacy policy</a>.
       </label>
@@ -52,6 +52,25 @@
 
 
 <script>
+const urlParams = new URLSearchParams(window.location.search);
+const error = urlParams.get('error');
+
+if( error == 'email' ) {
+  $('#errorEmailText').html('Bad Email Address, please try again');
+  $('#login_email').addClass("is-invalid");
+}
+
+if( error == 'privacy' ) {
+  $('#errorPrivacyText').html('You must accept the privacy policy to use this site');
+  $('#privacyPolicy').addClass("is-invalid");
+}
+
+
+
+
+
+
+// Enable/disable submit if privacy policy agreed to
 $('#privacyPolicy').change(function() {
   if ($(this).is(':checked')) {
     $('#submit_btn').prop('disabled',false);
@@ -59,6 +78,8 @@ $('#privacyPolicy').change(function() {
     $('#submit_btn').prop('disabled',true);
   }
 });
+
+
 </script>
 </body>
 
