@@ -50,7 +50,7 @@ server <- function(input, output) {
   
   single_name <- reactive({
     left_join(data.frame(name = as.character(input$name)),
-    filter(name_popularity, name == as.character(input$name)))
+    filter(data[["name_popularity"]], name == as.character(input$name)))
   })
 
   output$single_name <- renderTable(
