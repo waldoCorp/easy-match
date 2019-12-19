@@ -45,7 +45,7 @@
   </ul>
 
   <h3> What We Can Do With Your Data </h3> 
-  <p> We will never share any email addresses or user names except as required by law (see Legal Requests for Data). 
+  <p> We will never share any email addresses or user names except as required by law (see <b>Legal Requests for Data</b>). 
       We reserve the right to share anonymized data of name ratings and partnerships. We may share 
       this anonymized data to improve our product or to further academic research into matching
       behavior or baby naming trends. While the data we may share will be fully anonymized, it is
@@ -54,22 +54,23 @@
       publicly available, there is a risk that your records could be re-identified. This is not a
       likely outcome, and the terms of use for any partners we share the data require that
       they explicitly agree that they will not attempt to de-anonymize the data. You can opt-out of this
-      data sharing at any time by visiting THIS LINK. </p>
+      data sharing at any time on the <a href='account.php'> account page</a>. </p>
 
   <h3> Data Retention </h3>
   <p> We will retain your data indefinitely, unless you decide to delete your account. If you 
       delete your account, we will immediately remove all of your data from our servers. </p>
 
   <h3> View And Delete Your Data </h3>
-  <p> You can view and download all data we have stored about you at any time at THIS LINK.
-      You can delete your account and all data associated with from our servers at any time at
-      THIS LINK. Please note, that if we have shared your anonymized data with third parties,
+  <p> You can view and download all data we have stored about you at any time.
+      You can also delete your account and all data associated with from our servers at any time. 
+      These actions can be taken on the <a href='account.php'> account page</a>.
+      Please note, that if we have shared your anonymized data with third parties,
       we will not be able to delete that anonymized data, however your data will not be party of 
       any future anonymized datasets that may be shared. We do not support data 
       transfer to or from any other websites. </p>
 
   <h3> California Do Not Track Disclosure </h3>
-  <p> We do not acknowledge your browsers do not track setting. See the `Cookies` section for more information </p>
+  <p> We do not acknowledge your browsers do not track setting. See the <b>Cookies</b> section for more information </p>
 
   <h3> Cookies and Tracking </h3>
   <ul> 
@@ -81,7 +82,7 @@
   </ul>
 
   <h3> Legal Requests For Data </h3>
-  <p> If served with a lawful warrant for user data we will comply and turn over all requested data.  <\p>
+  <p> If served with a lawful warrant for user data we will comply and turn over all requested data.  </p>
   
   <h3> Automated Decision Making and Machine Learning </h3>
   <p> Our site currently randomly selects names to show you based on the filters you apply, the names
@@ -96,14 +97,14 @@
   <p> Our servers are located in the U.S.A.  All data is stored locally on servers under Ben’s physical control. </p>
 
   <h3> Children's Data </h3>
-  <p> waldocorp is not direct to children, and we do not knowingly collect personal information from
+  <p> waldoCorp is not direct to children, and we do not knowingly collect personal information from
       children under the age of 13. If we find out that a child under the age of 13 has signed up with
        us, we will delete their account and data. If you believe that a child under the age of 13 has
        given us personal information, please contact us. </p>
 
   <h3> Contact Us </h3>
   <p> Lief is our designated Data Protection Officer. If you have any questions about our privacy policy
-  or our handling of you data, please contact us. LINK  </p>
+  or our handling of you data, please <a href='mailto:lief@waldocorp.com'>contact us</a>.  </p>
 
 </div>
 </main>

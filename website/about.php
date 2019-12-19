@@ -32,8 +32,7 @@
 
   <h2>About Privacy</h2>
   <p>See our <a href='privacy.php'>official privacy policy</a> here. 
-     The short version is: we will never sell your data, and we will never share
-     your email address or name with anyone, ever. We will be analyzing your usage 
+     The short version is: we will never sell your data. We will be analyzing your usage 
      of the site to try and make it better, and to see if we can learn anything cool 
      about how people pick baby names. To that end, we may also share anonymized selection 
      and partnering data with other organizations.
