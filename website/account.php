@@ -65,10 +65,10 @@ $data_opt_out = get_data_pref($uuid);
 
     <div class="form-check">
       <input type="checkbox" id="dataOptOut" class="form-check-input" value=""
-      <?php echo ($data_opt_out ? 'checked' : ''); ?>
+      <?php echo (!$data_opt_out ? 'checked' : ''); ?>
       >
       <label class="form-check-label" for="dataOptOut">
-        Opt out of having your data shared with any third parties.
+        Waldo Corp. can share my anonymized data with third parties.
       </label>
     </div>
   </form>
@@ -258,7 +258,7 @@ function commUpdate(commPref) {
 // Update data opt-out status:
 $('#dataOptOut').change(function() {
   const checked = $(this).prop('checked');
-  dataUpdate(checked);
+  dataUpdate(!checked);
 });
 
 function dataUpdate(dataOptOut) {
