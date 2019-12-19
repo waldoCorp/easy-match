@@ -28,6 +28,10 @@
         <small id="emailHelp" class="form-text text-muted">An email will be sent to verify that you own this email and to set up a password.</small>
     </div>
 
+    <div>
+      <small id='errorEmailText' class='text-danger'></small>
+    </div>
+
     <div class="form-group w-50">
         <label for="uname">Username</label>
         <input id="username" class="form-control" aria-describedby="unameHelp" type="text" name="uname" placeholder="Your Name Here">
@@ -39,6 +43,10 @@
       <label class="form-check-label" for="privacyPolicy">
         I have read and agree to the <a href="privacy.php">privacy policy</a>.
       </label>
+    </div>
+
+    <div>
+      <small id='errorPrivacyText' class='text-danger'></small>
     </div>
 
     <button type="submit" class="btn btn-primary" value="Submit" id="submit_btn" disabled >Create Account</button>
@@ -64,9 +72,6 @@ if( error == 'privacy' ) {
   $('#errorPrivacyText').html('You must accept the privacy policy to use this site');
   $('#privacyPolicy').addClass("is-invalid");
 }
-
-
-
 
 
 
