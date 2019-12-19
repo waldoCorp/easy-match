@@ -18,7 +18,6 @@
 
 <iframe id="downloadData" src="./shiny/downloadData?uuid=<?= $uuid ?>"  style="border: none; width: 100%; height: 850px" frameborder="0"></iframe>
 
-
 </div>
 </main>
 
