@@ -21,7 +21,7 @@ require_once $function_path . 'get_rejected_partners.php';
 require_once $function_path . 'get_invitations.php';
 require_once $function_path . 'get_username.php';
 require_once $function_path . 'get_comm_prefs.php';
-//require_once $function_path . 'get_data_status.php';
+require_once $function_path . 'get_data_pref.php';
 
 
 $uuid = $_SESSION['uuid'];
@@ -31,7 +31,7 @@ $rejected_partners = get_rejected_partners($uuid);
 $invitations = get_invitations($uuid);
 $uname = get_username($uuid);
 $comm = get_comm_prefs($uuid);
-//$data_opt = get_data_status($uuid);
+$data_opt_out = get_data_pref($uuid);
 
 ?>
 
@@ -64,7 +64,9 @@ $comm = get_comm_prefs($uuid);
     <br><br>
 
     <div class="form-check">
-      <input type="checkbox" id="dataOptOut" class="form-check-input" value="">
+      <input type="checkbox" id="dataOptOut" class="form-check-input" value=""
+      <?php echo ($data_opt_out ? 'checked' : ''); ?>
+      >
       <label class="form-check-label" for="dataOptOut">
         Opt out of having your data shared with any third parties.
       </label>
@@ -244,6 +246,24 @@ $('input.commCheck').change(function() {
 function commUpdate(commPref) {
   // AJAX Request here
   var data = {"action":'communicationsUpdate', "commPref":commPref};
+
+  // AJAX Request here
+  $.ajax({
+    type: "POST",
+    url: "./endpoints/ajax_endpoint.php",
+    data: data,
+  });
+}
+
+// Update data opt-out status:
+$('#dataOptOut').change(function() {
+  const checked = $(this).prop('checked');
+  dataUpdate(checked);
+});
+
+function dataUpdate(dataOptOut) {
+  // AJAX Request here
+  var data = {"action":'dataUpdate', "dataOptOut":dataOptOut};
 
   // AJAX Request here
   $.ajax({
