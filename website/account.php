@@ -20,7 +20,7 @@ require_once $function_path . 'get_partners.php';
 require_once $function_path . 'get_rejected_partners.php';
 require_once $function_path . 'get_invitations.php';
 require_once $function_path . 'get_username.php';
-//require_once $function_path . 'get_communication_status.php';
+require_once $function_path . 'get_comm_prefs.php';
 //require_once $function_path . 'get_data_status.php';
 
 
@@ -30,7 +30,7 @@ $partners = get_partners($uuid);
 $rejected_partners = get_rejected_partners($uuid);
 $invitations = get_invitations($uuid);
 $uname = get_username($uuid);
-//$comm = get_communication_status($uuid);
+$comm = get_comm_prefs($uuid);
 //$data_opt = get_data_status($uuid);
 
 ?>
@@ -61,7 +61,7 @@ $uname = get_username($uuid);
 
     <a class="btn btn-secondary" href="#" disabled>Download</a> (Coming Soon!)
 
-    <br>
+    <br><br>
 
     <div class="form-check">
       <input type="checkbox" id="dataOptOut" class="form-check-input" value="">
@@ -90,27 +90,42 @@ $uname = get_username($uuid);
 
 <div class="container">
  <h2>Communication Preferences</h2>
- <form>
+ <form id="commForm">
     <p>Choose what types of communication(s) you would like to receive from us:</p>
 
     <div class="form-check">
-      <input type="checkbox" id="allComm" class="form-check-input" value="">
+      <input type="checkbox" id="allComm" class="form-check-input commCheck" value="allComm"
+      <?php echo ($comm['all_comm'] ? 'checked' : ''); ?>
+      >
       <label class="form-check-label" for="allComm">
         Any and all communications Waldo Corp. puts out about Name Selector.
       </label>
     </div>
 
     <div class="form-check">
-      <input type="checkbox" id="partnersComm" class="form-check-input" value="">
+      <input type="checkbox" id="partnersComm" class="form-check-input commCheck" value="partnerComm"
+      <?php echo ($comm['functional'] ? 'checked' : ''); ?>
+      >
       <label class="form-check-label" for="partnersComm">
-        Only emails relating to when someone adds you as a partner.
+        Only emails relating to site functionality (when someone requests you as a partner, you have new matches,...).
       </label>
     </div>
 
     <div class="form-check">
-      <input type="checkbox" id="noComm" class="form-check-input" value="">
+      <input type="checkbox" id="promotionComm" class="form-check-input commCheck" value="promotionComm"
+      <?php echo ($comm['promotion'] ? 'checked' : ''); ?>
+      >
+      <label class="form-check-label" for="promotionComm">
+        Promotional news from Waldo Corp. such as new services or results of any research done using data from this site.
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input type="checkbox" id="noComm" class="form-check-input commCheck" value="noComm"
+      <?php echo ($comm['none'] ? 'checked' : ''); ?>
+      >
       <label class="form-check-label" for="noComm">
-        No communications of any kind, this means if someone tries to match names with you, they'll need to reach out to you not through this site.
+        No communications of any kind (password resets will still work), this means if someone tries to match names with you, they'll need to reach out to you not through this site.
       </label>
     </div>
 
@@ -161,11 +176,6 @@ $uname = get_username($uuid);
 
 <!-- Custom JavaScript goes here -->
 <script>
-// Enable tooltips:
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-
 $('#realDelete').click(function() {
   console.log("Clicked!");
   // AJAX Request here
@@ -197,8 +207,53 @@ function unameUpdate(uname) {
     url: "./endpoints/ajax_endpoint.php",
     data: data,
   });
-
 }
+
+$('input.commCheck').change(function() {
+  const val = $(this).val();
+  const checked = $(this).prop('checked');
+  if( checked ) {
+    if( val === 'allComm' ) {
+      $('#partnersComm').prop('checked', false);
+      $('#promotionComm').prop('checked', false);
+      $('#noComm').prop('checked', false);
+    } else if ( val === 'noComm' ) {
+      $('#partnersComm').prop('checked', false);
+      $('#promotionComm').prop('checked', false);
+      $('#allComm').prop('checked', false);
+    } else {
+      $('#allComm').prop('checked', false);
+      $('#noComm').prop('checked', false);
+    }
+  } else {
+    if( $('#commForm input:checkbox:checked').length < 1) {
+      $('#noComm').prop('checked', true);
+    }
+  }
+
+  var commPrefs = [];
+  $('input.commCheck:checked').each(function() {
+    commPrefs.push($(this).val());
+  });
+
+  commUpdate(commPrefs);
+
+});
+
+
+function commUpdate(commPref) {
+  // AJAX Request here
+  var data = {"action":'communicationsUpdate', "commPref":commPref};
+
+  // AJAX Request here
+  $.ajax({
+    type: "POST",
+    url: "./endpoints/ajax_endpoint.php",
+    data: data,
+  });
+}
+
+
 
 </script>
 
