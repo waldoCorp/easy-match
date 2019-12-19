@@ -15,7 +15,9 @@
 
 <main role="main">
 <div class="container">
-<iframe id="example1" src="./shiny/downloadData" style="border: none; width: 100%; height: 850px" frameborder="0"></iframe>
+
+<iframe id="downloadData" src="./shiny/downloadData?uuid=<?= $uuid ?>"  style="border: none; width: 100%; height: 850px" frameborder="0"></iframe>
+
 </div>
 </main>
 

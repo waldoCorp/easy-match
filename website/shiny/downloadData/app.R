@@ -5,11 +5,8 @@ library(RPostgres)
 # Define UI for data download app ----
 ui <- fluidPage(
   
-  HTML(' <input type="text" id="uuid" name="uuid" style="display: none;">'), 
-  includeScript("../get_uuid.js"), 
-  
   # App title ----
-  titlePanel("Downloading Data"),
+  titlePanel("View and Download Your Data"),
   
   # Sidebar layout with input and output definitions ----
   sidebarLayout(
@@ -32,9 +29,8 @@ ui <- fluidPage(
     
     # Main panel for displaying outputs ----
     mainPanel(
-      
-      tableOutput("table")
-      
+
+      tableOutput("table")      
     )
     
   )
@@ -49,10 +45,11 @@ server <- function(input, output) {
   # Reactive value for selected dataset ----
   datasetInput <- reactive({
     switch(input$dataset,
-           "Account Data" = dbGetQuery(con, get_user(uuid)),
-           "Friend List"  = dbGetQuery(con, get_partners(uuid)),
-           "Name Selections"   = dbGetQuery(con, get_selections(uuid)), 
-           "Name Matches" = dbGetQuery(con, get_matches(uuid)))
+
+           "Account Data" = dbGetQuery(con,            get_user(paste0("'",getQueryString(),"'"))),
+           "Friend List"  = dbGetQuery(con,        get_partners(paste0("'",getQueryString(),"'"))),
+           "Name Selections"   = dbGetQuery(con, get_selections(paste0("'",getQueryString(),"'"))), 
+           "Name Matches" = dbGetQuery(con,         get_matches(paste0("'",getQueryString(),"'"))))
   })
   
   # Table of selected dataset ----
