@@ -33,9 +33,15 @@ if ( $_POST["type"] == 0) {
 
 	// Check for email validity:
 	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		exit("Please use a valid email address\n");
+		header('Location: ../new_account.php?error=email');
+		exit();
 	}
 
+	// Make sure privacy box was checked:
+	if( !isset($_POST['privacy']) ) {
+		header('Location: ../new_account.php?error=privacy');
+                exit();
+	}
 
 	// Now that we know we're good to add the user, do so:
         $pass = bin2hex(random_bytes(15)); // Fake password to start with

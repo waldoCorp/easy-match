@@ -107,6 +107,21 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: communication_preferences; Type: TABLE; Schema: public; Owner: namebot
+--
+
+CREATE TABLE public.communication_preferences (
+    uuid character varying(255) NOT NULL,
+    all_comm boolean DEFAULT true NOT NULL,
+    "none" boolean DEFAULT false NOT NULL,
+    functional boolean DEFAULT false NOT NULL,
+    promotion boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.communication_preferences OWNER TO namebot;
+
+--
 -- Name: name_preferences; Type: TABLE; Schema: public; Owner: namebot
 --
 
@@ -212,11 +227,20 @@ CREATE TABLE public.users (
     create_date timestamp without time zone NOT NULL,
     last_login timestamp without time zone NOT NULL,
     password character varying(255) NOT NULL,
-    username character varying(255)
+    username character varying(255),
+    data_opt_out boolean DEFAULT false
 );
 
 
 ALTER TABLE public.users OWNER TO namebot;
+
+--
+-- Name: communication_preferences communication_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.communication_preferences
+    ADD CONSTRAINT communication_preferences_pkey PRIMARY KEY (uuid);
+
 
 --
 -- Name: name_preferences name_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: namebot
@@ -287,6 +311,14 @@ ALTER TABLE ONLY public.users
 --
 
 CREATE TRIGGER add_new_matches_trigger AFTER INSERT OR UPDATE ON public.selections FOR EACH ROW EXECUTE PROCEDURE public.add_new_matches();
+
+
+--
+-- Name: communication_preferences communication_preferences_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.communication_preferences
+    ADD CONSTRAINT communication_preferences_uuid_fkey FOREIGN KEY (uuid) REFERENCES public.users(uuid) ON DELETE CASCADE;
 
 
 --

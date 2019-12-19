@@ -21,6 +21,8 @@ if (is_ajax()) {
 			case "unameUpdate": uname_update(); break;
 			case "send_password_token": send_password_token(); break;
 			case "preferencesRecord": pref_record(); break;
+			case "communicationsUpdate": comm_record(); break;
+			case "dataUpdate": data_record(); break;
 			case "deleteAccount": delete_acc(); break;
 		}
 	}
@@ -182,6 +184,32 @@ function pref_record() {
 	$uuid = $_SESSION['uuid'];
 	record_filters($uuid, $preferences);
 }
+
+function comm_record() {
+	global $function_path;
+
+        require_once $function_path . 'record_comm_prefs.php';
+	$preferences = $_REQUEST['commPref'];
+
+        $pref_arr = array();
+        foreach( $preferences as $pref ) {
+          $pref_arr[$pref] = true;
+        };
+
+	$uuid = $_SESSION['uuid'];
+	record_comm_prefs($uuid, $pref_arr);
+}
+
+function data_record() {
+	global $function_path;
+
+        require_once $function_path . 'record_data_pref.php';
+	$pref = $_POST['dataOptOut'];
+
+	$uuid = $_SESSION['uuid'];
+	record_data_pref($uuid, $pref);
+}
+
 
 function delete_acc() {
 	global $function_path;
