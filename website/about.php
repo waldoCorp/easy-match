@@ -31,17 +31,17 @@
       here). </p>
 
   <h2>About Privacy</h2>
-  <p>While we're still working out an <a href='privacy.php'>official policy</a>
+  <p>See our <a href='privacy.php'>official privacy policy</a> here. 
      The short version is: we will never sell your data, and we will never share
      your email address or name with anyone, ever. We will be analyzing your usage 
      of the site to try and make it better, and to see if we can learn anything cool 
      about how people pick baby names. To that end, we may also share anonymized selection 
-     and partnering data with other organizations. Any data shared will always be anonymized.
+     and partnering data with other organizations.
      You can delete your  account at any time, at which point any identifiable data about you 
      will be deleted. We will also delete your partner data and selection data from our servers, 
      but your anonymized data will remain part of any datasets we have shared (as we no longer
      control it, we cannot guarantee deletion). You can request a copy of all data we have stored 
-     about you at any time. </p>
+     about you at any time. You can opt-out of data sharing, view your data, and delete your account <a href='account.php'> here</a>.</p>
 
   <h2>WaldoCorp</h2>
   <p> Baby Name Match is hosted as a service of WaldoCorp, which is just
