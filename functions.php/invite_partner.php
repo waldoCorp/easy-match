@@ -71,44 +71,51 @@ function invite_partner($email, $orig_uuid) {
       $stmt->bindValue(':partner_uuid',$partner_uuid);
       $stmt->execute();
 
-      // To prevent spam, check if this invite has already been sent:
-      $sql = "SELECT pair_propose_date FROM $partners_table WHERE
-              uuid = :uuid AND partner_uuid = :partner_uuid";
-      $stmt = $db->prepare($sql);
-      $stmt->bindValue(':uuid',$orig_uuid);
-      $stmt->bindValue(':partner_uuid',$partner_uuid);
-      $stmt->execute();
-      $ans = $stmt->fetchAll();
+      // Only continue to email-sending stuff if the recipient
+      // has not opted out:
+      require_once __DIR__ . '/get_comm_prefs.php';
+      $partner_prefs = get_comm_prefs($partner_uuid);
 
-      $date = new DateTime($ans[0]["pair_propose_date"]);
-      $now = new DateTime("now", new DateTimeZone("America/Chicago"));
-      $diff = abs($date->getTimestamp() - $now->getTimestamp());
+      if( $partner_prefs['all_comm'] || $partner_prefs['functional'] ) {
 
-      // Send an email here if new invite:
-      if( $diff < 1 ) { // New if we are within 1 sec of original invite
-                        // It is conceivable that a bot could still spam...
-        require_once __DIR__ . '/send_email.php';
-        require_once __DIR__ . '/get_email.php';
-        require_once __DIR__ . '/get_username.php';
-        $partner_email = get_email($orig_uuid);
-        $partner_uname = get_username($orig_uuid);
+        // To prevent spam, check if this invite has already been sent:
+        $sql = "SELECT pair_propose_date FROM $partners_table WHERE
+                uuid = :uuid AND partner_uuid = :partner_uuid";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':uuid',$orig_uuid);
+        $stmt->bindValue(':partner_uuid',$partner_uuid);
+        $stmt->execute();
+        $ans = $stmt->fetchAll();
 
-        $htmlBody = "<p>You have been invited to match names with ".
-                     (!empty($partner_uname) ? $partner_uname : $partner_email)
-                     .' on <a href="https://waldocorp.com">Baby Name Selector</a>.
-                     Make an account (or log in) and see if you agree on any names!</p>';
+        $date = new DateTime($ans[0]["pair_propose_date"]);
+        $now = new DateTime("now", new DateTimeZone("America/Chicago"));
+        $diff = abs($date->getTimestamp() - $now->getTimestamp());
 
-        $textBody = "You have been invited to match names with ".
-                     (!empty($partner_uname) ? $partner_uname : $partner_email)
-                     ." on Baby Name Selector (waldocorp.com). Make an account
-                     (or log in) and see if you agree on any names!";
+        // Send an email here if new invite:
+        if( $diff < 1 ) { // New if we are within 1 sec of original invite
+                          // It is conceivable that a bot could still spam...
+          require_once __DIR__ . '/send_email.php';
+          require_once __DIR__ . '/get_email.php';
+          require_once __DIR__ . '/get_username.php';
+          $partner_email = get_email($orig_uuid);
+          $partner_uname = get_username($orig_uuid);
+
+          $htmlBody = "<p>You have been invited to match names with ".
+                       (!empty($partner_uname) ? $partner_uname : $partner_email)
+                       .' on <a href="https://waldocorp.com">Baby Name Selector</a>.
+                       Make an account (or log in) and see if you agree on any names!</p>';
+
+          $textBody = "You have been invited to match names with ".
+                       (!empty($partner_uname) ? $partner_uname : $partner_email)
+                       ." on Baby Name Selector (waldocorp.com). Make an account
+                       (or log in) and see if you agree on any names!";
 
 
-        $subj = "Baby Names Partner";
-        $recipient = $email;
-        send_email($htmlBody,$textBody,$subj,$recipient);
+          $subj = "Baby Names Partner";
+          $recipient = $email;
+          send_email($htmlBody,$textBody,$subj,$recipient);
+        }
       }
-
     } else {
       // This person is unknowningly 'responding' to an invitation:
       require_once __DIR__ . '/record_partner_choice.php';
