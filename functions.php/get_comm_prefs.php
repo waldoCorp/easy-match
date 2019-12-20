@@ -23,7 +23,7 @@ function get_comm_prefs($uuid) {
     require_once __DIR__ . '/db_connect.php';
     $db = db_connect();
 
-    $sql = "SELECT all_comm, none, functional, promotion
+   $sql = "SELECT all_comm, none, functional, promotional
             FROM $communication_preferences_table
 	    WHERE uuid = :uuid;";
 

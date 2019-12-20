@@ -39,6 +39,7 @@ $data_opt_out = get_data_pref($uuid);
 
 <?php include("header.php"); ?>
 
+
 <main role="main">
 <div class="container">
  <h2>Account Info</h2>
@@ -54,12 +55,13 @@ $data_opt_out = get_data_pref($uuid);
 
 <br>
 
+
 <div class="container">
  <h2>Get Collected Data</h2>
  <form>
     <p>See and/or download all the data we have about the names you have seen:</p>
 
-    <a class="btn btn-secondary" href="#" disabled>Download</a> (Coming Soon!)
+    <a class="btn btn-primary" href="download_data.php"> My Data</a>
 
     <br><br>
 
@@ -68,7 +70,7 @@ $data_opt_out = get_data_pref($uuid);
       <?php echo (!$data_opt_out ? 'checked' : ''); ?>
       >
       <label class="form-check-label" for="dataOptOut">
-        Waldo Corp. can share my anonymized data with third parties.
+        WaldoCorp can share my anonymized data with third parties.
       </label>
     </div>
   </form>
@@ -171,8 +173,8 @@ $data_opt_out = get_data_pref($uuid);
   </div>
 </div>
 
-
 </main>
+
 
 <?php include("footer.php"); ?>
 
