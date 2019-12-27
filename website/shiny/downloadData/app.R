@@ -30,7 +30,7 @@ ui <- fluidPage(
     # Main panel for displaying outputs ----
     mainPanel(
 
-      tableOutput("table")      
+      dataTableOutput("table")      
     )
     
   )
@@ -45,15 +45,15 @@ server <- function(input, output) {
   # Reactive value for selected dataset ----
   datasetInput <- reactive({
     switch(input$dataset,
-
+           
            "Account Data" = dbGetQuery(con,            get_user(paste0("'",getQueryString(),"'"))),
            "Friend List"  = dbGetQuery(con,        get_partners(paste0("'",getQueryString(),"'"))),
-           "Name Selections"   = dbGetQuery(con, get_selections(paste0("'",getQueryString(),"'"))), 
+           "Name Selections"   = dbGetQuery(con, get_selections(paste0("'",getQueryString(),"'"))),
            "Name Matches" = dbGetQuery(con,         get_matches(paste0("'",getQueryString(),"'"))))
   })
   
   # Table of selected dataset ----
-  output$table <- renderTable({
+  output$table <- renderDataTable({
     datasetInput()
   })
   
