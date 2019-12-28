@@ -26,7 +26,8 @@ function add_new_user($email,$pass,$uname) {
 	require __DIR__ . '/table_variables.php';
 
 	// Include database connection
-u
+	require_once __DIR__ . '/db_connect.php';
+
 	// Connect to db
 	$db = db_connect();
 

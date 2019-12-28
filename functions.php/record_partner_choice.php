@@ -32,7 +32,7 @@ function record_partner_choice($uuid,$partner_uuid,$confirm) {
       // Create initial record, updating to confirm if someone changes mind:
       $sql = "INSERT INTO $partners_table
              (uuid, partner_uuid, proposer, pair_confirm_date, confirmed, pair_propose_date)
-             SELECT CAST(:uuid AS VARCHAR), CAST(:partner_uuid AS VARCHAR), false, current_timestamp, true,
+             SELECT CAST(:uuid AS UUID), CAST(:partner_uuid AS UUID), false, current_timestamp, true,
                pair_propose_date FROM $partners_table WHERE uuid = :partner_uuid and partner_uuid = :uuid
              ON CONFLICT ON CONSTRAINT partners_uuid_partner_uuid_proposer_key
              DO UPDATE SET
@@ -62,7 +62,7 @@ function record_partner_choice($uuid,$partner_uuid,$confirm) {
       // Leave records in case they change their mind:
       $sql = "INSERT INTO $partners_table
              (uuid, partner_uuid, proposer, pair_confirm_date, confirmed, pair_propose_date)
-             SELECT CAST(:uuid AS VARCHAR), CAST(:partner_uuid AS VARCHAR), false, current_timestamp, false,
+             SELECT CAST(:uuid AS UUID), CAST(:partner_uuid AS UUID), false, current_timestamp, false,
                pair_propose_date FROM $partners_table WHERE uuid = :partner_uuid and partner_uuid = :uuid
              ON CONFLICT ON CONSTRAINT partners_uuid_partner_uuid_proposer_key
              DO UPDATE SET
