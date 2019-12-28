@@ -20,3 +20,6 @@ test.*
 email_config.php
 db_config.php
 db_script.sh
+
+# Ignore database backups
+*.bak

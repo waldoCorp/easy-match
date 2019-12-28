@@ -24,7 +24,7 @@ ui <- fluidPage(
     "Stats by User",
     tabPanel("Number of Names Viewed", plotOutput("hist_view")),
     tabPanel("Number of Names Liked", plotOutput("hist_like")),
-    tabPanel("Names Ranked vs Liked", plotOutput("scatter_rank_like")),
+    tabPanel("Names Viewed vs Liked", plotOutput("scatter_rank_like")),
 
     "Partners/Matches",
     tabPanel("Number of Partners", plotOutput("plot_num_partners")),
@@ -43,13 +43,14 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
   
+  source("../conn.R")
   source("get_data.R")
   
   # Output for Names Tab -------------------------------------------------------
   
   single_name <- reactive({
     left_join(data.frame(name = as.character(input$name)),
-    filter(name_popularity, name == as.character(input$name)))
+    filter(data[["name_popularity"]], name == as.character(input$name)))
   })
 
   output$single_name <- renderTable(
@@ -59,7 +60,7 @@ server <- function(input, output) {
   
   output$plot_name_seen <- renderPlot({
     
-    ggplot(name_popularity, 
+    ggplot(data[["name_popularity"]], 
            aes(times_liked)) +
       geom_histogram() +
       labs(title = "Histogram of Name Likes",
@@ -70,7 +71,7 @@ server <- function(input, output) {
   
   output$plot_name_like <- renderPlot({
     
-    ggplot(name_popularity, 
+    ggplot(data[["name_popularity"]], 
            aes(times_seen)) +
       geom_histogram() +
       labs(title = "Histogram of Name Views",
@@ -81,7 +82,7 @@ server <- function(input, output) {
   
   output$plot_name_popularity <- renderPlot({
     
-    ggplot(name_popularity, 
+    ggplot(data[["name_popularity"]], 
            aes(popularity)) +
       geom_histogram() +
       labs(title = "Histogram of Name Popularity",
@@ -95,7 +96,7 @@ server <- function(input, output) {
   
   output$hist_view <- renderPlot({
     
-    ggplot(user_selections, 
+    ggplot(data[["user_selections"]], 
            aes(names_ranked)) +
       geom_histogram() +
       labs(title = "Number of Names Viewed by Site Users",
@@ -106,7 +107,7 @@ server <- function(input, output) {
   
   output$hist_like <- renderPlot({
     
-    ggplot(user_selections, 
+    ggplot(data[["user_selections"]], 
            aes(names_liked)) +
       geom_histogram() +
       labs(title = "Number of Names Liked by Site Users",
@@ -117,7 +118,7 @@ server <- function(input, output) {
   
   output$scatter_rank_like <- renderPlot({
     
-    ggplot(user_selections, 
+    ggplot(data[["user_selections"]], 
            aes(x=names_ranked, y = names_liked)) +
       geom_point() +
       theme_minimal() +
@@ -130,7 +131,7 @@ server <- function(input, output) {
   
   output$plot_num_partners <- renderPlot({
     
-    ggplot(partners %>% group_by(uuid) %>% count(), 
+    ggplot(data[["partners"]], 
            aes(n)) +
       geom_histogram() +
       labs(title = "Distribution of Number of Partners Per User",
@@ -141,7 +142,7 @@ server <- function(input, output) {
   
   output$plot_num_matches <- renderPlot({
     
-    ggplot(matches %>% count(uuid), 
+    ggplot(data[["matches"]] %>% count(uuid), 
            aes(n)) +
       geom_histogram() +
       labs(title = "Distribution of Number of Matches Per User", 
@@ -153,7 +154,7 @@ server <- function(input, output) {
   # Output for Usage Tab -------------------------------------------------------
   output$user_time_trend <- renderPlot({
     
-    ggplot(byMonth %>% pivot_longer(cols = c(new_users, active_users)), 
+    ggplot(data[["byMonth"]] %>% pivot_longer(cols = c(new_users, active_users)), 
            aes(x=month, y = value, group = name, color = name)) +
       geom_line() +
       theme_minimal() +
@@ -164,7 +165,7 @@ server <- function(input, output) {
   
   output$likerank_time_trend <- renderPlot({
     
-    ggplot(byMonth %>% pivot_longer(cols = c(views, likes)), 
+    ggplot(data[["byMonth"]] %>% pivot_longer(cols = c(views, likes)), 
            aes(x=month, y = value, group = name, color = name)) +
       geom_line() +
       theme_minimal() +
