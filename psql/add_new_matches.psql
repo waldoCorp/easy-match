@@ -24,7 +24,7 @@ CREATE TRIGGER add_new_matches_trigger
 CREATE OR REPLACE FUNCTION add_new_matches()
         RETURNS TRIGGER AS $add_new_matches$
 
-DECLARE partner varchar(255);
+DECLARE partner UUID;
 BEGIN
         FOR partner IN SELECT partner_uuid
 			FROM partners
