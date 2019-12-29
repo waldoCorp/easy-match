@@ -9,7 +9,7 @@
  * $array = get_selections($uuid);
  *
  * @param $uuid : UUID of user whose selections we are considering
- * @return Nested array with "name" and "status" values for each name
+ * @return Nested array with "name" and "selected" values for each name
  * the user has ranked thus far.
 **/
 
