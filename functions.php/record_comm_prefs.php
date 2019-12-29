@@ -6,10 +6,10 @@
  * @param $preferences : Associative array containing choices
  * Expected form is:
  * 		array(
- * 		allComm=>true/false,
- * 		partnerComm=>true/false,
- *		promotionComm=>true/false,
- * 		noComm=>true/false )
+ * 		allComm=>true/null,
+ * 		partnerComm=>true/null,
+ *		promotionComm=>true/null,
+ * 		noComm=>true/null )
  *
  * Array can contain any/some of these choices (none is not a choice)
  *
