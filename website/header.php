@@ -19,15 +19,15 @@
 
   <?php if($_SESSION['login']) { ?>
     <li class="nav-item">
-      <a class="nav-link" href="show_names.php">Show Me Names!</a>
+      <a class="nav-link" href="show_names.php">Show Me Names</a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="partner_actions.php">Invite Partner!</a>
+      <a class="nav-link" href="partner_actions.php">Invite Partner</a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="match_list.php">My Matches!</a>
+      <a class="nav-link" href="match_list.php">My Matches</a>
     </li>
 
     <li class="nav-item">

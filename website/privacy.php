@@ -20,11 +20,11 @@
   <p> Ben and Lief like making things, and now we’re sharing them with you.
       Our first product, Name Match, helps you find names that you, and your partners, love. 
       To do that, we store the minimum amount of data necessary to make the website run.
-      This privacy policy was updated on December 17, 2019 </p>
+      This privacy policy was updated on December 27, 2019 </p>
 
   <h3> How We Collect Your data </h3>
-  <p>  All the data we collect you explicitly provide us when you fill out the sign up form,
-       choose names you like, invite friends to partner, or fill out a survey.  
+  <p>  All the data we collect is explicitly provided by you when you fill out the sign up form,
+       choose names you like, invite friends to partner with, or fill out a survey.  
        We also log the time at which these events occur. </p>
 
   <h3> What Data We Collect </h3>
@@ -52,7 +52,7 @@
       possible that other entities can correlate the data we release with other available data. 
       If you are rating names on other web services, or other information about names you like are 
       publicly available, there is a risk that your records could be re-identified. This is not a
-      likely outcome, and the terms of use for any partners we share the data require that
+      likely outcome, and the terms of use for any partners we may share the data with require that
       they explicitly agree that they will not attempt to de-anonymize the data. You can opt-out of this
       data sharing at any time on the <a href='account.php'> account page</a>. </p>
 
@@ -64,8 +64,8 @@
   <p> You can view and download all data we have stored about you at any time.
       You can also delete your account and all data associated with from our servers at any time. 
       These actions can be taken on the <a href='account.php'> account page</a>.
-      Please note, that if we have shared your anonymized data with third parties,
-      we will not be able to delete that anonymized data, however your data will not be party of 
+      Please note, if we have shared your anonymized data with third parties
+      we will not be able to delete that anonymized data, however your data will not be part of 
       any future anonymized datasets that may be shared. We do not support data 
       transfer to or from any other websites. </p>
 
@@ -97,14 +97,14 @@
   <p> Our servers are located in the U.S.A.  All data is stored locally on servers under Ben’s physical control. </p>
 
   <h3> Children's Data </h3>
-  <p> waldoCorp is not direct to children, and we do not knowingly collect personal information from
+  <p> waldoCorp is not directed to children, and we do not knowingly collect personal information from
       children under the age of 13. If we find out that a child under the age of 13 has signed up with
        us, we will delete their account and data. If you believe that a child under the age of 13 has
        given us personal information, please contact us. </p>
 
   <h3> Contact Us </h3>
   <p> Lief is our designated Data Protection Officer. If you have any questions about our privacy policy
-  or our handling of you data, please <a href='mailto:lief@waldocorp.com'>contact us</a>.  </p>
+  or our handling of you data, please <a href='mailto:lief@waldocorp.com'>contact him</a>.  </p>
 
 </div>
 </main>
