@@ -201,7 +201,7 @@ if( $name_2 !== $name_0 ) {
         name_2 = '.$name_2.'\n');
 }
 
-echo "Got a matched name.\n";
+echo "get_names returned the correct name for a partner.\n";
 
 
 /*********************
@@ -215,7 +215,7 @@ echo "Got a matched name.\n";
 record_selection($uuid_2, $name_2, true);
 
 
-echo "Matched on a name.\n";
+echo "Partner approved the same name as original user.\n";
 
 
 /*********************
