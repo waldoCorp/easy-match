@@ -12,11 +12,12 @@ ui <- fluidPage(
   navlistPanel(
     
     "Stats by Name",
-    tabPanel("Name Lookup",
-             textInput("name",
-                       "Name:",
-                       value="Waldo"),
-             tableOutput("single_name")),
+    tabPanel("Table of Names", dataTableOutput("table_namepop_gender")),
+    # tabPanel("Name Lookup",
+    #          textInput("name",
+    #                    "Name:",
+    #                    value="Waldo"),
+    #          tableOutput("single_name")),
     tabPanel("View Distribution", plotOutput("plot_name_seen")),
     tabPanel("Like Distribution", plotOutput("plot_name_like")),
     tabPanel("Popularity", plotOutput("plot_name_popularity")),
@@ -49,15 +50,15 @@ server <- function(input, output) {
   
   # Output for Names Tab -------------------------------------------------------
   
-  single_name <- reactive({
-    left_join(data.frame(name = as.character(input$name)),
-              filter(data[["name_popularity"]], name == as.character(input$name)))
-  })
-
-  output$single_name <- renderTable(
-    
-    single_name()
-  )
+  # single_name <- reactive({
+  #   left_join(data.frame(name = as.character(input$name)),
+  #             filter(data[["name_popularity"]], name == as.character(input$name)))
+  # })
+  # 
+  # output$single_name <- renderTable(
+  #   
+  #   single_name()
+  # )
   
   output$plot_name_seen <- renderPlot({
     
@@ -91,6 +92,16 @@ server <- function(input, output) {
            x = "Likes / Views") +
       theme_minimal()
   })
+  
+  output$table_namepop_gender <- renderDataTable(
+    name_popularity %>% 
+      mutate(gender = case_when(
+        ratio_mf_2010 < 0.2 ~ "Female", 
+        ratio_mf_2010 > 0.8 ~ "Male", 
+        TRUE ~ "Neutral"
+      )) %>% 
+      select(name, gender, times_seen, times_liked, popularity)
+  )
   
   
   # Output for Rankings/Likes Tab ----------------------------------------------

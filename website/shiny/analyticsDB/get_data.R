@@ -15,12 +15,13 @@ partners <-
   dbGetQuery(con, .)
 
 name_popularity <- 
-  "SELECT name,
+  "SELECT l.name, ratio_mf_2010,
     COUNT(*) as times_seen, 
     SUM(selected::int) as times_liked, 
     AVG(selected::int) as popularity
-   FROM selections
-   GROUP BY name;" %>% 
+   FROM selections AS l
+   LEFT JOIN names as r on l.name = r.name
+   GROUP BY l.name, ratio_mf_2010;" %>% 
   dbGetQuery(con, .)
 
 user_selections <- 
