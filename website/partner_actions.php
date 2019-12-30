@@ -161,7 +161,7 @@ $invitations = get_invitations($uuid);
 <script>
 $('#add_friend').click(function() {
   var new_email = $('#friend_email').val();
-  //inviteFriend(new_email);
+  inviteFriend(new_email);
   // Reset to stop spamming the button
   $('#friend_email').val('');
 
