@@ -7,8 +7,8 @@
 
 /*
 CREATE TABLE new_matches (
-        uuid varchar(255) NOT NULL REFERENCES users (uuid) ON DELETE CASCADE, 
-        partner_uuid varchar(255) NOT NULL REFERENCES users (uuid) ON DELETE CASCADE, 
+        uuid UUID NOT NULL REFERENCES users (uuid) ON DELETE CASCADE, 
+        partner_uuid UUID NOT NULL REFERENCES users (uuid) ON DELETE CASCADE, 
         name VARCHAR(255) NOT NULL REFERENCES names (name),
         UNIQUE (uuid, partner_uuid, name)
 );
@@ -24,7 +24,7 @@ CREATE TRIGGER add_new_matches_trigger
 CREATE OR REPLACE FUNCTION add_new_matches()
         RETURNS TRIGGER AS $add_new_matches$
 
-DECLARE partner varchar(255);
+DECLARE partner UUID;
 BEGIN
         FOR partner IN SELECT partner_uuid
 			FROM partners
