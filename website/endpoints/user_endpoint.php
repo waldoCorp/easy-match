@@ -28,7 +28,7 @@ if( empty($_SESSION['uuid']) ) {
 include $function_path . 'spam_prevention_script.php';
 
 
-// Request for password-setting link:
+// New user:
 if ( $_POST["type"] == 0) {
 
 	// Check for email validity:
@@ -49,7 +49,7 @@ if ( $_POST["type"] == 0) {
 	$s = send_password_link($email);
 
 	// And re-direct back to homepage:
-	header('Location: ../index.php');
+	header('Location: ../new_account_email.php');
 
 
 } elseif ( $_POST["type"] == 1 ) { // Existing user
