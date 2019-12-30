@@ -12,7 +12,7 @@ ui <- fluidPage(
   navlistPanel(
     
     "Stats by Name",
-    tabPanel("Table of Names", dataTableOutput("table_namepop_gender")),
+    tabPanel("Table of Names", DT::dataTableOutput("table_namepop_gender")),
     # tabPanel("Name Lookup",
     #          textInput("name",
     #                    "Name:",
@@ -93,7 +93,7 @@ server <- function(input, output) {
       theme_minimal()
   })
   
-  output$table_namepop_gender <- renderDataTable({
+  output$table_namepop_gender <- DT::renderDataTable({
     data[["name_popularity"]] %>% 
       mutate(gender = case_when(
         ratio_mf_2010 < 0.2 ~ "Female", 
