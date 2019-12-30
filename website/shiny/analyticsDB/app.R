@@ -12,7 +12,7 @@ ui <- fluidPage(
   navlistPanel(
     
     "Stats by Name",
-    tabPanel("Table of Names", DT::dataTableOutput("table_namepop_gender")),
+    tabPanel("Name Lookup", DT::dataTableOutput("table_namepop_gender")),
     # tabPanel("Name Lookup",
     #          textInput("name",
     #                    "Name:",
@@ -99,8 +99,11 @@ server <- function(input, output) {
         ratio_mf_2010 < 0.2 ~ "Female", 
         ratio_mf_2010 > 0.8 ~ "Male", 
         TRUE ~ "Neutral"
-      )) %>% 
-      select(name, gender, times_seen, times_liked, popularity), 
+        ), 
+        popularity = round(popularity, 2)
+      ) %>% 
+      select(name, gender, times_seen, times_liked, popularity) %>% 
+      arrange(desc(times_seen)), 
     filter = 'top'
   )
   
