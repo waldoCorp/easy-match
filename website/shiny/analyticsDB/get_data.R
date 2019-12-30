@@ -1,6 +1,13 @@
 
 # Get data tables --------------------------------------------------------------
 
+users <- 
+  "SELECT last_login, 
+    create_date,
+    CURRENT_DATE 
+  FROM USERS" %>% 
+  dbGetQuery(con, .)
+
 partners <- 
   "SELECT COUNT(*) AS n
   FROM partners

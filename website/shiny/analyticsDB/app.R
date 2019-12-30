@@ -32,7 +32,8 @@ ui <- fluidPage(
     
     "Usage",
     tabPanel("# Views/Likes Over Time", plotOutput("likerank_time_trend")),
-    tabPanel("# Users Over Time", plotOutput("user_time_trend"))
+    tabPanel("# Users Over Time", plotOutput("user_time_trend")),
+    tabPanel('User Survival Curve', plotOutput("user_survival"))
     
   )
 )
@@ -50,7 +51,7 @@ server <- function(input, output) {
   
   single_name <- reactive({
     left_join(data.frame(name = as.character(input$name)),
-    filter(data[["name_popularity"]], name == as.character(input$name)))
+              filter(data[["name_popularity"]], name == as.character(input$name)))
   })
 
   output$single_name <- renderTable(
@@ -172,6 +173,17 @@ server <- function(input, output) {
       labs(y = "Number of Names", 
            x = "Month", 
            title = "Names Viewed and Liked Over Time")
+  })
+  
+  output$user_survival <- renderPlot({
+    ggsurvplot(
+      survfit(Surv(duration, lost) ~ 1, 
+              data =  mutate(users, 
+                             duration = (interval(create_date, last_login))/days(1) , 
+                             time_since = (interval(last_login, current_date))/days(1),
+                             lost = as.numeric(time_since >= 30)))) +
+      labs(title = "User Tenure With Site", 
+           x = "Days Using Site")
   })
 }
 
