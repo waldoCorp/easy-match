@@ -139,8 +139,8 @@ server <- function(input, output) {
       geom_point() +
       theme_minimal() +
       labs(y = "Names Liked", 
-           x = "Names Ranked", 
-           title = "Relationship between Names Ranked and Liked")
+           x = "Names Viewed", 
+           title = "Relationship between Names Viewed and Liked")
   })
   
   # Output for Partners/Matches ------------------------------------------------
