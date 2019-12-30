@@ -93,15 +93,16 @@ server <- function(input, output) {
       theme_minimal()
   })
   
-  output$table_namepop_gender <- DT::renderDataTable({
+  output$table_namepop_gender <- DT::renderDataTable(
     data[["name_popularity"]] %>% 
       mutate(gender = case_when(
         ratio_mf_2010 < 0.2 ~ "Female", 
         ratio_mf_2010 > 0.8 ~ "Male", 
         TRUE ~ "Neutral"
       )) %>% 
-      select(name, gender, times_seen, times_liked, popularity)
-  })
+      select(name, gender, times_seen, times_liked, popularity), 
+    filter = 'top'
+  )
   
   
   # Output for Rankings/Likes Tab ----------------------------------------------
