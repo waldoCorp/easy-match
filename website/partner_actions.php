@@ -45,10 +45,19 @@ $invitations = get_invitations($uuid);
 
       <button type="button" id="add_friend" class="btn btn-primary" value="Submit">Add Friend!</button>
 
-  </form>
+ </form>
+
+ <br>
+
+ <div id="emailAlert" class="alert alert-success alert-dismissible fade show" role="alert" style='display:none;'>
+ </div>
+
 </div>
 
+
 <br>
+
+
 
 <?php if( !empty($invitations) ) { ?>
 <div class="container">
@@ -152,9 +161,11 @@ $invitations = get_invitations($uuid);
 <script>
 $('#add_friend').click(function() {
   var new_email = $('#friend_email').val();
-  inviteFriend(new_email);
+  //inviteFriend(new_email);
   // Reset to stop spamming the button
   $('#friend_email').val('');
+
+  emailAlert(new_email);
 
 });
 
@@ -189,6 +200,21 @@ function inviteFriend(email) {
     url: "./endpoints/ajax_endpoint.php",
     data: data
   });
+
+}
+
+function emailAlert(email) {
+  const alert = $('#emailAlert');
+  alert.finish();
+  alert.html('Invitation sent to '+email+'!');
+  alert.show();
+
+  window.setTimeout(function() {
+    alert.fadeTo(1000,0).slideUp(1000, function() {
+      $(this).hide();
+      $(this).css('opacity',100);
+    });
+  }, 3000);
 
 }
 
