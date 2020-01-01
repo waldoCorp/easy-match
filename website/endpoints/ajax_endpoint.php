@@ -75,12 +75,22 @@ function invite_friend() {
 function partner_select() {
 	global $function_path;
         require_once $function_path . 'get_uuid.php';
+        require_once $function_path . 'get_new_matches_number.php';
+        require_once $function_path . 'get_identifier.php';
 	$return = $_POST;
 
 	// Make sure it's an email address:
-	//if (filter_var($return["email"], FILTER_VALIDATE_EMAIL)) {
+	if( filter_var($return["partner_email"], FILTER_VALIDATE_EMAIL) ) {
 		$_SESSION['partner_email'] = $return['partner_email'];
-	//}
+		$partner_uuid = get_uuid($_SESSION['partner_email']);
+		$partner_ident = get_identifier($partner_uuid);
+		$num = get_new_matches_number($_SESSION['uuid']);
+		if( empty($num) ||
+		  (count($num) === 1 && !empty($num[$partner_ident])) ) {
+			$_SESSION['new_matches'] = false;
+		}
+	}
+
 	echo json_encode('Ready');
 }
 
