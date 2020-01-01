@@ -27,6 +27,12 @@
     </li>
 
     <li class="nav-item">
+     <?php if( $_SESSION['new_matches'] ) { ?>
+            <!--<span class="badge badge-pill badge-warning"
+            style="float:right;margin-left:-100px">New</span>-->
+            <i data-feather="star"></i>
+            <p class="sr-only sr-only-focusable">You have new matches</p>
+     <?php } ?>
       <a class="nav-link" href="match_list.php">My Matches</a>
     </li>
 
