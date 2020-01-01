@@ -257,6 +257,30 @@ echo "Partner approved the same name as original user.\n";
 
 /*********************
 *                    *
+*    Get Number      *
+* of Matched Names:  *
+*                    *
+*                    *
+**********************/
+
+require_once __DIR__ . '/get_new_matches_number.php';
+require_once __DIR__ . '/get_identifier.php';
+
+$match_number = get_new_matches_number($uuid_1);
+$ident = get_identifier($uuid_2);
+
+try {
+  if( $match_number[$ident] !== 1 ) {
+    throw new Exception("EXCEPTION! Not finding the number of matches correctly\n");
+  }
+} catch (Exception $e) {
+  ++$num_exceptions;
+  echo $e->getMessage();
+}
+
+
+/*********************
+*                    *
 *      Get Name      *
 *     Match List:    *
 *                    *
