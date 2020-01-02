@@ -28,7 +28,7 @@ function get_names($uuid,$n) {
         $db = db_connect();
 
 	// Get preferences:
-  require_once __DIR__ . '/get_preferences.php';
+        require_once __DIR__ . '/get_preferences.php';
 	$preferences = get_preferences($uuid);
 
 	// Build filtering statements:

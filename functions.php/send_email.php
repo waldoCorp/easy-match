@@ -62,7 +62,7 @@ function send_email($htmlBody,$textBody,$subject,$recipient) {
     $mail->AltBody = $textBody;
 
    $mail->send();
-   echo 'Message Sent!\n';
+   //echo 'Message Sent!\n';
   } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}\n";
   }

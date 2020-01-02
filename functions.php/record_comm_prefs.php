@@ -6,10 +6,10 @@
  * @param $preferences : Associative array containing choices
  * Expected form is:
  * 		array(
- * 		allComm=>true/false,
- * 		partnerComm=>true/false,
- *		promotionComm=>true/false,
- * 		noComm=>true/false )
+ * 		allComm=>true/null,
+ * 		partnerComm=>true/null,
+ *		promotionComm=>true/null,
+ * 		noComm=>true/null )
  *
  * Array can contain any/some of these choices (none is not a choice)
  *
@@ -50,7 +50,7 @@ function record_comm_prefs($uuid, $preferences) {
 
 
     $sql = "INSERT INTO $communication_preferences_table
-            (uuid, all_comm, none, functional, promotion)
+            (uuid, all_comm, none, functional, promotional)
             VALUES (:uuid, :all_comm, :no_comm, :promo_comm, :func_comm)
 
             -- If the name selected is already here, update to new true/false:
@@ -59,7 +59,7 @@ function record_comm_prefs($uuid, $preferences) {
             all_comm = EXCLUDED.all_comm,
             none = EXCLUDED.none,
             functional = EXCLUDED.functional,
-            promotion = EXCLUDED.promotion;";
+            promotional = EXCLUDED.promotional;";
 
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':uuid',$uuid);
