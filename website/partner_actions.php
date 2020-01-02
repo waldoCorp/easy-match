@@ -229,7 +229,7 @@ function invitationResponse(uuid,status) {
     url: "./endpoints/ajax_endpoint.php",
     data: data,
     success: function(data) {
-    location.reload()
+      location.reload()
     }
   });
 
