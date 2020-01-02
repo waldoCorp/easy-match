@@ -114,6 +114,8 @@ function partner_response() {
 	if( empty($invitations) ) {
 		$_SESSION['new_invitations'] = false;
 	}
+
+	echo json_encode("Ready");
 }
 
 function new_names() {
