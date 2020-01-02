@@ -97,6 +97,7 @@ function partner_select() {
 function partner_response() {
 	global $function_path;
         require_once $function_path . 'record_partner_choice.php';
+        require_once $function_path . 'get_invitations.php';
 	$return = $_POST;
 	$uuid = $_SESSION['uuid'];
 	$partner_uuid = $return['partner_uuid'];
@@ -108,6 +109,11 @@ function partner_response() {
 	}
 	record_partner_choice($uuid,$partner_uuid,$keep_partner);
 
+	$invitations = get_invitations($uuid);
+
+	if( empty($invitations) ) {
+		$_SESSION['new_invitations'] = false;
+	}
 }
 
 function new_names() {

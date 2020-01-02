@@ -14,6 +14,7 @@ require_once $function_path . 'send_password_link.php';
 require_once $function_path . 'update_password.php';
 require_once $function_path . 'update_last_login.php';
 require_once $function_path . 'get_new_matches_number.php';
+require_once $function_path . 'get_invitations.php';
 
 
 if( empty($_SESSION['uuid']) ) {
@@ -65,6 +66,11 @@ if ( $_POST["type"] == 0) {
 		// If new matches, note that:
 		if( !empty(get_new_matches_number($_SESSION['uuid'])) ) {
 		  $_SESSION['new_matches'] = true;
+		}
+
+		// If partner invitations, note that:
+		if( !empty(get_invitations($_SESSION['uuid'])) ) {
+		  $_SESSION['new_invitations'] = true;
 		}
 
 		// Update last_login time:
