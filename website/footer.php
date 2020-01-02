@@ -18,3 +18,17 @@ $(document).ready(function() {
   $('a[href="' + filename + '"]').closest('li').addClass('active');
 });
 </script>
+
+<?php if( $_SESSION['new_matches'] || $_SESSION['new_invitations'] ) { ?>
+<!-- Script to turn on Feather Icons -->
+<script>
+feather.replace({
+  stroke:"#D4AC0D",
+  'style':'float:right;margin-left:-100px;margin-top:-7px;',
+});
+
+$('#tooltip-matches').tooltip();
+$('#tooltip-invite').tooltip();
+
+</script>
+<?php } ?>

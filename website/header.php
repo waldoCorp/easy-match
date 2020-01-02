@@ -23,10 +23,20 @@
     </li>
 
     <li class="nav-item">
+     <?php if( $_SESSION['new_invitations'] ) { ?>
+            <i data-feather="user-plus" id="tooltip-invite" data-toggle="tooltip"
+               data-placement="bottom" title="New Partner Invitation"></i>
+            <p class="sr-only sr-only-focusable">You have invitations to partner</p>
+     <?php } ?>
       <a class="nav-link" href="partner_actions.php">Invite Partner</a>
     </li>
 
     <li class="nav-item">
+     <?php if( $_SESSION['new_matches'] ) { ?>
+            <i data-feather="star" id="tooltip-matches" data-toggle="tooltip"
+               data-placement="bottom" title="New Name Matches"></i>
+            <p class="sr-only sr-only-focusable">You have new matches</p>
+     <?php } ?>
       <a class="nav-link" href="match_list.php">My Matches</a>
     </li>
 

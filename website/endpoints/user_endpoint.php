@@ -13,6 +13,8 @@ require_once $function_path . 'get_email.php';
 require_once $function_path . 'send_password_link.php';
 require_once $function_path . 'update_password.php';
 require_once $function_path . 'update_last_login.php';
+require_once $function_path . 'get_new_matches_number.php';
+require_once $function_path . 'get_invitations.php';
 
 
 if( empty($_SESSION['uuid']) ) {
@@ -55,18 +57,26 @@ if ( $_POST["type"] == 0) {
 } elseif ( $_POST["type"] == 1 ) { // Existing user
 	$s = password_check($email,$_POST["passwd"]);
 	if ($s) {
-		//header('Location: /path/to/creation/success.php');
 
 		// Set Session variables so we don't need to keep hitting DB:
 		$_SESSION['login'] = true; // We are now logged in
 		$_SESSION['email'] = $email; // Set stuff here
 		$_SESSION['uuid'] = get_uuid($email);
 
+		// If new matches, note that:
+		if( !empty(get_new_matches_number($_SESSION['uuid'])) ) {
+		  $_SESSION['new_matches'] = true;
+		}
+
+		// If partner invitations, note that:
+		if( !empty(get_invitations($_SESSION['uuid'])) ) {
+		  $_SESSION['new_invitations'] = true;
+		}
+
 		// Update last_login time:
 		update_last_login($_SESSION['uuid']);
 
 		header('Location: ../show_names.php');
-
 
 	} else {
 		header('Location: ../index.php?error=bad_login');

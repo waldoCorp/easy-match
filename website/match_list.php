@@ -58,8 +58,11 @@ sort($names); // sort ensures new matches (with stars) are at the top
     <?php foreach($partners as $partner) { ?>
       <option value="<?php echo htmlspecialchars($partner['email']); ?>"
         <?php echo ($partner['email'] == $partner_email) ? 'selected' : ''; ?>>
-
-	<?php echo htmlspecialchars($partner['uname']) ." (". htmlspecialchars($partner['email']) .")"; ?>
+	<?php if( !empty($partner['uname']) ) {
+                echo htmlspecialchars($partner['uname']) ." (". htmlspecialchars($partner['email']) .")";
+              } else {
+                echo htmlspecialchars($partner['email']);
+              }?>
       </option>
     <?php } ?>
   </select>

@@ -51,6 +51,7 @@ function name_record() {
 	$uuid = $_SESSION['uuid'];
 	record_selection($uuid, $name, $is_good);
 
+	echo json_encode("Name Recorded");
 }
 
 function uname_update() {
@@ -75,18 +76,29 @@ function invite_friend() {
 function partner_select() {
 	global $function_path;
         require_once $function_path . 'get_uuid.php';
+        require_once $function_path . 'get_new_matches_number.php';
+        require_once $function_path . 'get_identifier.php';
 	$return = $_POST;
 
 	// Make sure it's an email address:
-	//if (filter_var($return["email"], FILTER_VALIDATE_EMAIL)) {
+	if( filter_var($return["partner_email"], FILTER_VALIDATE_EMAIL) ) {
 		$_SESSION['partner_email'] = $return['partner_email'];
-	//}
+		$partner_uuid = get_uuid($_SESSION['partner_email']);
+		$partner_ident = get_identifier($partner_uuid);
+		$num = get_new_matches_number($_SESSION['uuid']);
+		if( empty($num) ||
+		  (count($num) === 1 && !empty($num[$partner_ident])) ) {
+			$_SESSION['new_matches'] = false;
+		}
+	}
+
 	echo json_encode('Ready');
 }
 
 function partner_response() {
 	global $function_path;
         require_once $function_path . 'record_partner_choice.php';
+        require_once $function_path . 'get_invitations.php';
 	$return = $_POST;
 	$uuid = $_SESSION['uuid'];
 	$partner_uuid = $return['partner_uuid'];
@@ -98,6 +110,13 @@ function partner_response() {
 	}
 	record_partner_choice($uuid,$partner_uuid,$keep_partner);
 
+	$invitations = get_invitations($uuid);
+
+	if( empty($invitations) ) {
+		$_SESSION['new_invitations'] = false;
+	}
+
+	echo json_encode("Ready");
 }
 
 function new_names() {
