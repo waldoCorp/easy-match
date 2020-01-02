@@ -30,7 +30,7 @@ ui <- fluidPage(
     # Main panel for displaying outputs ----
     mainPanel(
 
-      dataTableOutput("table")      
+      DT::dataTableOutput("table")      
     )
     
   )
@@ -53,7 +53,7 @@ server <- function(input, output) {
   })
   
   # Table of selected dataset ----
-  output$table <- renderDataTable({
+  output$table <- DT::renderDataTable({
     datasetInput()
   })
   
