@@ -244,7 +244,7 @@ function nameRecord(status,oldName) {
     error: function(xhr, ajaxOptions, thrownError) {
        // If we're in the error block either we've lost the connection
        // or our session expired, so reload the page to force re-login
-       //location.reload();
+       location.reload();
    }
   });
 }

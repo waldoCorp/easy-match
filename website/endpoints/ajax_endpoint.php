@@ -51,6 +51,7 @@ function name_record() {
 	$uuid = $_SESSION['uuid'];
 	record_selection($uuid, $name, $is_good);
 
+	echo json_encode("Name Recorded");
 }
 
 function uname_update() {
