@@ -1,7 +1,7 @@
 <footer class="footer">
  <div class="container-fluid">
   <span class="text-muted">
-    Find a bug? Want a new feature? Like the site? <a href='mailto:ben@waldocorp.com,lief@waldocorp.com'>Drop us a line!</a>
+    Find a bug? Want a new feature? Like the site? <a href='mailto:contact@waldocorp.com'>Drop us a line!</a>
      |  <a href='privacy.php'>Privacy policy</a>
      |  <a href='about.php'> About </a>
   </span>

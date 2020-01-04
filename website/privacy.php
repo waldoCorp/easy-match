@@ -104,7 +104,7 @@
 
   <h3> Contact Us </h3>
   <p> Lief is our designated Data Protection Officer. If you have any questions about our privacy policy
-  or our handling of you data, please <a href='mailto:lief@waldocorp.com'>contact him</a>.  </p>
+  or our handling of you data, please <a href='mailto:privacy@waldocorp.com'>contact him</a>.  </p>
 
 </div>
 </main>
