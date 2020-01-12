@@ -44,8 +44,8 @@
 
   <h2>WaldoCorp</h2>
   <p> Baby Name Match is hosted as a service of WaldoCorp, which is just
-     a fancy way of saying that <a href='mailto:ben@waldocorp.com'>Ben</a>
-     and <a href='mailto:lief@waldocorp.com'>Lief</a> made it and we hope
+     a fancy way of saying that <a href='https://ben.waldocorp.com'>Ben</a>
+     and <a href='https://liefesbenshade.com'>Lief</a> made it and we hope
      that it is useful for you.
 
      WaldoCorp is not (yet) a registered corporation, but its the name Ben and Lief picked  
