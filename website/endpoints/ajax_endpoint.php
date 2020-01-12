@@ -23,6 +23,7 @@ if (is_ajax()) {
 			case "preferencesRecord": pref_record(); break;
 			case "communicationsUpdate": comm_record(); break;
 			case "dataUpdate": data_record(); break;
+			case "updateSessionMatch": update_session_match(); break;
 			case "deleteAccount": delete_acc(); break;
 		}
 	}
@@ -241,5 +242,8 @@ function delete_acc() {
 	$_SESSION = array();
 }
 
+function update_session_match() {
+  $_SESSION['new_matches'] = true;
+}
 // ------------------------------------
 // Helper functions not directly accessible through AJAX
