@@ -38,7 +38,7 @@ CREATE FUNCTION public.add_new_matches() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 
-DECLARE partner varchar(255);
+DECLARE partner UUID;
 BEGIN
         FOR partner IN SELECT partner_uuid
 			FROM partners
@@ -111,11 +111,11 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE public.communication_preferences (
-    uuid character varying(255) NOT NULL,
+    uuid uuid NOT NULL,
     all_comm boolean DEFAULT true NOT NULL,
     "none" boolean DEFAULT false NOT NULL,
     functional boolean DEFAULT false NOT NULL,
-    promotion boolean DEFAULT false NOT NULL
+    promotional boolean DEFAULT false NOT NULL
 );
 
 
@@ -126,7 +126,7 @@ ALTER TABLE public.communication_preferences OWNER TO namebot;
 --
 
 CREATE TABLE public.name_preferences (
-    uuid character varying(255) NOT NULL,
+    uuid uuid NOT NULL,
     gender character varying(255),
     first_letter character varying(255),
     last_letter character varying(255),
@@ -165,8 +165,8 @@ ALTER TABLE public.names OWNER TO namebot;
 --
 
 CREATE TABLE public.new_matches (
-    uuid character varying(255) NOT NULL,
-    partner_uuid character varying(255) NOT NULL,
+    uuid uuid NOT NULL,
+    partner_uuid uuid NOT NULL,
     name character varying(255) NOT NULL
 );
 
@@ -178,8 +178,8 @@ ALTER TABLE public.new_matches OWNER TO namebot;
 --
 
 CREATE TABLE public.partners (
-    uuid character varying(255) NOT NULL,
-    partner_uuid character varying(255) NOT NULL,
+    uuid uuid NOT NULL,
+    partner_uuid uuid NOT NULL,
     proposer boolean NOT NULL,
     pair_propose_date timestamp without time zone NOT NULL,
     pair_confirm_date timestamp without time zone,
@@ -194,7 +194,7 @@ ALTER TABLE public.partners OWNER TO namebot;
 --
 
 CREATE TABLE public.password_recovery (
-    uuid character varying(255) NOT NULL,
+    uuid uuid NOT NULL,
     selector character varying(16) NOT NULL,
     token character varying(64) NOT NULL,
     expires timestamp without time zone NOT NULL
@@ -208,7 +208,7 @@ ALTER TABLE public.password_recovery OWNER TO namebot;
 --
 
 CREATE TABLE public.selections (
-    uuid character varying(255) NOT NULL,
+    uuid uuid NOT NULL,
     name text NOT NULL,
     date_selected timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     selected boolean NOT NULL
@@ -222,24 +222,24 @@ ALTER TABLE public.selections OWNER TO namebot;
 --
 
 CREATE TABLE public.users (
-    uuid character varying(255) NOT NULL,
+    uuid uuid NOT NULL,
     email character varying(255) NOT NULL,
     create_date timestamp without time zone NOT NULL,
     last_login timestamp without time zone NOT NULL,
     password character varying(255) NOT NULL,
     username character varying(255),
-    data_opt_out boolean DEFAULT false
+    data_opt_out boolean DEFAULT false NOT NULL
 );
 
 
 ALTER TABLE public.users OWNER TO namebot;
 
 --
--- Name: communication_preferences communication_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: namebot
+-- Name: communication_preferences communications_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: namebot
 --
 
 ALTER TABLE ONLY public.communication_preferences
-    ADD CONSTRAINT communication_preferences_pkey PRIMARY KEY (uuid);
+    ADD CONSTRAINT communications_preferences_pkey PRIMARY KEY (uuid);
 
 
 --
@@ -314,11 +314,11 @@ CREATE TRIGGER add_new_matches_trigger AFTER INSERT OR UPDATE ON public.selectio
 
 
 --
--- Name: communication_preferences communication_preferences_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: namebot
+-- Name: communication_preferences communications_preferences_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: namebot
 --
 
 ALTER TABLE ONLY public.communication_preferences
-    ADD CONSTRAINT communication_preferences_uuid_fkey FOREIGN KEY (uuid) REFERENCES public.users(uuid) ON DELETE CASCADE;
+    ADD CONSTRAINT communications_preferences_uuid_fkey FOREIGN KEY (uuid) REFERENCES public.users(uuid) ON DELETE CASCADE;
 
 
 --
