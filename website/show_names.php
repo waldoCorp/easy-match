@@ -319,6 +319,7 @@ function nameTextUpdate(name) {
 
 function showMatchIcon() {
   if( $('#newMatchSR').text().length == 0 ) {
+    console.log('New match should show...');
     feather.replace({
       stroke: "#D4AC0D",
       'style': 'float:right;margin-left:-100px;margin-top:-7px;',
@@ -326,6 +327,14 @@ function showMatchIcon() {
 
     $('#tooltip-matches').tooltip();
     $('#newMatchSR').text('You have new matches with a partner');
+
+    // Finally, update server variable to show match icon always
+    return $.ajax({
+      type: "POST",
+      url: "./endpoints/ajax_endpoint.php",
+      data: {"action":'updateSessionMatch'}
+    });
+
   }
 }
 
