@@ -11,7 +11,13 @@
 </head>
 <body>
 <?php include("header.php"); ?>
-<?php $uuid = $_SESSION['uuid']; ?>
+
+<?php
+require_once $function_path . 'create_data_token.php';
+$uuid = $_SESSION['uuid'];
+$token = create_data_token($uuid);
+
+?>
 
 <main role="main">
 <div class="container">
