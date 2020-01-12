@@ -42,14 +42,18 @@ server <- function(input, output) {
   source("../conn.R")
   source("sql.R")
   
+  queryString <- getQueryString()
+  uuid <- queryString["uuid"]
+  token <- queryString["token"]
+  
   # Reactive value for selected dataset ----
   datasetInput <- reactive({
     switch(input$dataset,
            
-           "Account Data" = dbGetQuery(con,            get_user(paste0("'",getQueryString(),"'"))),
-           "Friend List"  = dbGetQuery(con,        get_partners(paste0("'",getQueryString(),"'"))),
-           "Name Selections"   = dbGetQuery(con, get_selections(paste0("'",getQueryString(),"'"))),
-           "Name Matches" = dbGetQuery(con,         get_matches(paste0("'",getQueryString(),"'"))))
+           "Account Data" = dbGetQuery(con,            get_user(paste0("'",uuid,"'"))),
+           "Friend List"  = dbGetQuery(con,        get_partners(paste0("'",uuid,"'"))),
+           "Name Selections"   = dbGetQuery(con, get_selections(paste0("'",uuid,"'"))),
+           "Name Matches" = dbGetQuery(con,         get_matches(paste0("'",uuid,"'"))))
   })
   
   # Table of selected dataset ----
