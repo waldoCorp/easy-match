@@ -29,8 +29,7 @@
 function create_data_token($uuid) {
 	$token = bin2hex(openssl_random_pseudo_bytes(16));
 	$expires = new DateTime('NOW');
-	$expires->add(new DateInterval('PT1H')); // 5 Min duration
-	//$expires->add(new DateInterval('P1D')); // 1 day duration
+	$expires->add(new DateInterval('PT5M')); // 5 Min duration
 
 
         // Require table variables:
