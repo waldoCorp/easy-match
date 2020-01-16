@@ -2,7 +2,7 @@
 # to access the shiny server
 #
 # params: 
-# uuid - the user id, wrapped in ' ' 
+# token  - the token to check for, wrapped in ' ' 
 # token_table - which table to check for the token
 #
 # Usage:
@@ -10,12 +10,25 @@
 # called in dbGetQuery
 # dbGetQuery(con, check_valid_token(uuid, "data_tokens")
 
-check_valid_token <- function(uuid, token, token_table) {
+token_to_uuid <- function(token, token_table, con) {
+
+query <-
   paste("
-  SELECT count(*)  
+  SELECT uuid, token, expires, CURRENT_TIMESTAMP as now  
   FROM", token_table, " 
-  WHERE uuid =" , uuid,
-	"AND token =", token,
-        "AND expires >= CURRENT_TIMESTAMP;")
+  WHERE token =" , token, ";") 
+
+result <- DBI::dbGetQuery(con, query)
+
+if(nrow(result) == 0){stop("invalid token supplied")}
+
+DBI::dbSendStatement(paste("DELETE FROM", token_table, 
+	"WHERE token =", token, ";"))
+
+if(result$expires < result$now) {stop("expired token")}
+
+return(result$uuid)
+
+
 }
 
