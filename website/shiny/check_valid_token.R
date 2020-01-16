@@ -22,13 +22,11 @@ result <- DBI::dbGetQuery(con, query)
 
 if(nrow(result) == 0){stop("invalid token supplied")}
 
-DBI::dbSendStatement(paste("DELETE FROM", token_table, 
+DBI::dbSendStatement(con, paste("DELETE FROM", token_table, 
 	"WHERE token =", token, ";"))
 
 if(result$expires < result$now) {stop("expired token")}
 
 return(result$uuid)
-
-
 }
 
