@@ -14,3 +14,4 @@ $users_table = 'users';
 $new_matches_table = 'new_matches';
 $preferences_table = 'name_preferences';
 $communication_preferences_table = 'communication_preferences';
+$data_token_table = 'data_tokens';
