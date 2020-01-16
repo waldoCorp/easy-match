@@ -531,28 +531,6 @@ try {
 /*********************
 *                    *
 *                    *
-*  Create Token for  *
-*    Data Access     *
-*                    *
-**********************/
-
-require_once __DIR__ . '/create_data_token.php';
-
-$token = create_data_token($uuid_1);
-
-try {
-  if( strlen($token) != 32 ) {
-    throw new Exception("EXCEPTION! Data access token has incorrect length\n");
-  }
-} catch (Exception $e) {
-  ++$num_exceptions;
-  echo $e->getMessage();
-}
-
-
-/*********************
-*                    *
-*                    *
 * Remove Test Users: *
 *                    *
 *                    *
