@@ -39,7 +39,7 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   
-  source("../test-conn.R")
+  source("../conn.R")
   source("sql.R")
   source("../token_to_uuid.R")
   uuid <- NULL

@@ -122,6 +122,19 @@ CREATE TABLE public.communication_preferences (
 ALTER TABLE public.communication_preferences OWNER TO namebot;
 
 --
+-- Name: data_tokens; Type: TABLE; Schema: public; Owner: namebot
+--
+
+CREATE TABLE public.data_tokens (
+    uuid uuid NOT NULL,
+    token character varying(32) NOT NULL,
+    expires timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.data_tokens OWNER TO namebot;
+
+--
 -- Name: name_preferences; Type: TABLE; Schema: public; Owner: namebot
 --
 
@@ -243,6 +256,22 @@ ALTER TABLE ONLY public.communication_preferences
 
 
 --
+-- Name: data_tokens data_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.data_tokens
+    ADD CONSTRAINT data_tokens_pkey PRIMARY KEY (uuid);
+
+
+--
+-- Name: data_tokens data_tokens_token_key; Type: CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.data_tokens
+    ADD CONSTRAINT data_tokens_token_key UNIQUE (token);
+
+
+--
 -- Name: name_preferences name_preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: namebot
 --
 
@@ -319,6 +348,14 @@ CREATE TRIGGER add_new_matches_trigger AFTER INSERT OR UPDATE ON public.selectio
 
 ALTER TABLE ONLY public.communication_preferences
     ADD CONSTRAINT communications_preferences_uuid_fkey FOREIGN KEY (uuid) REFERENCES public.users(uuid) ON DELETE CASCADE;
+
+
+--
+-- Name: data_tokens data_tokens_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.data_tokens
+    ADD CONSTRAINT data_tokens_uuid_fkey FOREIGN KEY (uuid) REFERENCES public.users(uuid) ON DELETE CASCADE;
 
 
 --
