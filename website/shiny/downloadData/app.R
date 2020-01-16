@@ -46,18 +46,13 @@ server <- function(input, output) {
   # Reactive value for selected dataset ----
   datasetInput <- reactive({
 	
-    # Get query string info
+    # Convert query string token to uuid
     queryString <- getQueryString()
-    uuid <- paste0("'", queryString["uuid"], "'")
     token <- paste0("'", queryString["token"], "'")
+    uuid <- token_to_uuid(token, "data_tokens", con) # note that this deletes the token from the db
 
-    # Check for valid token
-    token_check <- dbGetQuery(con, check_valid_token(uuid, token, "data_tokens"))
- #   if(token_check$count != 1) {stop("You don't have permission to access this page, try accessing again from your account page or contact us at contact@waldocorp.com if the problem persists")}
-     if(token_check$count != 1) {stop(paste("invalid access uuid =", uuid, "token =", token ))}  
-
+    # displayed dataset
     switch(input$dataset,
-           
           "Account Data" = dbGetQuery(con,            get_user(uuid)),
           "Friend List"  = dbGetQuery(con,        get_partners(uuid)),
           "Name Selections"   = dbGetQuery(con, get_selections(uuid)),
