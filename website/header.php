@@ -32,11 +32,9 @@
     </li>
 
     <li class="nav-item">
-     <?php if( $_SESSION['new_matches'] ) { ?>
             <i data-feather="star" id="tooltip-matches" data-toggle="tooltip"
                data-placement="bottom" title="New Name Matches"></i>
-            <p class="sr-only sr-only-focusable">You have new matches</p>
-     <?php } ?>
+            <p class="sr-only sr-only-focusable" id="newMatchSR"></p>
       <a class="nav-link" href="match_list.php">My Matches</a>
     </li>
 

@@ -31,14 +31,11 @@ $partner_email = $_SESSION['partner_email'];
 $partner_uuid = get_uuid($partner_email);
 
 $partner_name = get_username($partner_uuid);
-// FOR TESTING
-//$partner_uuid = 'test1';
-//$partner_email = 'test1';
+
+unset($_SESSION['partner_email']);
 
 
 $names = get_matching_names_list($uuid,$partner_uuid);
-
-//$names = array('Alice','Bob','Charlie');
 
 // shuffle($names); // Randomizing seems like as good a call as any here
 sort($names); // sort ensures new matches (with stars) are at the top
