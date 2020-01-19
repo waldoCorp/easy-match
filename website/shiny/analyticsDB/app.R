@@ -2,6 +2,9 @@ library(shiny)
 library(tidyverse)
 library(DBI)
 library(RPostgres)
+library(survival)
+library(survminer)
+library(lubridate)
 
 # Define UI --------------------------------------------------------------------
 
