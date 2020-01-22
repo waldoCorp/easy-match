@@ -42,12 +42,14 @@ function record_selection($uuid, $name, $selected) {
     // Maybe check if the name is allowed?
 
     // What we have to do, since multiple ON CONFLICT's are not allowed:
-    $sql = "INSERT INTO $selections_table (uuid, name, selected)
-            VALUES (:uuid, :name, :selected)
+    $sql = "INSERT INTO $selections_table (uuid, name, selected, n_changes, date_changed)
+            VALUES (:uuid, :name, :selected, 0, NULL)
 
-            -- If the name selected is already here, update to new true/false:
+            -- If the name selected is already here, update to new true/false, increment counter add date_changed:
 	    ON CONFLICT ON CONSTRAINT selections_uuid_name_key
-            DO UPDATE SET selected = EXCLUDED.selected;";
+            DO UPDATE SET selected = EXCLUDED.selected,
+                          date_changed = CURRENT_TIMESTAMP,
+                          n_changes = selections.n_changes + 1;";
 
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':uuid',$uuid);

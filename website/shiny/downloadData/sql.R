@@ -26,7 +26,7 @@ get_partners <- function(uuid) {
 # Selections
 get_selections <- function(uuid) {
   paste("
-  SELECT name, date_selected AS date_viewed, selected AS liked 
+  SELECT name, date_selected AS date_viewed, selected AS liked, n_changes, date_changed as date_last_change 
   FROM selections
   WHERE uuid =" , uuid, ";")
 }
