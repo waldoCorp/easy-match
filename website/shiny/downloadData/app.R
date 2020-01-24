@@ -29,7 +29,7 @@ ui <- fluidPage(
     
     # Main panel for displaying outputs ----
     mainPanel(
-
+      
       DT::dataTableOutput("table")      
     )
     
@@ -41,15 +41,26 @@ server <- function(input, output) {
   
   source("../conn.R")
   source("sql.R")
+  source("../token_to_uuid.R")
+  uuid <- NULL
+  
+  # Convert query string token to uuid  
+  uuid <- reactive({
+    queryString <- getQueryString()
+    token <- queryString[["token"]]
+    uuid <- token_to_uuid(token, "data_tokens", con) # note that this deletes the token from the db
+    uuid    
+  })    
   
   # Reactive value for selected dataset ----
   datasetInput <- reactive({
+    
+    # displayed dataset
     switch(input$dataset,
-           
-           "Account Data" = dbGetQuery(con,            get_user(paste0("'",getQueryString(),"'"))),
-           "Friend List"  = dbGetQuery(con,        get_partners(paste0("'",getQueryString(),"'"))),
-           "Name Selections"   = dbGetQuery(con, get_selections(paste0("'",getQueryString(),"'"))),
-           "Name Matches" = dbGetQuery(con,         get_matches(paste0("'",getQueryString(),"'"))))
+           "Account Data" = dbGetQuery(con,            get_user(uuid())),
+           "Friend List"  = dbGetQuery(con,        get_partners(uuid())),
+           "Name Selections"   = dbGetQuery(con, get_selections(uuid())),
+           "Name Matches" = dbGetQuery(con,         get_matches(uuid())))
   })
   
   # Table of selected dataset ----

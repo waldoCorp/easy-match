@@ -121,7 +121,7 @@ $invitations = get_invitations($uuid);
   </div>
 </div>
 <?php } ?>
-
+<br>
 <?php if( !empty($rejected_partners) ) { ?>
 <div class="container">
   <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#rejectedInvites" aria-expanded="false" aria-controls="rejectedInvites">
