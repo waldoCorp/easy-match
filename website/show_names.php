@@ -65,7 +65,7 @@ $letters = range('A','Z');
     <!-- No button -->
     <div class="col-1-auto align-items-center d-flex">
       <!--<button type="button" class="select_btn" id="noName">&#10060</button>-->
-      <button type="button" class="select_btn btn btn-danger btn-lg" id="noName">No</button>
+      <button type="button" class="select_btn btn btn-danger btn-lg" style="font-size: 4vw;" id="noName">No</button>
     </div>
 
     <!-- Name -->
@@ -78,7 +78,7 @@ $letters = range('A','Z');
     <!-- Yes button -->
     <div class="col-1-auto align-items-center d-flex">
       <!--<button type="button" class="select_btn" id="yesName">&#9989</button>-->
-      <button type="button" class="select_btn btn btn-success btn-lg" id="yesName">Yes</button>
+      <button type="button" class="select_btn btn btn-success btn-lg" style="font-size: 4vw;" id="yesName">Yes</button>
     </div>
 
   </div>
