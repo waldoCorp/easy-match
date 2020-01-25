@@ -16,12 +16,6 @@ require './login_script.php';
   filter: alpha(opacity=100);
 }
 
-/* Longest name is 15 characters */
-.tn-text { font-size: 4.5vw; }
-.sm-text { font-size: 7vw; }
-.md-text { font-size: 9vw; }
-.lg-text { font-size: 12vw; }
-
 </style>
 
 <title>Pick Names!</title>
@@ -63,11 +57,11 @@ $letters = range('A','Z');
 <?php include("header.php"); ?>
 
 <main role="main">
-<div class="container">
+<div class="container h-100">
 
   <h2 class="align-center" id ="oldNameText">&nbsp;</h2> <!-- maybe bad practice, but no assigned value for first name shown and doesn't appear on page -->
 
-  <div class="row justify-content-center h-100">
+  <div class="row justify-content-center">
     <!-- No button -->
     <div class="col-1-auto align-items-center d-flex">
       <!--<button type="button" class="select_btn" id="noName">&#10060</button>-->
@@ -75,9 +69,10 @@ $letters = range('A','Z');
     </div>
 
     <!-- Name -->
-    <div class="col-6 text-center"
-     data-toggle="tooltip" data-placement="bottom" title="We've run out of names to show with the current filters in place.">
-      <h1 class="display-3" id="nameText"></h1>
+    <div class="col-6 d-flex" style="height: 116px;">
+      <h1 class="display-3 text-center align-self-center mx-auto" id="nameText"
+        data-toggle="tooltip" data-placement="bottom" title="We've run out of names to show with the current filters in place.">
+      </h1>
     </div>
 
     <!-- Yes button -->
@@ -302,25 +297,28 @@ function prefRecord(gender,first_letter,last_letter,popularity) {
 
 // Function to update #nameText and display an error if we're out of names:
 function nameTextUpdate(name) {
+  const nameText = $('#nameText');
+
   if( name.length !== 0 ) {
-    const nameText = $('#nameText');
 
     // Adjust size of text to accomodate name:
     const len = name[0]['name'].length;
     console.log(len);
-    if( len < 7 ) {
+    nameText.css("font-size", fontFunc(len) );
+
+/*    if( len < 8 ) {
       nameText.removeClass("sm-text md-text tn-text");
       nameText.addClass("lg-text");
-    } else if( 7 <= len < 9 ) {
+    } else if( 8 <= len < 10 ) {
       nameText.removeClass("sm-text lg-text tn-text");
       nameText.addClass("md-text");
-    } else if( 9 <= len < 11 ){
+    } else if( 10 <= len < 12 ){
       nameText.removeClass("lg-text md-text tn-text");
       nameText.addClass("sm-text");
     } else {
       nameText.removeClass("lg-text md-text sm-text");
       nameText.addClass("tn-text");
-    }
+    } */
 
     nameText.text(name[0]['name']);
 
@@ -332,6 +330,8 @@ function nameTextUpdate(name) {
   } else {
     // We're out of names D:
     nameText.text('N/A');
+    nameText.removeClass("sm-text md-text tn-text");
+    nameText.addClass("lg-text");
 
     // Disable buttons:
     $('.select_btn').attr('disabled', true);
@@ -342,6 +342,18 @@ function nameTextUpdate(name) {
     nameText.tooltip('show');
   }
 
+}
+
+function fontFunc(length) {
+  const width = $(window).width();
+  var output;
+
+  if (width >= 700) {
+    output = (15/Math.log(length)) + "vw";
+  } else {
+    output = (20/Math.log(length)) + "vw";
+  }
+  return output;
 }
 
 function showMatchIcon() {
