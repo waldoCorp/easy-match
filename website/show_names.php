@@ -16,6 +16,12 @@ require './login_script.php';
   filter: alpha(opacity=100);
 }
 
+/* Longest name is 15 characters */
+.tn-text { font-size: 4.5vw; }
+.sm-text { font-size: 7vw; }
+.md-text { font-size: 9vw; }
+.lg-text { font-size: 12vw; }
+
 </style>
 
 <title>Pick Names!</title>
@@ -56,31 +62,31 @@ $letters = range('A','Z');
 
 <?php include("header.php"); ?>
 
-<br>
 <main role="main">
 <div class="container">
 
   <h2 class="align-center" id ="oldNameText">&nbsp;</h2> <!-- maybe bad practice, but no assigned value for first name shown and doesn't appear on page -->
 
-  <div class="row d-flex">
+  <div class="row justify-content-center h-100">
     <!-- No button -->
-    <div class="col-2 align-items-center d-flex">
+    <div class="col-1-auto align-items-center d-flex">
       <!--<button type="button" class="select_btn" id="noName">&#10060</button>-->
-      <button type="button" class="select_btn btn btn-danger btn-lg w-100 h-100" id="noName">No</button>
+      <button type="button" class="select_btn btn btn-danger btn-lg" id="noName">No</button>
     </div>
 
     <!-- Name -->
-    <div class="col-6 display-3 text-center align-center" id="nameText"
+    <div class="col-6 text-center"
      data-toggle="tooltip" data-placement="bottom" title="We've run out of names to show with the current filters in place.">
-
+      <h1 class="display-3" id="nameText"></h1>
     </div>
 
     <!-- Yes button -->
-    <div class="col-2 align-items-center d-flex">
+    <div class="col-1-auto align-items-center d-flex">
       <!--<button type="button" class="select_btn" id="yesName">&#9989</button>-->
-      <button type="button" class="select_btn btn btn-success btn-lg w-100 h-100" id="yesName">Yes</button>
+      <button type="button" class="select_btn btn btn-success btn-lg" id="yesName">Yes</button>
     </div>
 
+  </div>
 </div>
 
 <br>
@@ -297,22 +303,43 @@ function prefRecord(gender,first_letter,last_letter,popularity) {
 // Function to update #nameText and display an error if we're out of names:
 function nameTextUpdate(name) {
   if( name.length !== 0 ) {
-    $('#nameText').text(name[0]['name']);
+    const nameText = $('#nameText');
+
+    // Adjust size of text to accomodate name:
+    const len = name[0]['name'].length;
+    console.log(len);
+    if( len < 7 ) {
+      nameText.removeClass("sm-text md-text tn-text");
+      nameText.addClass("lg-text");
+    } else if( 7 <= len < 9 ) {
+      nameText.removeClass("sm-text lg-text tn-text");
+      nameText.addClass("md-text");
+    } else if( 9 <= len < 11 ){
+      nameText.removeClass("lg-text md-text tn-text");
+      nameText.addClass("sm-text");
+    } else {
+      nameText.removeClass("lg-text md-text sm-text");
+      nameText.addClass("tn-text");
+    }
+
+    nameText.text(name[0]['name']);
+
     // Turn on buttons if they had been turned off:
     $('.select_btn').attr('disabled', false);
-    $('#nameText').tooltip('hide');
-    $('#nameText').tooltip('disable');
+    nameText.tooltip('hide');
+    nameText.tooltip('disable');
+
   } else {
     // We're out of names D:
-    $('#nameText').text('N/A');
+    nameText.text('N/A');
 
     // Disable buttons:
     $('.select_btn').attr('disabled', true);
 
     // Maybe add an alert or something?
     // Turn on tooltip indicating no more names
-    $('#nameText').tooltip('enable');
-    $('#nameText').tooltip('show');
+    nameText.tooltip('enable');
+    nameText.tooltip('show');
   }
 
 }
