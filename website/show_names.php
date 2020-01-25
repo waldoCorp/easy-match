@@ -303,22 +303,7 @@ function nameTextUpdate(name) {
 
     // Adjust size of text to accomodate name:
     const len = name[0]['name'].length;
-    console.log(len);
     nameText.css("font-size", fontFunc(len) );
-
-/*    if( len < 8 ) {
-      nameText.removeClass("sm-text md-text tn-text");
-      nameText.addClass("lg-text");
-    } else if( 8 <= len < 10 ) {
-      nameText.removeClass("sm-text lg-text tn-text");
-      nameText.addClass("md-text");
-    } else if( 10 <= len < 12 ){
-      nameText.removeClass("lg-text md-text tn-text");
-      nameText.addClass("sm-text");
-    } else {
-      nameText.removeClass("lg-text md-text sm-text");
-      nameText.addClass("tn-text");
-    } */
 
     nameText.text(name[0]['name']);
 
@@ -345,15 +330,22 @@ function nameTextUpdate(name) {
 }
 
 function fontFunc(length) {
+  const smallWinSize = 700;
+  const largeWinSize = 1900;
+  const smallFontSize = 15; //vw
+  const medFontSize = 20;  // vw
+  const largeFontSize = 96; // pt
   const width = $(window).width();
-  var output;
+  
+  if(length < 8) {length = 8};
 
-  if (width >= 700) {
-    output = (15/Math.log(length)) + "vw";
+  if (smallWinSize <= width && width <= largeWinSize) {
+   return (medFontSize/Math.log(length)) + "vw";
+  } else if (width < 700) {
+   return (smallFontSize/Math.log(length)) + "vw";
   } else {
-    output = (20/Math.log(length)) + "vw";
+    return largeFontSize + "pt";
   }
-  return output;
 }
 
 function showMatchIcon() {
