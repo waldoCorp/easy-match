@@ -30,7 +30,7 @@ function create_password_token($uuid) {
 	$token = bin2hex(openssl_random_pseudo_bytes(32));
 
 	// NEEDS TO BE FIXED:
-	$urlToEmail = 'https://waldocorp.com/password_set.php?'.
+	$urlToEmail = 'https://easymatch.waldocorp.com/password_set.php?'.
 			http_build_query([
 				'selector' => $selector,
 				'validator' => $token

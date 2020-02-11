@@ -102,16 +102,16 @@ function invite_partner($email, $orig_uuid) {
 
           $htmlBody = "<p>You have been invited to match names with ".
                        (!empty($partner_uname) ? $partner_uname : $partner_email)
-                       .' on <a href="https://waldocorp.com">Baby Name Selector</a>.
+                       .' on <a href="https://easymatch.waldocorp.com">Easy Match</a>.
                        Make an account (or log in) and see if you agree on any names!</p>';
 
           $textBody = "You have been invited to match names with ".
                        (!empty($partner_uname) ? $partner_uname : $partner_email)
-                       ." on Baby Name Selector (waldocorp.com). Make an account
+                       ." Easy Match (easymatch.waldocorp.com). Make an account
                        (or log in) and see if you agree on any names!";
 
 
-          $subj = "Baby Names Partner";
+          $subj = "Easy Match Partner";
           $recipient = $email;
           send_email($htmlBody,$textBody,$subj,$recipient);
         }

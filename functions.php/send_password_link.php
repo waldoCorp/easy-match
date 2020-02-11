@@ -44,10 +44,10 @@ function send_password_link($email) {
 
     $subject = 'NameSelector Password Re/Set';
     $html_body = 'Please follow <a href='. $urlToSend .'>this link</a> to
-                  (re)set your password for Baby Name Selector.';
+                  (re)set your password for Easy Match.';
 
     $txt_body = 'Follow this link to (re)set your password: \n' . $urlToSend
-                 .' for Baby Name Selector';
+                 .' for Easy Match';
 
     send_email($html_body,$txt_body,$subject,$email);
 }
