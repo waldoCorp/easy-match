@@ -102,7 +102,7 @@ $data_opt_out = get_data_pref($uuid);
       <?php echo ($comm['all_comm'] ? 'checked' : ''); ?>
       >
       <label class="form-check-label" for="allComm">
-        Any and all communications Waldo Corp. puts out about Name Selector.
+        Any and all communications Waldo Corp. puts out about Easy Match.
       </label>
     </div>
 

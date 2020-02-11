@@ -7,7 +7,7 @@
 <?php include("./resources.php"); ?>
 
 
-<title>About Baby Names Match</title>
+<title>About Easy Match</title>
 </head>
 
 <body>
@@ -16,7 +16,7 @@
 
 <main role="main">
 <div class="container">
-  <h2>About Baby Name Match</h2>
+  <h2>About Easy Match</h2>
   <p>Have someone (human, cat, iguana, we don't judge) coming into your life that needs a name? 
      This website is designed to allow users to pair with one another
      to find names that they both love. Sign up with as many partners or friends as you like, 
@@ -43,7 +43,7 @@
      about you at any time. You can opt-out of data sharing, view your data, and delete your account <a href='account.php'> here</a>.</p>
 
   <h2>WaldoCorp</h2>
-  <p> Baby Name Match is hosted as a service of WaldoCorp, which is just
+  <p> Easy Match is hosted as a service of WaldoCorp, which is just
      a fancy way of saying that <a href='https://ben.waldocorp.com'>Ben</a>
      and <a href='https://liefesbenshade.com'>Lief</a> made it and we hope
      that it is useful for you.
@@ -51,7 +51,7 @@
      WaldoCorp is not (yet) a registered corporation, but its the name Ben and Lief picked  
      as an umbrella for various projects. 
      Its named for Waldo, an adorable cat who started life in a college dorm room, 
-     and now is the Queen of Ben's apartment. Baby Name Match is our first product, and we
+     and now is the Queen of Ben's apartment. Easy Match is our first product, and we
      hope to create more cool things in the future.</p>
 
 </div>
