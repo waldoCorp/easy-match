@@ -15,6 +15,7 @@ require_once $function_path . 'update_password.php';
 require_once $function_path . 'update_last_login.php';
 require_once $function_path . 'get_new_matches_number.php';
 require_once $function_path . 'get_invitations.php';
+require_once $function_path . 'add_to_unsubscribe.php';
 
 
 if( empty($_SESSION['uuid']) ) {
@@ -29,6 +30,18 @@ if( empty($_SESSION['uuid']) ) {
 
 include $function_path . 'spam_prevention_script.php';
 
+
+// Unsubscribe from all emails:
+if ( $_POST["type"] == 4 ) {
+	if( filter_var($email, FILTER_VALIDATE_EMAIL) ) {
+		add_to_unsubscribe($email);
+		header('Location: ../unsubscribed_email.php?email='.$email);
+		exit();
+	} else {
+		header('Location: ../unsubscribe.php?error=email');
+		exit();
+	}
+}
 
 // New user:
 if ( $_POST["type"] == 0) {
