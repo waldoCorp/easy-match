@@ -100,15 +100,28 @@ function invite_partner($email, $orig_uuid) {
           $partner_email = get_email($orig_uuid);
           $partner_uname = get_username($orig_uuid);
 
-          $htmlBody = "<p>You have been invited to match names with ".
+          $htmlBody =  '<p>Hi!</p>'.
+		       '<p>You have been invited to match names with '.
                        (!empty($partner_uname) ? $partner_uname : $partner_email)
-                       .' on <a href="https://waldocorp.com">Baby Name Selector</a>.
-                       Make an account (or log in) and see if you agree on any names!</p>';
+                       .' on <a href="https://easymatch.waldocorp.com/about.php">Easy Match</a>.
+                       This site is designed to help you find baby names that you and your partner
+                       both like, <a href="https://easymatch.waldocorp.com/index.php">log on now</a>
+                       to start matching names.</p>
+                       <p> Thanks! </p>
+		       <p> CatBot and the EasyMatch Team </p>
+                       <p> You can <a href="https://easymatch.waldocorp.com/account.php">manage your email preferences</a> 
+                       or <a href="easymatch.waldocorp.corm/unsubscribe.php">unsubscribe from all emails</a>';
 
           $textBody = "You have been invited to match names with ".
                        (!empty($partner_uname) ? $partner_uname : $partner_email)
-                       ." on Baby Name Selector (waldocorp.com). Make an account
-                       (or log in) and see if you agree on any names!";
+                       ." on Easy Match (easymatch.waldocorp.com/about.php).
+                       This site is deisgned to help you baby names that you and your partner
+                       both like, log on now (easymatch.waldocorp.com) to start matching names. 
+                       
+                       Thanks! 
+	               CatBot and the EasyMatch Team
+                       You can manage you email preferences (easymatch.waldocorp.com/account.php) or 
+                       unsubscribe from all emails (easymatch.waldocorp.com/unsubscribe.php).";
 
 
           $subj = "Baby Names Partner";
