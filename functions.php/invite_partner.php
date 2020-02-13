@@ -124,7 +124,7 @@ function invite_partner($email, $orig_uuid) {
                        unsubscribe from all emails (easymatch.waldocorp.com/unsubscribe.php).";
 
 
-          $subj = "Baby Names Partner";
+          $subj = "Easy Match Invitation";
           $recipient = $email;
           send_email($htmlBody,$textBody,$subj,$recipient);
         }

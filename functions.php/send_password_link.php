@@ -42,12 +42,29 @@ function send_password_link($email) {
     // Finally, email that bad boy out:
     require_once __DIR__ . '/send_email.php';
 
-    $subject = 'NameSelector Password Re/Set';
-    $html_body = 'Please follow <a href='. $urlToSend .'>this link</a> to
-                  (re)set your password for Baby Name Selector.';
+    $subject = 'Easymatch Password Re/Set';
+    $html_body =  '<p>Hi!</p>
 
-    $txt_body = 'Follow this link to (re)set your password: \n' . $urlToSend
-                 .' for Baby Name Selector';
+                  <p>We recieved a password request for your account.
+                  Follow  <a href=". $urlToSend .">this link</a> to
+                  (re)set your password for EasyMatch.
+                  If you did not request a password reset, please ignore this email.
+                  The password reset link is only valid for the next hour.</p>
+                  <p> Thanks! </p>
+                  <p> CatBot and the EasyMatch Team </p>
+                  <p> You can <a href="https://easymatch.waldocorp.com/account.php">manage your emaiil prefernces </a>
+                       or <a href="easymatch.waldocorp.corm/unsubscribe.php">unsubscribe from all emails</a>';
+	
+
+    $txt_body = 'Hi! We received a password request for your account. 
+                 Follow \n' . $urlToSend 
+                 .' to (re)set your password for EasyMatch.
+                 If you did not request a password reset, please ignore this email. 
+                 The password reset link is only valid for the next hour. 
+                 Thanks! 
+                 CatBot and the EasyMatch Team
+                 You can manage you email preferences (easymatch.waldocorp.com/account.php) or 
+                 unsubscribe from all emails (easymatch.waldocorp.com/unsubscribe.php).';
 
     send_email($html_body,$txt_body,$subject,$email);
 }
