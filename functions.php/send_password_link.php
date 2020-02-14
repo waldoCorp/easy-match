@@ -42,12 +42,20 @@ function send_password_link($email) {
     // Finally, email that bad boy out:
     require_once __DIR__ . '/send_email.php';
 
-    $subject = 'NameSelector Password Re/Set';
-    $html_body = 'Please follow <a href='. $urlToSend .'>this link</a> to
-                  (re)set your password for Easy Match.';
+    $subject = 'Easymatch Password Re/Set';
+    $html_body =  '<p>Hi!</p>
 
-    $txt_body = 'Follow this link to (re)set your password: \n' . $urlToSend
-                 .' for Easy Match';
+                  <p>We recieved a password request for your account.
+                  Follow  <a href="'. $urlToSend .'">this link</a> to
+                  (re)set your password for EasyMatch.
+                  If you did not request a password reset, please ignore this email.
+                  The password reset link is only valid for the next hour.</p>';
+
+    $txt_body = 'Hi! We received a password request for your account.
+                 Follow \n' . $urlToSend
+                 .' to (re)set your password for EasyMatch.
+                 If you did not request a password reset, please ignore this email.
+                 The password reset link is only valid for the next hour.';
 
     send_email($html_body,$txt_body,$subject,$email);
 }

@@ -56,31 +56,32 @@ $letters = range('A','Z');
 
 <?php include("header.php"); ?>
 
-<br>
 <main role="main">
-<div class="container">
+<div class="container h-100">
 
   <h2 class="align-center" id ="oldNameText">&nbsp;</h2> <!-- maybe bad practice, but no assigned value for first name shown and doesn't appear on page -->
 
-  <div class="row d-flex">
+  <div class="row justify-content-center">
     <!-- No button -->
-    <div class="col-2 align-items-center d-flex">
+    <div class="col-1-auto align-items-center d-flex">
       <!--<button type="button" class="select_btn" id="noName">&#10060</button>-->
-      <button type="button" class="select_btn btn btn-danger btn-lg w-100 h-100" id="noName">No</button>
+      <button type="button" class="select_btn btn btn-danger btn-lg" style="font-size: 4vw;" id="noName">No</button>
     </div>
 
     <!-- Name -->
-    <div class="col-6 display-3 text-center align-center" id="nameText"
-     data-toggle="tooltip" data-placement="bottom" title="We've run out of names to show with the current filters in place.">
-
+    <div class="col-6 d-flex" style="height: 116px;">
+      <h1 class="display-3 text-center align-self-center mx-auto" id="nameText"
+        data-toggle="tooltip" data-placement="bottom" title="We've run out of names to show with the current filters in place.">
+      </h1>
     </div>
 
     <!-- Yes button -->
-    <div class="col-2 align-items-center d-flex">
+    <div class="col-1-auto align-items-center d-flex">
       <!--<button type="button" class="select_btn" id="yesName">&#9989</button>-->
-      <button type="button" class="select_btn btn btn-success btn-lg w-100 h-100" id="yesName">Yes</button>
+      <button type="button" class="select_btn btn btn-success btn-lg" style="font-size: 4vw;" id="yesName">Yes</button>
     </div>
 
+  </div>
 </div>
 
 <br>
@@ -296,25 +297,55 @@ function prefRecord(gender,first_letter,last_letter,popularity) {
 
 // Function to update #nameText and display an error if we're out of names:
 function nameTextUpdate(name) {
+  const nameText = $('#nameText');
+
   if( name.length !== 0 ) {
-    $('#nameText').text(name[0]['name']);
+
+    // Adjust size of text to accomodate name:
+    const len = name[0]['name'].length;
+    nameText.css("font-size", fontFunc(len) );
+
+    nameText.text(name[0]['name']);
+
     // Turn on buttons if they had been turned off:
     $('.select_btn').attr('disabled', false);
-    $('#nameText').tooltip('hide');
-    $('#nameText').tooltip('disable');
+    nameText.tooltip('hide');
+    nameText.tooltip('disable');
+
   } else {
     // We're out of names D:
-    $('#nameText').text('N/A');
+    nameText.text('N/A');
+    nameText.removeClass("sm-text md-text tn-text");
+    nameText.addClass("lg-text");
 
     // Disable buttons:
     $('.select_btn').attr('disabled', true);
 
     // Maybe add an alert or something?
     // Turn on tooltip indicating no more names
-    $('#nameText').tooltip('enable');
-    $('#nameText').tooltip('show');
+    nameText.tooltip('enable');
+    nameText.tooltip('show');
   }
 
+}
+
+function fontFunc(length) {
+  const smallWinSize = 700;
+  const largeWinSize = 1900;
+  const smallFontSize = 15; //vw
+  const medFontSize = 20;  // vw
+  const largeFontSize = 96; // pt
+  const width = $(window).width();
+  
+  if(length < 8) {length = 8};
+
+  if (smallWinSize <= width && width <= largeWinSize) {
+   return (medFontSize/Math.log(length)) + "vw";
+  } else if (width < 700) {
+   return (smallFontSize/Math.log(length)) + "vw";
+  } else {
+    return largeFontSize + "pt";
+  }
 }
 
 function showMatchIcon() {
