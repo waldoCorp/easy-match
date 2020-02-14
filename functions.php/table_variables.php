@@ -15,4 +15,4 @@ $new_matches_table = 'new_matches';
 $preferences_table = 'name_preferences';
 $communication_preferences_table = 'communication_preferences';
 $data_token_table = 'data_tokens';
-$unsub_table = 'unsubscribed';
+$unsubscribe_token_table = 'unsubscribe_tokens';

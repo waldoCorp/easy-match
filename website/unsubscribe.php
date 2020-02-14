@@ -7,8 +7,24 @@
 <?php include("./resources.php"); ?>
 
 
-<title>Unsubscribe from Easy Match</title>
+<title>Unsubscribed from Easy Match</title>
 </head>
+
+<?php
+
+require_once $function_path . 'get_email.php';
+require_once $function_path . 'verify_unsubscribe_token.php';
+require_once $function_path . 'record_comm_prefs.php';
+
+$token = $_GET['token'];
+$uuid = verify_unsubscribe_token($token);
+$email = get_email($uuid);
+
+$comm_prefs = array('noComm'=>true);
+if( !is_null($uuid) ) {
+  record_comm_prefs($uuid, $comm_prefs);
+}
+?>
 
 <body>
 
@@ -16,46 +32,29 @@
 
 <main role="main">
 <div class="container">
-  <h2>Unsubscribe from Easy Match</h2>
 
-  <form action="./endpoints/user_endpoint.php" method="post">
 
-    <input type="hidden" name="type" value="4"></input>
+  <?php if( !is_null($email) ) { ?>
+   <div class="alert alert-danger">
+   <h2>Email Removed</h2>
 
-    <div class="form-group w-50">
-        <label for="email">Email Address</label>
-        <input id="login_email" class="form-control" type="email" name="email" aria-describedby="emailHelp" placeholder="Enter Email">
-        <small id="emailHelp" class="form-text text-muted">This email address will no longer recieve emails from Easy Match (change this setting on <a href='https://easymatch.waldocorp.com/account.php'>your account page </a> ).</small>
-    </div>
+   <p>Your email address (<?php echo htmlspecialchars($email); ?>) has been unsubscribed from all emails from Easy Match.
+      If you would like to change this at a later date, create an account and re-subscribe
+      to emails.</p>
+  <?php } else { ?>
+   <div class ="alert alert-danger">
+   <h2>Email Not Removed</h2>
 
-    <div>
-      <small id='errorEmailText' class='text-danger'></small>
-    </div>
+   <p>That link is either bad or expired. To adjust your email preferences please log in
+      and adjust your settings <a href="account.php">on your account page</a>.</p>
+  <?php } ?>
 
-    <button type="submit" class="btn btn-danger" value="Submit" id="submit_btn">Unsubscribe</button>
-
-  </form>
-
-  <br>
-
- <div id="emailAlert" class="alert alert-danger alert-dismissible fade show" role="alert" style='display:none;'>
- </div>
-
+  </div>
 
 </div>
 </main>
 
 <?php include("footer.php"); ?>
-
-<script>
-const urlParams = new URLSearchParams(window.location.search);
-const error = urlParams.get('error');
-
-if( error == 'email' ) {
-  $('#errorEmailText').html('Bad email address, please try again');
-  $('#login_email').addClass("is-invalid");
-}
-</script>
 
 </body>
 
