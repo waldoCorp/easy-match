@@ -26,40 +26,42 @@ use PHPMailer\PHPMailer\Exception;
 // Path to autoloader
 require __DIR__ . '/../vendor/autoload.php';
 
+require_once __DIR__ . '/create_unsubscribe_token.php';
+require_once __DIR__ . '/get_uuid.php';
+
 function send_email($htmlBody,$textBody,$subject,$recipient) {
   //$mail = new PHPMailer(true); // Use this one to enable debug output
   $mail = new PHPMailer();
 
-  // Load credentials:
-  //require __DIR__ . '/../email_config.php';
-
   try {
-    // Server Settings -- not needed since we are local now:
-    //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
-    //$mail->isSMTP();                                            // Send using SMTP
-    //$mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
-    //$mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-    //$mail->Username   = $GUSER;                     // SMTP username
-    //$mail->Password   = $GPWD;                               // SMTP password
-    //$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-    //$mail->Port       = 587;                                    // TCP port to connect to
 
     //Recipients
     $mail->setFrom('catbot@waldocorp.com', 'CatBot <noreply>');
     $mail->addReplyTo('noreply@waldocorp.com');
     $mail->addAddress($recipient);     // Add a recipient
-    /*
-    $mail->addAddress('ellen@example.com');               // Name is optional
-    $mail->addReplyTo('info@example.com', 'Information');
-    $mail->addCC('cc@example.com');
-    $mail->addBCC('bcc@example.com');
-    */
+
+    // Add signoff message
+    $unsub_link = create_unsubscribe_token(get_uuid($recipient));
+
+    $htmlBody = $htmlBody.'
+    <p> Thanks! </p>
+    <p> CatBot and the EasyMatch Team </p>
+    <p> You can <a href="https://easymatch.waldocorp.com/account.php">manage your email preferences</a>
+    or <a href='. $unsub_link .'>unsubscribe from all emails</a>';
+
+    $textBody = $textBody.'
+    Thanks!
+    CatBot and the EasyMatch Team
+    You can manage you email preferences (easymatch.waldocorp.com/account.php) or
+    unsubscribe from all emails ('. $unsub_link .').';
 
     // Content
     $mail->isHTML(true);                                  // Set email format to HTML
     $mail->Subject = $subject;
     $mail->Body    = $htmlBody;
     $mail->AltBody = $textBody;
+
+
 
    $mail->send();
    //echo 'Message Sent!\n';

@@ -19,6 +19,7 @@
   <h2>Please Enter Your Email Address</h2>
   <form action="./endpoints/user_endpoint.php" method="post">
     <input type="hidden" name="type" value="0"></input>
+    <input type="hidden" name="privacy" value="1"></input>
 
       <div class="form-group w-50">
         <input id="login_email" class="form-control" aria-describedby="emailHelp" type="email" name="email" placeholder="Enter Email Address">

@@ -37,13 +37,13 @@ $invitations = get_invitations($uuid);
 <div class="container">
  <h2>Add a Partner</h2>
 
- <form>
+ <form id="add_friend" action="">
       <legend>Invite a friend to compare matches!</legend>
       <div class="form-group w-25">
         <input id="friend_email" class="form-control" type="email" placeholder="Enter Email Address of a Partner">
       </div>
 
-      <button type="button" id="add_friend" class="btn btn-primary" value="Submit">Add Friend!</button>
+      <input type="submit" class="btn btn-primary" value="Add Friend!">
 
  </form>
 
@@ -159,14 +159,14 @@ $invitations = get_invitations($uuid);
 
 <!-- Custom JavaScript goes here -->
 <script>
-$('#add_friend').click(function() {
+$('#add_friend').submit(function( e ) {
   var new_email = $('#friend_email').val();
   inviteFriend(new_email);
   // Reset to stop spamming the button
   $('#friend_email').val('');
 
   emailAlert(new_email);
-
+  e.preventDefault();
 });
 
 $('.select_btn').click(function() {

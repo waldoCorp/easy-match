@@ -100,18 +100,21 @@ function invite_partner($email, $orig_uuid) {
           $partner_email = get_email($orig_uuid);
           $partner_uname = get_username($orig_uuid);
 
-          $htmlBody = "<p>You have been invited to match names with ".
+          $htmlBody =  '<p>Hi!</p>'.
+		       '<p>You have been invited to match names with '.
                        (!empty($partner_uname) ? $partner_uname : $partner_email)
-                       .' on <a href="https://waldocorp.com">Baby Name Selector</a>.
-                       Make an account (or log in) and see if you agree on any names!</p>';
+                       .' on <a href="https://easymatch.waldocorp.com/about.php">Easy Match</a>.
+                       This site is designed to help you find baby names that you and your partner
+                       both like, <a href="https://easymatch.waldocorp.com/index.php">log on now</a>
+                       to start matching names.</p>';
 
-          $textBody = "You have been invited to match names with ".
+          $textBody = 'You have been invited to match names with '.
                        (!empty($partner_uname) ? $partner_uname : $partner_email)
-                       ." on Baby Name Selector (waldocorp.com). Make an account
-                       (or log in) and see if you agree on any names!";
+                       .' on Easy Match (easymatch.waldocorp.com/about.php).
+                       This site is deisgned to help you baby names that you and your partner
+                       both like, log on now (easymatch.waldocorp.com) to start matching names.';
 
-
-          $subj = "Baby Names Partner";
+          $subj = "Easy Match Invitation";
           $recipient = $email;
           send_email($htmlBody,$textBody,$subj,$recipient);
         }
