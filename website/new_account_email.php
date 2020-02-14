@@ -18,11 +18,11 @@
 <div class="container">
 
   <div class="alert alert-success">
-   <h2>Account Created</h2>
+   <h2>Password Link Sent</h2>
 
    <p>Please look for an email from
      <a class="alert-link" href="mailto:catbot@waldocorp.com">catbot@waldocorp.com</a>
-     to finish setting up your account.</p>
+     to finish setting up your account or change your password.</p>
    <p><a class="alert-link" href="index.php">Back to the homepage</a></p>
   </div>
 
