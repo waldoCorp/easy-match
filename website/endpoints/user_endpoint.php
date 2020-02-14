@@ -76,8 +76,15 @@ if ( $_POST["type"] == 0) {
 		// Update last_login time:
 		update_last_login($_SESSION['uuid']);
 
-		header('Location: ../show_names.php');
-
+		// Redirect to where they were trying to go, or default to
+		// show_names.php:
+		if( isset($_SESSION['target_page']) ) {
+			$target = $_SESSION['target_page'];
+			unset($_SESSION['target_page']);
+			header('Location: '.$target);
+		} else {
+			header('Location: ../show_names.php');
+		}
 	} else {
 		header('Location: ../index.php?error=bad_login');
 		//echo "Login FAILURE!";
