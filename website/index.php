@@ -4,6 +4,13 @@
 <meta charset="utf=8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+<?php
+// If we're logged in, we shouldn't be on this page.
+if( $_SESSION['login'] ) {
+  header('Location: ./show_names.php');
+}
+?>
+
 <?php include("./resources.php"); ?>
 
 
