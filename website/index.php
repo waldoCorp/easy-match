@@ -7,7 +7,7 @@
 <?php include("./resources.php"); ?>
 
 
-<title>Name Match!</title>
+<title>Easy Match!</title>
 
 </head>
 
@@ -17,7 +17,7 @@
 
 <main role="main">
 <div class="container">
-  <h2>Welcome to Baby Names Match!</h2>
+  <h2>Welcome to Easy Match!</h2>
 
   <form action="./endpoints/user_endpoint.php" method="post">
     <input type="hidden" name="type" value="1"></input>

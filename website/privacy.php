@@ -18,7 +18,7 @@
 <div class="container">
   <h2>WaldoCorp Privacy Policy</h2>
   <p> Ben and Lief like making things, and now we’re sharing them with you.
-      Our first product, Name Match, helps you find names that you, and your partners, love. 
+      Our first product, Easy Match, helps you find names that you, and your partners, love. 
       To do that, we store the minimum amount of data necessary to make the website run.
       This privacy policy was updated on December 27, 2019 </p>
 
