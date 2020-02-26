@@ -338,20 +338,34 @@ function nameTextUpdate(name) {
 }
 
 function fontFunc(length) {
-  const smallWinSize = 700;
-  const largeWinSize = 1900;
+  // Based on Bootstrap's breakpoints:
+  const smallWinSize = 576;  // BS Extra Small
+  const medWinSize = 768;    // BS Medium
+  const largeWinSize = 992; // BS Large
+  const extraLargeWinSize = 1200; // BS Extra Large
+
   const smallFontSize = 15; //vw
-  const medFontSize = 20;  // vw
-  const largeFontSize = 96; // pt
+  const medFontSize = 17;  // vw
+  const largeFontSize = 72; // pt
+  const extraLargeFontSize = 96; // pt
   const width = $(window).width();
 
-  if(length < 8) {length = 8};
+  //if(length < 8) {length = 8};
 
-  if (smallWinSize <= width && width <= largeWinSize) {
-   return (medFontSize/Math.log(length)) + "vw";
-  } else if (width < 700) {
+  if (smallWinSize <= width && width < medWinSize) {
+   // "Small" Window
+   return (medFontSize/Math.log(1.5*length)) + "vw";
+  } else if (width < smallWinSize) {
+   // "Extra Small"
    return (smallFontSize/Math.log(length)) + "vw";
+  } else if (medWinSize <= width < largeWinSize) {
+   // "Medium"
+    return (medFontSize/Math.log(length)) + "vw";
+  } else if (largeWinSize <= width < extraLargeWinSize) {
+   // "Large"
+    return largeFontSize + "pt";
   } else {
+   // "Extra Large"
     return largeFontSize + "pt";
   }
 }
