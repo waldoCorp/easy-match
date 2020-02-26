@@ -8,6 +8,9 @@ require './login_script.php';
 <meta charset="utf=8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+<!-- Google Font Lookup -->
+<link href="https://fonts.googleapis.com/css?family=Cousine&display=swap" rel="stylesheet">
+
 <?php include("./resources.php"); ?>
 
 <style>
@@ -15,6 +18,11 @@ require './login_script.php';
   opacity: 1 !important;
   filter: alpha(opacity=100);
 }
+
+.monospace {
+  font-family: 'Cousine', monospace;
+}
+
 
 </style>
 
@@ -70,7 +78,7 @@ $letters = range('A','Z');
 
     <!-- Name -->
     <div class="col-6 d-flex" style="height: 116px;">
-      <h1 class="display-3 text-center align-self-center mx-auto" id="nameText"
+      <h1 class="display-3 text-center align-self-center mx-auto monospace" id="nameText"
         data-toggle="tooltip" data-placement="bottom" title="We've run out of names to show with the current filters in place.">
       </h1>
     </div>
@@ -336,7 +344,7 @@ function fontFunc(length) {
   const medFontSize = 20;  // vw
   const largeFontSize = 96; // pt
   const width = $(window).width();
-  
+
   if(length < 8) {length = 8};
 
   if (smallWinSize <= width && width <= largeWinSize) {
