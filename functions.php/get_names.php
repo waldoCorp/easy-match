@@ -91,7 +91,7 @@ function get_names($uuid,$n) {
 	$filter_text = $gender_text.$first_let_text.$last_let_text.$pop_text;
 
 	$sql = "
-	SELECT COALESCE(ps.name, rs.name) AS name,
+	SELECT rs.name AS name,
 	COALESCE(ps.match, false) AS match
 
 	  FROM (
@@ -114,7 +114,7 @@ function get_names($uuid,$n) {
 		SELECT name
 		FROM $selections_table
     		WHERE uuid = :uuid
-	  ) AS ss ON ps.name = ss.name
+	  ) AS ss ON rs.name = ss.name
 
 	WHERE ss.name IS NULL
 	-- randomizes the returned list, but keeps partner names on top --
