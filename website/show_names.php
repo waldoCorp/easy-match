@@ -350,7 +350,7 @@ function fontFunc(length) {
   const extraLargeFontSize = 96; // pt
   const width = $(window).width();
 
-  //if(length < 8) {length = 8};
+  if(length < 8) {length = 8};
 
   if (smallWinSize <= width && width < medWinSize) {
    // "Small" Window
@@ -360,7 +360,8 @@ function fontFunc(length) {
    return (smallFontSize/Math.log(length)) + "vw";
   } else if (medWinSize <= width < largeWinSize) {
    // "Medium"
-    return (medFontSize/Math.log(length)) + "vw";
+    return (medFontSize/Math.log(1.5*length)) + "vw";
+>>>>>>> 270b6c12b1705eb86602a5f040ba77bd92841a61
   } else if (largeWinSize <= width < extraLargeWinSize) {
    // "Large"
     return largeFontSize + "pt";
