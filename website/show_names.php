@@ -78,7 +78,7 @@ $letters = range('A','Z');
 
     <!-- Name -->
     <div class="col-6 d-flex" style="height: 116px;">
-      <h1 class="display-3 text-center align-self-center mx-auto monospace" id="nameText"
+      <h1 class="text-center align-self-center mx-auto monospace" id="nameText"
         data-toggle="tooltip" data-placement="bottom" title="We've run out of names to show with the current filters in place.">
       </h1>
     </div>
@@ -346,28 +346,33 @@ function fontFunc(length) {
 
   const smallFontSize = 15; //vw
   const medFontSize = 17;  // vw
-  const largeFontSize = 72; // pt
-  const extraLargeFontSize = 96; // pt
+  const largeFontSize = 60; // pt
+  const extraLargeFontSize = 70; // pt
   const width = $(window).width();
-
+  console.log(width);
+  console.log(largeWinSize);
   if(length < 8) {length = 8};
 
   if (smallWinSize <= width && width < medWinSize) {
+    console.log("Small");
    // "Small" Window
    return (medFontSize/Math.log(1.5*length)) + "vw";
   } else if (width < smallWinSize) {
+    console.log("ex small");
    // "Extra Small"
    return (smallFontSize/Math.log(length)) + "vw";
-  } else if (medWinSize <= width < largeWinSize) {
+  } else if (medWinSize <= width && width < largeWinSize) {
+    console.log("medium");
    // "Medium"
     return (medFontSize/Math.log(1.5*length)) + "vw";
->>>>>>> 270b6c12b1705eb86602a5f040ba77bd92841a61
-  } else if (largeWinSize <= width < extraLargeWinSize) {
+  } else if (largeWinSize <= width && width < extraLargeWinSize) {
+    console.log("large");
    // "Large"
     return largeFontSize + "pt";
   } else {
+    console.log("ex large");
    // "Extra Large"
-    return largeFontSize + "pt";
+    return extraLargeFontSize + "pt";
   }
 }
 
