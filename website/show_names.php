@@ -349,28 +349,22 @@ function fontFunc(length) {
   const largeFontSize = 60; // pt
   const extraLargeFontSize = 70; // pt
   const width = $(window).width();
-  console.log(width);
-  console.log(largeWinSize);
+
   if(length < 8) {length = 8};
 
   if (smallWinSize <= width && width < medWinSize) {
-    console.log("Small");
    // "Small" Window
    return (medFontSize/Math.log(1.5*length)) + "vw";
   } else if (width < smallWinSize) {
-    console.log("ex small");
    // "Extra Small"
    return (smallFontSize/Math.log(length)) + "vw";
   } else if (medWinSize <= width && width < largeWinSize) {
-    console.log("medium");
    // "Medium"
     return (medFontSize/Math.log(1.5*length)) + "vw";
   } else if (largeWinSize <= width && width < extraLargeWinSize) {
-    console.log("large");
    // "Large"
     return largeFontSize + "pt";
   } else {
-    console.log("ex large");
    // "Extra Large"
     return extraLargeFontSize + "pt";
   }
