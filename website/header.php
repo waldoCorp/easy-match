@@ -39,6 +39,10 @@
     </li>
 
     <li class="nav-item">
+      <a class="nav-link" href="my_names.php">My Names</a>
+    </li>
+
+    <li class="nav-item">
       <a class="nav-link" href="popularity_charts.php">Name Trends</a>
     </li>
   </ul>
