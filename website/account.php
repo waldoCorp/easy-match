@@ -70,7 +70,7 @@ $data_opt_out = get_data_pref($uuid);
       <?php echo (!$data_opt_out ? 'checked' : ''); ?>
       >
       <label class="form-check-label" for="dataOptOut">
-        WaldoCorp can share my anonymized data with third parties.
+        waldoCorp can share my anonymized data with third parties.
       </label>
     </div>
   </form>
@@ -102,7 +102,7 @@ $data_opt_out = get_data_pref($uuid);
       <?php echo ($comm['all_comm'] ? 'checked' : ''); ?>
       >
       <label class="form-check-label" for="allComm">
-        Any and all communications Waldo Corp. puts out about Easy Match.
+        Any and all communications waldoCorp puts out about Easy Match.
       </label>
     </div>
 
@@ -120,7 +120,7 @@ $data_opt_out = get_data_pref($uuid);
       <?php echo ($comm['promotion'] ? 'checked' : ''); ?>
       >
       <label class="form-check-label" for="promotionComm">
-        Promotional news from Waldo Corp. such as new services or results of any research done using data from this site.
+        Promotional news from waldoCorp such as new services or results of any research done using data from this site.
       </label>
     </div>
 

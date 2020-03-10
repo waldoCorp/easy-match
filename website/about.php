@@ -42,13 +42,13 @@
      control it, we cannot guarantee deletion). You can request a copy of all data we have stored 
      about you at any time. You can opt-out of data sharing, view your data, and delete your account <a href='account.php'> here</a>.</p>
 
-  <h2>WaldoCorp</h2>
-  <p> Easy Match is hosted as a service of WaldoCorp, which is just
+  <h2>waldoCorp</h2>
+  <p> Easy Match is hosted as a service of waldoCorp, which is just
      a fancy way of saying that <a href='https://ben.waldocorp.com'>Ben</a>
      and <a href='https://liefesbenshade.com'>Lief</a> made it and we hope
      that it is useful for you.
 
-     WaldoCorp is not (yet) a registered corporation, but its the name Ben and Lief picked  
+     waldoCorp is not (yet) a registered corporation, but its the name Ben and Lief picked
      as an umbrella for various projects. 
      Its named for Waldo, an adorable cat who started life in a college dorm room, 
      and now is the Queen of Ben's apartment. Easy Match is our first product, and we
