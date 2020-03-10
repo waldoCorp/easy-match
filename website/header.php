@@ -6,7 +6,7 @@
 -->
 <header>
 <nav class="navbar navbar-expand-md navbar-light" style="background-color: #d6d2f7">
-  <a class="navbar-brand mb-01 h1" href="about.php">Easy Match</a>
+  <a class="navbar-brand mb-01 h1" href="about.php">Baby Names</a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -38,9 +38,6 @@
       <a class="nav-link" href="match_list.php">My Matches</a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link" href="popularity_charts.php">Name Trends</a>
-    </li>
   </ul>
 
   <ul class="navbar-nav">
