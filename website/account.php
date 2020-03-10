@@ -79,20 +79,6 @@ $data_opt_out = get_data_pref($uuid);
 <br>
 
 <div class="container">
- <h2>View Selected Names</h2>
- <form>
-    <fieldset>
-      <p>See names you've liked/disliked and (potentially) change your mind:</p>
-      <p>
-          <a class="btn btn-primary" href="my_names.php">My Names</a>
-      </p>
-    </fieldset>
-  </form>
-</div>
-
-<br>
-
-<div class="container">
  <h2>Communication Preferences</h2>
  <form id="commForm">
     <p>Choose what types of communication(s) you would like to receive from us:</p>
