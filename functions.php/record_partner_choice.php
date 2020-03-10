@@ -85,6 +85,14 @@ function record_partner_choice($uuid,$partner_uuid,$confirm) {
       $stmt->bindValue(':partner_uuid',$partner_uuid);
       $stmt->execute();
 
+      // Also remove any new matches that might exist so people don't see the badge:
+      $sql = "DELETE FROM $new_matches_table
+              WHERE uuid = :uuid OR partner_uuid = :uuid;";
+
+      $stmt = $db->prepare($sql);
+      $stmt->bindValue(':uuid',$uuid);
+      $stmt->execute();
+
 
     }
 }
