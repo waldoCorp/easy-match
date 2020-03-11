@@ -47,22 +47,37 @@ sort($names); // sort ensures new matches (with stars) are at the top
 <?php include("header.php"); ?>
 <main role="main">
 <div class="container">
-  <h2>Choose which partner to match names with</h2>
+ <div class="row align-items-center">
+  <div class="col-8">
+   <h2>Choose which partner to match names with</h2>
 
- <div class="form-group w-25">
-  <select id="partner_select" class="form-control">
-    <option value="">Pick a Partner</option>
-    <?php foreach($partners as $partner) { ?>
-      <option value="<?php echo htmlspecialchars($partner['email']); ?>"
-        <?php echo ($partner['email'] == $partner_email) ? 'selected' : ''; ?>>
-	<?php if( !empty($partner['uname']) ) {
-                echo htmlspecialchars($partner['uname']) ." (". htmlspecialchars($partner['email']) .")";
-              } else {
-                echo htmlspecialchars($partner['email']);
-              }?>
-      </option>
-    <?php } ?>
-  </select>
+   <div class="form-group w-50">
+    <select id="partner_select" class="form-control">
+      <option value="">Pick a Partner</option>
+      <?php foreach($partners as $partner) { ?>
+        <option value="<?php echo htmlspecialchars($partner['email']); ?>"
+          <?php echo ($partner['email'] == $partner_email) ? 'selected' : ''; ?>>
+	  <?php if( !empty($partner['uname']) ) {
+                  echo htmlspecialchars($partner['uname']) ." (". htmlspecialchars($partner['email']) .")";
+                } else {
+                  echo htmlspecialchars($partner['email']);
+                }?>
+        </option>
+      <?php } ?>
+    </select>
+   </div>
+  </div>
+
+  <div class="col">
+   <form>
+    <div class="form-group">
+           <a class="btn btn-primary btn-sm" href="my_names.php" id="myNames"
+             aria-describedby="myNamesText">My Names</a>
+          <small id="myNamesText" class="form-text text-muted">See names you have rated</small>
+
+    </div>
+   </form>
+  </div>
  </div>
 </div>
 
