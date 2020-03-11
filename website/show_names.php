@@ -157,8 +157,23 @@ $letters = range('A','Z');
       </select>
     </div>
   </div>
+ </div>
 </div>
+
+<br>
+<br>
+
+<div class="container">
+  <form>
+    <div class="form-group">
+           <a class="btn btn-outline-info btn-sm" href="my_names.php" id="myNames"
+             aria-describedby="myNamesText">My Names</a>
+          <small id="myNamesText" class="form-text text-muted">See names you have rated</small>
+
+    </div>
+   </form>
 </div>
+
 </main>
 
 <?php include("footer.php"); ?>
