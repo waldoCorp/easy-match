@@ -48,7 +48,7 @@ sort($names); // sort ensures new matches (with stars) are at the top
 <main role="main">
 <div class="container">
  <div class="row align-items-center">
-  <div class="col-8">
+  <div class="col-md-8">
    <h2>Choose which partner to match names with</h2>
 
    <div class="form-group w-50">
