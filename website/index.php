@@ -27,23 +27,27 @@ if( $_SESSION['login'] ) {
   <h2>Welcome to Easy Match!</h2>
 
   <form action="./endpoints/user_endpoint.php" method="post">
+   <div class="form-row">
     <input type="hidden" name="type" value="1"></input>
 
       <legend>Sign in (or <a href="new_account.php">create account</a> / <a href="reset_password.php">reset password</a>)</legend>
 
-      <div class="form-group w-25">
+      <div class="form-group col-md-5">
         <label for="email">Email</label>
         <input name="email" id="email" class="form-control" type="email" placeholder="Enter Email Address">
       </div>
-
-      <div class="form-group w-25">
+   </div>
+   <div class="form-row">
+      <div class="form-group col-md-5">
         <label for="password">Password</label>
         <input name="passwd" class="form-control" id="password" type="password" placeholder="Super Secret">
       </div>
-
-      <div>
+   </div>
+   <div class="form-row">
+      <div class="form-group">
       <small id='errorText' class="text-danger"></small>
       </div>
+   </div>
 <br>
       <button type="submit" class="btn btn-primary" value="Submit">Log In</button>
   </form>
