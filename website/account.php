@@ -44,12 +44,14 @@ $data_opt_out = get_data_pref($uuid);
 <div class="container">
  <h2>Account Info</h2>
  <form>
-      <legend>Username</legend>
-      <div class="form-group w-25">
+  <div class="form-row">
+     <legend>Username</legend>
+      <div class="form-group col-md-6">
         <input id="username" class="form-control" type="text" placeholder="No Username Yet"
          aria-describedby="unameHelp" value="<?php echo htmlspecialchars($uname) ?>">
         <small id="unameHelp" class="form-text text-muted">Your username is only used to identify yourself to other users and is optional</small>
       </div>
+   </div>
   </form>
 </div>
 
@@ -73,20 +75,6 @@ $data_opt_out = get_data_pref($uuid);
         waldoCorp can share my anonymized data with third parties.
       </label>
     </div>
-  </form>
-</div>
-
-<br>
-
-<div class="container">
- <h2>View Selected Names</h2>
- <form>
-    <fieldset>
-      <p>See names you've liked/disliked and (potentially) change your mind:</p>
-      <p>
-          <a class="btn btn-primary" href="my_names.php">My Names</a>
-      </p>
-    </fieldset>
   </form>
 </div>
 

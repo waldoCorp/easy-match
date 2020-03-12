@@ -78,7 +78,7 @@ $letters = range('A','Z');
 
     <!-- Name -->
     <div class="col-6 d-flex" style="height: 116px;">
-      <h1 class="display-3 text-center align-self-center mx-auto monospace" id="nameText"
+      <h1 class="text-center align-self-center mx-auto monospace" id="nameText"
         data-toggle="tooltip" data-placement="bottom" title="We've run out of names to show with the current filters in place.">
       </h1>
     </div>
@@ -157,8 +157,23 @@ $letters = range('A','Z');
       </select>
     </div>
   </div>
+ </div>
 </div>
+
+<br>
+<br>
+
+<div class="container">
+  <form>
+    <div class="form-group">
+           <a class="btn btn-outline-info btn-sm" href="my_names.php" id="myNames"
+             aria-describedby="myNamesText">My Names</a>
+          <small id="myNamesText" class="form-text text-muted">See names you have rated</small>
+
+    </div>
+   </form>
 </div>
+
 </main>
 
 <?php include("footer.php"); ?>
@@ -346,8 +361,8 @@ function fontFunc(length) {
 
   const smallFontSize = 15; //vw
   const medFontSize = 17;  // vw
-  const largeFontSize = 72; // pt
-  const extraLargeFontSize = 96; // pt
+  const largeFontSize = 60; // pt
+  const extraLargeFontSize = 70; // pt
   const width = $(window).width();
 
   if(length < 8) {length = 8};
@@ -358,15 +373,15 @@ function fontFunc(length) {
   } else if (width < smallWinSize) {
    // "Extra Small"
    return (smallFontSize/Math.log(length)) + "vw";
-  } else if (medWinSize <= width < largeWinSize) {
+  } else if (medWinSize <= width && width < largeWinSize) {
    // "Medium"
     return (medFontSize/Math.log(1.5*length)) + "vw";
-  } else if (largeWinSize <= width < extraLargeWinSize) {
+  } else if (largeWinSize <= width && width < extraLargeWinSize) {
    // "Large"
     return largeFontSize + "pt";
   } else {
    // "Extra Large"
-    return largeFontSize + "pt";
+    return extraLargeFontSize + "pt";
   }
 }
 

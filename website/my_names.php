@@ -35,19 +35,19 @@ $selections = get_selections($uuid);
 <main role="main">
 <div class="container">
   <h2>Change what you think about a name</h2>
-  <a href="account.php">Back to Account</a>
+  <a href="show_names.php">Show me more names!</a>
 
 <?php foreach($selections as $selection) { ?>
   <div class="row py-2 border-bottom">
-    <div class="col-sm" name="name">
+    <div class="col" name="name">
       <?php echo(htmlspecialchars($selection['name'])); ?>
     </div>
-    <div class="col-sm" name="selected">
+    <div class="col-1" name="selected">
       <?php echo ($selection['selected'] ? 'Yes' : 'No') ; ?>
     </div>
-    <div class="col-sm">
+    <div class="col">
       <button type="button" class="swap_btn">
-        <?php echo ($selection['selected'] ? 'Actually, No' : 'Actually, Yes') ; ?>
+        <?php echo ($selection['selected'] ? 'Change to No' : 'Change to Yes') ; ?>
       </button>
     </div>
   </div>
@@ -74,11 +74,11 @@ $('.swap_btn').click(function() {
   // Show the swap on the page:
   if( cur_text == 'No' ) {
     cur_field.text('Yes');
-   $(this).text('Actually, No');
+   $(this).text('Change to No');
     updateNameStatus('yes',name_text);
   } else {
     cur_field.text('No');
-   $(this).text('Actually, Yes');
+   $(this).text('Change to Yes');
     updateNameStatus('no',name_text);
   }
 
