@@ -15,7 +15,7 @@
 
 function download_match_list($names_array) {
   $filename = "match_list.csv";
-  $delimiter = ";";
+  $delimiter = "\n";
   header('Content-Type: application/csv');
   header('Content-Disposition: attachement; filename="'.$filename.'";');
   $f = fopen('php://output', 'w'); // Open "output" stream as writable
