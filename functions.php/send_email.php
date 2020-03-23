@@ -45,13 +45,13 @@ function send_email($htmlBody,$textBody,$subject,$recipient) {
 
     $htmlBody = $htmlBody.'
     <p> Thanks! </p>
-    <p> CatBot and the EasyMatch Team </p>
+    <p> CatBot and the Easy Match Team </p>
     <p> You can <a href="https://easymatch.waldocorp.com/account.php">manage your email preferences</a>
     or <a href='. $unsub_link .'>unsubscribe from all emails</a>';
 
     $textBody = $textBody.'
     Thanks!
-    CatBot and the EasyMatch Team
+    CatBot and the Easy Match Team
     You can manage you email preferences (easymatch.waldocorp.com/account.php) or
     unsubscribe from all emails ('. $unsub_link .').';
 

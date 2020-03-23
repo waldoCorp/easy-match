@@ -32,7 +32,7 @@ $partner_uuid = get_uuid($partner_email);
 
 $partner_name = get_username($partner_uuid);
 
-unset($_SESSION['partner_email']);
+//unset($_SESSION['partner_email']);
 
 
 $names = get_matching_names_list($uuid,$partner_uuid);
@@ -91,7 +91,8 @@ sort($names); // sort ensures new matches (with stars) are at the top
     <h2>No partner selected to match with</h2>
   <?php } else { ?>
     <h2>List of names you and <?php echo htmlspecialchars($partner_name) . " (". htmlspecialchars($partner_email).")"; ?> agree on</h2>
-
+  <div class="row">
+    <div class="col">
     <?php if( !is_null($names) ) {
       foreach($names as $name) { ?>
       <div class="row">
@@ -99,15 +100,44 @@ sort($names); // sort ensures new matches (with stars) are at the top
           <?php echo(htmlspecialchars($name)); ?>
         </div>
       </div>
+
+
       <?php } ?>
+    </div>
+      <div class="col">
+        <br>
+         <div class="dropdown">
+             <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="downloadDropdown"
+                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                     aria-describedby="downloadText">Export List</button>
+            <div class="dropdown-menu" aria-labelledby="downloadDropdown">
+              <a class="dropdown-item" href="download_list.php">Download</a>
+              <a class="dropdown-item"
+                href="mailto:?subject=Easy%20Match%20Names%20List&body=Hi!%0D%0AHere%20is%20a%20list%20of%20names%20that%20<?php
+                  echo (!is_null($partner_name) ? htmlspecialchars($partner_name) : htmlspecialchars($partner_email) );
+                  ?>%20and%20I%20are%20thinking%20about:%0D%0A%0D%0A<?php
+                  foreach($names as $name) {
+                    echo(htmlspecialchars($name)."%0D%0A");
+                  }?>%0D%0AWe're%20using%20easymatch.waldocorp.com%20to%20help%20us%20pick%20names!"
+              >Email</a>
+            </div>
+            <small id="downloadText" class="form-text text-muted">Download or email list of matching names</small>
+
+
+          </div>
+      </div>
+
     <?php } else { ?>
       <div class="row">
         <div class="col-sm">
           No Matching Names!
         </div>
       </div>
+    </div>
     <?php } ?>
   <?php } ?>
+
+  </div>
 </div>
 </main>
 
@@ -118,6 +148,7 @@ $('#partner_select').change(function() {
   var partner_email = $(this).val()
   partnerSelect(partner_email);
 });
+
 
 function partnerSelect(email) {
   // AJAX Request here
@@ -133,9 +164,7 @@ function partnerSelect(email) {
       location.reload()
     }
   });
-
 }
-
 
 </script>
 

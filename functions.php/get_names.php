@@ -99,7 +99,8 @@ function get_names($uuid,$n) {
     		SELECT DISTINCT name, true AS priority, true AS match
     		FROM $selections_table s
     		LEFT JOIN $partners_table p ON s.uuid = p.partner_uuid
-    		WHERE p.uuid = :uuid AND s.selected = true
+    		WHERE (p.uuid = :uuid AND confirmed = true)
+		AND s.selected = true
 	  ) AS ps
 
 	  RIGHT JOIN (

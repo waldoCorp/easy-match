@@ -42,7 +42,7 @@ function send_password_link($email) {
     // Finally, email that bad boy out:
     require_once __DIR__ . '/send_email.php';
 
-    $subject = 'Easymatch Password Re/Set';
+    $subject = 'Easy Match Password Re/Set';
     $html_body =  '<p>Hi!</p>
 
                   <p>We recieved a password request for your account.
@@ -59,4 +59,3 @@ function send_password_link($email) {
 
     send_email($html_body,$txt_body,$subject,$email);
 }
-
