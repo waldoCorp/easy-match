@@ -113,12 +113,12 @@ sort($names); // sort ensures new matches (with stars) are at the top
             <div class="dropdown-menu" aria-labelledby="downloadDropdown">
               <a class="dropdown-item" href="download_list.php">Download</a>
               <a class="dropdown-item"
-                href="mailto:?subject=Easy%20Match%20Names%20List&body=Here%20is%20the%20list%20of%20names%20you%20and%20<?php
-                  echo (!is_null($partner_name) ? $partner_name."%20(".htmlspecialchars($partner_email).")%0D%0A" : htmlspecialchars($partner_email)."%0D%0A" );
-                  ?>agree%20on:%0D%0A%0D%0A<?php
+                href="mailto:?subject=Easy%20Match%20Names%20List&body=Hi!%0D%0AHere%20is%20a%20list%20of%20names%20that%20<?php
+                  echo (!is_null($partner_name) ? htmlspecialchars($partner_name) : htmlspecialchars($partner_email) );
+                  ?>%20and%20I%20are%20thinking%20about:%0D%0A%0D%0A<?php
                   foreach($names as $name) {
                     echo(htmlspecialchars($name)."%0D%0A");
-                  }?>%0D%0AThanks!%0D%0ACatbot%20and%20the%20Easy%20Match%20Team"
+                  }?>%0D%0AWe're%20using%20easymatch.waldocorp.com%20to%20help%20us%20pick%20names!"
               >Email</a>
             </div>
             <small id="downloadText" class="form-text text-muted">Download or email list of matching names</small>
