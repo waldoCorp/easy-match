@@ -33,41 +33,38 @@ user_selections <-
   dbGetQuery(con, .)
 
 # Month Aggregated Selection Data
-month <- 
-    "SELECT *, CONCAT(DATE_PART('year' , date_selected), '-',
-                     DATE_PART('month', date_selected)) AS month
-    FROM selections"
-
 byMonth_selections <- 
   paste(
-  "SELECT month,
+  "SELECT TO_CHAR(date_selected, 'YYYY-MM') AS month,
     COUNT(*) as views,
     SUM(selected::int) as likes
-  FROM (", month, ") as s
+  FROM selections as s
   GROUP BY MONTH") %>% 
   dbGetQuery(con, .)
 
 byMonth_newUsers <- 
   paste(
-  "SELECT month, count(*) AS new_users
-  FROM 
-  ( SELECT uuid, min(month) as month, min(date_selected)
-    FROM (", month, ") AS a
-    GROUP BY uuid) AS b
+  "SELECT TO_CHAR(create_date, 'YYYY-MM') AS month,
+          COUNT(*) as new_users
+  FROM users
   GROUP BY month") %>% 
-  dbGetQuery(con, .)
+  dbGetQuery(con, .) %>% 
+  mutate(new_users = as.integer(new_users))
 
 byMonth_activeUsers <- 
   paste(
-  "SELECT month, COUNT(DISTINCT uuid) as active_users
-    FROM (", month, ") AS a
+  "SELECT TO_CHAR(date_selected, 'YYYY-MM') AS month, COUNT(DISTINCT uuid) as active_users
+    FROM selections
     GROUP BY month") %>% 
-  dbGetQuery(con, .)
+  dbGetQuery(con, .) %>% 
+  mutate(active_users = as.integer(active_users))
 
 byMonth <- 
   full_join(byMonth_selections, 
             byMonth_newUsers) %>% 
-  full_join(byMonth_activeUsers)
+  full_join(byMonth_activeUsers) %>% 
+  replace(is.na(.), 0) %>% 
+  arrange(month)
 
 rm(byMonth_selections, byMonth_activeUsers, byMonth_newUsers)
 
@@ -77,7 +74,7 @@ matches <-
   FROM selections AS s
   INNER JOIN partners AS p on s.uuid = p.uuid
   INNER JOIN selections AS s2 on p.partner_uuid = s2.uuid AND s.name = s2.name
-  WHERE s.selected AND s2.selected" %>% 
+  WHERE s.selected AND s2.selected AND p.confirmed" %>% 
     dbGetQuery(con, .)
 
 name_matches <-
@@ -85,7 +82,7 @@ name_matches <-
   FROM selections AS s
   INNER JOIN partners AS p on s.uuid = p.uuid
   INNER JOIN selections AS s2 on p.partner_uuid = s2.uuid AND s.name = s2.name
-  WHERE s.selected AND s2.selected
+  WHERE s.selected AND s2.selected AND p.confirmed
   GROUP BY s.name" %>% 
   dbGetQuery(con, .)
 
@@ -97,7 +94,10 @@ data <- list("byMonth" = byMonth,
              "name_matches" = name_matches,
              "name_popularity" = name_popularity, 
              "partners" = partners, 
-             "user_selections" = user_selections)
-for (i in 1:length(data)) {
+             "user_selections" = user_selections,
+             "users" = users)
+for (i in 1: (length(data) - 1)) {
   data[[i]]<- data[[i]] %>% mutate_if(function(x) {class(x) == "integer64"}, as.numeric)
 }
+
+rm(byMonth, matches, name_matches, name_popularity, partners, user_selections, users, i)
