@@ -6,7 +6,10 @@ users <-
     create_date,
     CURRENT_DATE 
   FROM USERS" %>% 
-  dbGetQuery(con, .)
+  dbGetQuery(con, .) %>% 
+  mutate(duration = (interval(create_date, last_login))/days(1) , 
+         time_since = (interval(last_login, current_date))/days(1),
+         lost = as.numeric(time_since >= 30))
 
 partners <- 
   "SELECT COUNT(*) AS n
@@ -100,4 +103,4 @@ for (i in 1: (length(data) - 1)) {
   data[[i]]<- data[[i]] %>% mutate_if(function(x) {class(x) == "integer64"}, as.numeric)
 }
 
-rm(byMonth, matches, name_matches, name_popularity, partners, user_selections, users, i)
+rm(byMonth, matches, name_matches, name_popularity, partners, user_selections, i)

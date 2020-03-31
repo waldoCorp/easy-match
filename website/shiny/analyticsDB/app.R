@@ -230,14 +230,9 @@ server <- function(input, output) {
   
   output$user_survival <- renderPlot({
     
-    survDat <- mutate(data[["users"]], 
-                      duration = (interval(create_date, last_login))/days(1) , 
-                      time_since = (interval(last_login, current_date))/days(1),
-                      lost = as.numeric(time_since >= 30))
-    
     ggsurvplot(
       survfit(Surv(duration, lost) ~ 1, 
-              data =  survDat)) +
+              data =  users)) +
       labs(title = "User Tenure With Site", 
            x = "Days Using Site")
   })
