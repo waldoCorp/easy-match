@@ -48,7 +48,7 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
   
-  source("../conn.R")
+  source("../con.R")
   source("get_data.R")
   
   # Output for Names Tab -------------------------------------------------------
