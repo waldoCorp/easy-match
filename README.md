@@ -1,5 +1,5 @@
 # Easy Match
-This is the source code for waldoCorp's [Easy Match](easymatch.waldocorp.com) website.
+This is the source code for waldoCorp's [Easy Match](https://easymatch.waldocorp.com/) website.
 We've made the code open source for two reasons:
 1. To allow anyone to audit our code for bugs or privacy violations
 2. To provide a resource for other people who want to build their own websites. 
