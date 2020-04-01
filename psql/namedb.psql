@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.10 (Ubuntu 10.10-0ubuntu0.18.04.1)
--- Dumped by pg_dump version 10.10 (Ubuntu 10.10-0ubuntu0.18.04.1)
+-- Dumped from database version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
+-- Dumped by pg_dump version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -28,6 +28,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
 
 
 --
@@ -224,11 +238,26 @@ CREATE TABLE public.selections (
     uuid uuid NOT NULL,
     name text NOT NULL,
     date_selected timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    selected boolean NOT NULL
+    selected boolean NOT NULL,
+    date_changed timestamp without time zone,
+    n_changes smallint DEFAULT 0 NOT NULL
 );
 
 
 ALTER TABLE public.selections OWNER TO namebot;
+
+--
+-- Name: unsubscribe_tokens; Type: TABLE; Schema: public; Owner: namebot
+--
+
+CREATE TABLE public.unsubscribe_tokens (
+    uuid uuid NOT NULL,
+    token character varying(32) NOT NULL,
+    expires timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.unsubscribe_tokens OWNER TO namebot;
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: namebot
@@ -325,6 +354,14 @@ ALTER TABLE ONLY public.selections
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT unique_email UNIQUE (email);
+
+
+--
+-- Name: unsubscribe_tokens unsubscribe_tokens_uuid_token_key; Type: CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.unsubscribe_tokens
+    ADD CONSTRAINT unsubscribe_tokens_uuid_token_key UNIQUE (uuid, token);
 
 
 --
@@ -428,6 +465,14 @@ ALTER TABLE ONLY public.selections
 
 ALTER TABLE ONLY public.selections
     ADD CONSTRAINT selections_uuid_fkey FOREIGN KEY (uuid) REFERENCES public.users(uuid) ON DELETE CASCADE;
+
+
+--
+-- Name: unsubscribe_tokens unsubscribe_tokens_uuid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: namebot
+--
+
+ALTER TABLE ONLY public.unsubscribe_tokens
+    ADD CONSTRAINT unsubscribe_tokens_uuid_fkey FOREIGN KEY (uuid) REFERENCES public.users(uuid) ON DELETE CASCADE;
 
 
 --
