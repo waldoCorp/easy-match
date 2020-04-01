@@ -60,6 +60,10 @@
      control it, we cannot guarantee deletion). You can request a copy of all data we have stored
      about you at any time. You can opt-out of data sharing, view your data, and delete your account <a href='account.php'> here</a>.</p>
 
+  <h2>Open Source</h2>
+  <p>This website is fully open source under the AGPL license. You can view the
+    source code <a href="https://github.com/waldoCorp/easy-match"> here</a>.</p>
+
   <h2>waldoCorp</h2>
   <p> Easy Match is hosted as a service of waldoCorp, which is just
      a fancy way of saying that <a href='https://ben.waldocorp.com'>Ben</a>
