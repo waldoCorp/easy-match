@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
- -    Copyright (c) 2020 Ben Cerjan, Lef Esbenshade
+ -    Copyright (c) 2020 Ben Cerjan, Lief Esbenshade
  -
  -    This file is part of Easy Match.
  -
