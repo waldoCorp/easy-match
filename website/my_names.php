@@ -54,22 +54,23 @@ $selections = get_selections($uuid);
 <div class="container">
   <h2>Change what you think about a name</h2>
   <a href="show_names.php">Show me more names!</a>
-
-<?php foreach($selections as $selection) { ?>
-  <div class="row py-2 border-bottom">
-    <div class="col" name="name">
-      <?php echo(htmlspecialchars($selection['name'])); ?>
-    </div>
-    <div class="col-1" name="selected">
-      <?php echo ($selection['selected'] ? 'Yes' : 'No') ; ?>
-    </div>
-    <div class="col">
-      <button type="button" class="swap_btn">
-        <?php echo ($selection['selected'] ? 'Change to No' : 'Change to Yes') ; ?>
-      </button>
-    </div>
-  </div>
-<?php } ?>
+  <table class="table" id="selectionsTable">
+    <?php foreach($selections as $selection) { ?>
+    <tr>
+      <td name="name">
+        <?php echo(htmlspecialchars($selection['name'])); ?>
+      </td>
+      <td name="selected">
+        <?php echo ($selection['selected'] ? 'Yes' : 'No') ; ?>
+      </td>
+      <td>
+        <button type="button" class="swap_btn">
+          <?php echo ($selection['selected'] ? 'Change to No' : 'Change to Yes') ; ?>
+        </button>
+      </td>
+    </tr>
+    <?php } ?>
+</table>
 </div>
 <br>
 </main>
@@ -80,11 +81,11 @@ $selections = get_selections($uuid);
 <script>
 $('.swap_btn').click(function() {
   // Find Current status:
-  var cur_field = $(this).closest("div.row").find("[name='selected']");
+  var cur_field = $(this).closest("tr").find("[name='selected']");
   var cur_text = cur_field.text().trim();
 
   // And the name that was swapped:
-  var name_field = $(this).closest("div.row").find("[name='name']");
+  var name_field = $(this).closest("tr").find("[name='name']");
   var name_text = name_field.text().trim();
 
   // AJAX request to swap name choice in DB.
