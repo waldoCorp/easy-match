@@ -27,6 +27,9 @@ require './login_script.php';
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <?php include("./resources.php"); ?>
+<!-- Include DataTables for a sortable Table -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
 
 <title>Edit Name Selections</title>
@@ -54,7 +57,16 @@ $selections = get_selections($uuid);
 <div class="container">
   <h2>Change what you think about a name</h2>
   <a href="show_names.php">Show me more names!</a>
+  <br>
+  <br>
   <table class="table" id="selectionsTable">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Selected</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
     <?php foreach($selections as $selection) { ?>
     <tr>
       <td name="name">
@@ -79,6 +91,15 @@ $selections = get_selections($uuid);
 
 <!-- Custom JavaScript goes here -->
 <script>
+// Turn on DataTables
+$(document).ready( function () {
+    $('#selectionsTable').DataTable({
+      "columnDefs": [
+        { "orderable": false, "targets": 2 }
+      ]
+    });
+});
+
 $('.swap_btn').click(function() {
   // Find Current status:
   var cur_field = $(this).closest("tr").find("[name='selected']");
