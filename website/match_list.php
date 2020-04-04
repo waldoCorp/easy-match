@@ -28,7 +28,9 @@ require './login_script.php';
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <?php include("./resources.php"); ?>
-
+<!-- Include DataTables for a sortable Table -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
 <title>Matching Names</title>
 </head>
@@ -110,21 +112,37 @@ sort($names); // sort ensures new matches (with stars) are at the top
   <?php } else { ?>
     <h2>List of names you and <?php echo htmlspecialchars($partner_name) . " (". htmlspecialchars($partner_email).")"; ?> agree on</h2>
   <div class="row">
-    <div class="col">
-    <?php if( !is_null($names) ) {
-      foreach($names as $name) { ?>
-      <div class="row">
-        <div class="col-sm">
-          <?php echo(htmlspecialchars($name)); ?>
-        </div>
-      </div>
+    <?php if( !is_null($names) ) {?>
 
-
+      <table class="table" id="matchTable">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">New Match?</th>
+          </tr>
+        </thead>
+      <?php foreach($names as $name) { ?>
+        <tr>
+        <?php $first = substr($name, 0, 1);
+        if ($first === '*') {
+          $name = substr($name, 1); ?>
+          <td>
+              <?php echo(htmlspecialchars($name)); ?>
+          </td>
+          <td>New!</td>
+        <?php } else { ?>
+          <td>
+              <?php echo(htmlspecialchars($name)); ?>
+          </td>
+          <td></td>
+        <?php } ?>
+        </tr>
       <?php } ?>
-    </div>
-      <div class="col">
+      </table>
+
+      <div class="col-sm">
         <br>
-         <div class="dropdown">
+         <div class="dropdown float-right">
              <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="downloadDropdown"
                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                      aria-describedby="downloadText">Export List</button>
@@ -143,7 +161,8 @@ sort($names); // sort ensures new matches (with stars) are at the top
 
 
           </div>
-      </div>
+        </div>
+    </div>
 
     <?php } else { ?>
       <div class="row">
@@ -151,17 +170,20 @@ sort($names); // sort ensures new matches (with stars) are at the top
           No Matching Names!
         </div>
       </div>
-    </div>
+
     <?php } ?>
   <?php } ?>
-
-  </div>
-</div>
+</div> <!-- Container -->
 </main>
 
 <?php include("footer.php"); ?>
 
 <script>
+// Turn on DataTables
+$(document).ready( function () {
+    $('#matchTable').DataTable();
+});
+
 $('#partner_select').change(function() {
   var partner_email = $(this).val()
   partnerSelect(partner_email);
