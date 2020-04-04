@@ -30,8 +30,21 @@ require './login_script.php';
 <!-- Include DataTables for a sortable Table -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<style>
 
 
+table.dataTable thead > tr > th {
+    padding-left: 30px !important;
+    padding-right: initial !important;
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after {
+    left: 8px !important;
+    right: auto !important;
+}
+</style>
 <title>Edit Name Selections</title>
 </head>
 
@@ -91,9 +104,10 @@ $selections = get_selections($uuid);
 
 <!-- Custom JavaScript goes here -->
 <script>
+var table = 0;
 // Turn on DataTables
 $(document).ready( function () {
-    $('#selectionsTable').DataTable({
+    table = $('#selectionsTable').DataTable({
       "columnDefs": [
         { "orderable": false, "targets": 2 }
       ]
@@ -113,11 +127,11 @@ $('.swap_btn').click(function() {
 
   // Show the swap on the page:
   if( cur_text == 'No' ) {
-    cur_field.text('Yes');
+    table.cell($(this).closest('tr'), 1).data('Yes').draw();
    $(this).text('Change to No');
     updateNameStatus('yes',name_text);
   } else {
-    cur_field.text('No');
+    table.cell($(this).closest('tr'), 1).data('No').draw();
    $(this).text('Change to Yes');
     updateNameStatus('no',name_text);
   }
