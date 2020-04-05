@@ -90,7 +90,7 @@ function get_names($uuid,$n) {
 	}
 
 	// Popularity filter -----------
-	$pop_text = '(rank_m_2010 <= 500 OR rank_f_2010 <= 500)'; // Whatever the default is goes here...
+	$pop_text = ''; // Now there is no default filter
 	if( !empty($preferences['popularity']) ) {
 	  switch ($preferences['popularity']) {
 	    case 'popular':
@@ -100,10 +100,10 @@ function get_names($uuid,$n) {
 	      $pop_text = '((rank_m_2010 >= 500 OR rank_m_2010 IS NULL) AND (rank_f_2010 >= 500 OR rank_f_2010 IS NULL)) ';
 	      break;
 	  }
-	}
 
-	if( !empty($gender_text) || !empty($first_let_text) || !empty($last_let_text) ) {
-	  $pop_text = ' AND ' . $pop_text;
+    if( !empty($gender_text) || !empty($first_let_text) || !empty($last_let_text) ) {
+      $pop_text = ' AND ' . $pop_text;
+    }
 	}
 
 	// Put all filters together:
@@ -124,7 +124,7 @@ function get_names($uuid,$n) {
 
 	  RIGHT JOIN (
 	  -- get all the names from the db, apply filters and right join to drop partner selections that dont match
-    		SELECT name
+    		SELECT name, pweight_2010
     		FROM $names_table n
 		WHERE $filter_text
 	  ) AS rs ON ps.name = rs.name
@@ -138,7 +138,7 @@ function get_names($uuid,$n) {
 
 	WHERE ss.name IS NULL
 	-- randomizes the returned list, but keeps partner names on top --
-	ORDER BY priority, random()
+	ORDER BY priority, random()^(pweight_2010)
 	LIMIT :n;";
 
 	$stmt = $db->prepare($sql);
