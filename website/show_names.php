@@ -379,21 +379,21 @@ function fontFunc(length) {
 
   const smallFontSize = 15; //vw
   const medFontSize = 17;  // vw
-  const largeFontSize = 60; // pt
-  const extraLargeFontSize = 70; // pt
+  const largeFontSize = 50; // pt
+  const extraLargeFontSize = 60; // pt
   const width = $(window).width();
 
   if(length < 8) {length = 8};
 
   if (smallWinSize <= width && width < medWinSize) {
    // "Small" Window
-   return (medFontSize/Math.log(1.5*length)) + "vw";
+   return (medFontSize/Math.log(2*length)) + "vw";
   } else if (width < smallWinSize) {
    // "Extra Small"
-   return (smallFontSize/Math.log(length)) + "vw";
+   return (smallFontSize/Math.log(2*length)) + "vw";
   } else if (medWinSize <= width && width < largeWinSize) {
    // "Medium"
-    return (medFontSize/Math.log(1.5*length)) + "vw";
+    return (medFontSize/Math.log(2*length)) + "vw";
   } else if (largeWinSize <= width && width < extraLargeWinSize) {
    // "Large"
     return largeFontSize + "pt";
