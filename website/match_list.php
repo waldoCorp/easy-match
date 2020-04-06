@@ -181,7 +181,9 @@ sort($names); // sort ensures new matches (with stars) are at the top
 <script>
 // Turn on DataTables
 $(document).ready( function () {
-    $('#matchTable').DataTable();
+    $('#matchTable').DataTable( {
+      "order" : [[1, 'desc']]
+    });
 });
 
 $('#partner_select').change(function() {
