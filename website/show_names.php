@@ -52,7 +52,7 @@ require './login_script.php';
 // UUID -- should be pulled depending on who is logged in:
 $uuid = $_SESSION['uuid'];
 //$uuid = 'test2';
-
+echo $email . "\n";
 // Region to set up PHP stuff
 require_once $function_path . 'get_names.php';
 require_once $function_path . 'get_preferences.php';
@@ -299,7 +299,7 @@ function getNames() {
     type: "POST",
     url: "./endpoints/ajax_endpoint.php",
     dataType: "json",
-    data: {"action":'getNames',"email":"<?php echo htmlspecialchars($email) ?>"}
+    data: {"action":'getNames'},
   });
 }
 
@@ -312,7 +312,6 @@ function uniq(a) {
 
 // Function to record preferences:
 function prefRecord(gender,first_letter,last_letter,popularity) {
-
   var prefData = {"action":'preferencesRecord', "gender":gender,
              "first_letter":first_letter, "last_letter":last_letter,
              "popularity":popularity};

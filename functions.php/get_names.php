@@ -108,6 +108,9 @@ function get_names($uuid,$n) {
 
 	// Put all filters together:
 	$filter_text = $gender_text.$first_let_text.$last_let_text.$pop_text;
+  if ( empty($filter_text)) {
+    $filter_text = 'TRUE';
+  }
 
 	$sql = "
 	SELECT rs.name AS name,
@@ -126,7 +129,7 @@ function get_names($uuid,$n) {
 	  -- get all the names from the db, apply filters and right join to drop partner selections that dont match
     		SELECT name, pweight_2010
     		FROM $names_table n
-		WHERE $filter_text
+		    WHERE $filter_text
 	  ) AS rs ON ps.name = rs.name
 
 	  LEFT JOIN (
