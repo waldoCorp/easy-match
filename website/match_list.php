@@ -182,7 +182,10 @@ sort($names); // sort ensures new matches (with stars) are at the top
 // Turn on DataTables
 $(document).ready( function () {
     $('#matchTable').DataTable( {
-      "order" : [[1, 'desc']]
+      "order" : [[1, 'desc']],
+      "columnDefs": [
+        { "targets": [1], "searchable": false }
+      ]
     });
 });
 

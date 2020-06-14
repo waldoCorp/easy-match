@@ -109,7 +109,8 @@ var table = 0;
 $(document).ready( function () {
     table = $('#selectionsTable').DataTable({
       "columnDefs": [
-        { "orderable": false, "targets": 2 }
+        { "orderable": false, "targets": 2 },
+        { "targets": [1,2], "searchable": false }
       ]
     });
 });
