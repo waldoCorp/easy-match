@@ -76,7 +76,8 @@ function send_email($htmlBody,$textBody,$subject,$recipient) {
 
     // Content
     $mail->isHTML(true);                                  // Set email format to HTML
-    $mail->Subject = $subject;
+    $date = ' '.date("Y-m-d H:i:s"); // Add datetime so emails don't auto-collapse
+    $mail->Subject = $subject.$date;
     $mail->Body    = $htmlBody;
     $mail->AltBody = $textBody;
 
