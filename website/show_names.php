@@ -87,9 +87,9 @@ $letters = range('A','Z');
 
   <h2 class="align-center" id ="oldNameText">&nbsp;</h2> <!-- maybe bad practice, but no assigned value for first name shown and doesn't appear on page -->
 
-  <div class="row justify-content-center">
+  <div class="row justify-content-center align-items-center">
     <!-- No button -->
-    <div class="col-3 align-items-center d-flex order-2 order-sm-1">
+    <div class="col-3 align-items-center d-flex order-2 order-sm-1 pt-5 pt-sm-0">
       <!--<button type="button" class="select_btn" id="noName">&#10060</button>-->
       <button type="button" class="select_btn btn btn-danger btn-lg" style="font-size: 7vw;" id="noName">No</button>
     </div>
@@ -102,7 +102,7 @@ $letters = range('A','Z');
     </div>
 
     <!-- Yes button -->
-    <div class="col-3 align-items-center d-flex order-3">
+    <div class="col-3 align-items-center d-flex order-3 pt-5 pt-sm-0">
       <!--<button type="button" class="select_btn" id="yesName">&#9989</button>-->
       <button type="button" class="select_btn btn btn-success btn-lg" style="font-size: 7vw;" id="yesName">Yes</button>
     </div>
@@ -376,7 +376,7 @@ function fontFunc(length) {
   const largeWinSize = 992; // BS Large
   const extraLargeWinSize = 1200; // BS Extra Large
 
-  const smallFontSize = 15; //vw
+  const smallFontSize = 30; //vw
   const medFontSize = 17;  // vw
   const largeFontSize = 50; // pt
   const extraLargeFontSize = 60; // pt
