@@ -89,20 +89,20 @@ $letters = range('A','Z');
 
   <div class="row justify-content-center">
     <!-- No button -->
-    <div class="col-1-auto align-items-center d-flex">
+    <div class="col-3 align-items-center d-flex order-2 order-sm-1">
       <!--<button type="button" class="select_btn" id="noName">&#10060</button>-->
       <button type="button" class="select_btn btn btn-danger btn-lg" style="font-size: 7vw;" id="noName">No</button>
     </div>
 
     <!-- Name -->
-    <div class="col-6 d-flex" style="height: 116px;">
+    <div class="col-sm-6 d-flex order-1 order-sm-2" style="height: 116px;">
       <h1 class="text-center align-self-center mx-auto monospace" id="nameText"
         data-toggle="tooltip" data-placement="bottom" title="We've run out of names to show with the current filters in place.">
       </h1>
     </div>
 
     <!-- Yes button -->
-    <div class="col-1-auto align-items-center d-flex">
+    <div class="col-3 align-items-center d-flex order-3">
       <!--<button type="button" class="select_btn" id="yesName">&#9989</button>-->
       <button type="button" class="select_btn btn btn-success btn-lg" style="font-size: 7vw;" id="yesName">Yes</button>
     </div>
